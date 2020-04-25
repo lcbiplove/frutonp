@@ -1,0 +1,93 @@
+    <div class="real-modal">
+        <div class="real-modal-container" tabindex="0" id="firstModalCont">
+            <div class="real-modal-header">
+                <div>Select Thumbnail</div>
+            </div>
+            <div class="real-modal-body text-center">
+                <div class="modal-img-cont">
+                    {% for photo in post.photos.all %}
+                    <div>
+                        <img tabindex="0" src="/media/{{ photo.photos }}" class="mdl-img" alt="">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div> 
+            <div class="real-modal-footer">
+                <div class="w-100">
+                    <div>
+                        <button id="rm-img-selected" disabled="disabled">Okay</button>
+                    </div>
+                </div>
+                <div>
+                    <form action="/" method="POST" id="thumb-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="pp" id="upload-pp" accept="image/jpeg,image/png" style="display: none;">
+                    </form>
+                </div>
+                <div>
+                    <form action="/" method="POST" id="thumb-form-2">
+                        {% csrf_token %}
+                        <input type="hidden" name="thumbnail" id="upload-pp-2" value="//">
+                    </form>
+                </div>
+            </div>     
+        </div>
+    </div>    
+    <div class="real-modal-container back-trans fl-mid" tabindex="0" id="secModalCont">
+        <div class="load-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+    <script>
+        function showPop(){
+            $("body").css({"overflow": "hidden"});
+            $(".real-modal").css({"display": "flex"});
+            setTimeout(function(){
+                $(".real-modal-container").show(100);
+            }, 100);
+        }
+        function hidePop(){
+            $(".real-modal-container").hide(100, function(){
+                $(".real-modal").css("display", "none");
+                $("body").css("overflow", "");
+                $(this).removeClass("back-trans fl-mid");
+            });
+        }
+        function popShown(){ 
+            var attr = $("body").attr("style")
+            if( attr === undefined || attr.length === 0)
+                return false;
+            return true;
+        } 
+        showPop();
+        $(document).ready(function(){
+            $(".mdl-img").click(function(){
+                var src = $(this).attr("src").slice(7);
+                $("input[name=thumbnail]").attr("value", src);
+            });
+            $(document).on('click', function(e){
+                if($(".mdl-img").is(":focus")){
+                    $("#rm-img-selected").removeAttr("disabled");
+                } else {
+                    if(!($("#rm-img-selected").is(":focus"))){
+                        $("#rm-img-selected").attr("disabled", "disabled");
+                    } 
+                }
+            });
+
+            $('#rm-img-selected').click(function(){
+                var data = $('#thumb-form-2').serialize();
+                var request = $.ajax({
+                    url: '/post/select-thumbnail/',
+                    type: 'POST',
+                    data: data
+                });     
+                $(".real-modal").html($("#secModalCont"));
+                request.done(function(result){
+                    $(location).attr("href", "/");
+                });
+                request.fail(function(xhr, status, error){
+                    console.log(`${xhr.status} ${status} (${error})`);
+                    $(location).attr("href", "/");
+                });
+            });
+        });
+    </script>

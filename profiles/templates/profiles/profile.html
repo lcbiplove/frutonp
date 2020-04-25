@@ -1,0 +1,258 @@
+{% extends 'profile_base.html' %}
+{% load static %}
+{% block title %}Profile | Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
+        
+{% block content %}
+    <div class="actual-content">
+        <div class="w-100 text-center" style="font-size: 22px; margin-bottom: 30px;">
+            Profile
+        </div>
+        <div class="w-100 flex">
+        <div class="w-75 w-75-mg" style="margin: 10px auto;">
+            <div class="w-100 flex pp-n-detail">
+                <div class="chk">
+                    <div class="profile-pp">
+                        {% if is_authorized %}
+                            <a href="{% url 'addPost' %}" title="Add post">
+                                <img src="/media/{{ my_profile.pp }}" class="profile-pp" alt="Profile pic of {{ myuser.name }}">
+                            </a>
+                            <div style="margin:-3px auto 0px auto; height: auto;">
+                                <button id="pp-upload" class="pp-upload">Upload</button>
+                            </div>
+                        {% else %}
+                            <img src="/media/{{ my_profile.pp }}" class="profile-pp" alt="Profile pic of {{ myuser.name }}">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="w-75 profile-detail" style="box-sizing: border-box; overflow: hidden;">
+                    <div class="w-100">
+                        <div class="profile-detail-name">
+                            <div>{{ myuser.name }}</div>
+                            {% if is_authorized %}
+                                <a href="{% url 'changePhoneLocDesc' %}" title="Edit profile">Edit <i class="fas fa-plus"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="w-100">
+                        <div class="mb-10">
+                            <a href="mailto: {{ myuser }}">{{ myuser }}</a>
+                        </div>
+                    </div>
+                    <div class="w-100">
+                        <div class="mb-10">
+                            <a href="tel: {{ myuser.phone1 }}">{{ myuser.phone1 }}</a>
+                            {% if myuser.myuserprofile.phone2 != "" %}
+                                | <a href="tel: {{ myuser.myuserprofile.phone2 }}">{{ myuser.myuserprofile.phone2 }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="w-100">
+                        <div class="mb-10">
+                        {% if my_profile.location == "" %}
+                            {% if is_authorized %}
+                                <a href="{% url 'changePhoneLocDesc' %}">Location not added yet</a>
+                            {% else %}
+                                <span style="color: #888;">Location not added yet</span>
+                            {% endif %}
+                        {% else %}
+                            {{ my_profile.location }}
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+            
+        <div class="w-75 w-75-mg" style="margin: 10px auto;">
+            <div class="w-100">
+                <div class="pd-10">
+                    <h4>Description</h4>
+                    {% if my_profile.desc == "" %}
+                        <div>
+                            <span style="padding: 0px 20px;">
+                                {% if is_authorized %}
+                                    <a href="{% url 'changePhoneLocDesc' %}">No Description</a>
+                                {% else %}
+                                    <span style="color: #888;">No Description</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                    {% else %}
+                        <div>
+                            <span style="padding: 0px 20px;">
+                                {{ my_profile.desc }}
+                            </span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="w-100">
+                <div class="pd-10">
+                    <div class="w-100">
+                        <div class="profile-box">
+                            <div class="w-100 flex">
+                                <div id="post" class="prfl-box-ttl prfl-active">
+                                    Posts
+                                </div>
+                                {% if is_authorized %}
+                                    <div id="my-account" class="prfl-box-ttl">
+                                        My account
+                                    </div>
+                                    <div id="records" class="prfl-box-ttl">
+                                        Records
+                                    </div>
+                                {% endif %}
+                            </div> 
+                            <div class="w-100">
+                                <div class="w-100">
+                                    <div id="post-content" class="prfl-box-content">
+                                        <ol aria-sort="ascending">
+                                            <li style="margin: 10px 0px;">
+                                                Vegetable of cabbage lor 
+                                                <div style="padding-top: 4px; color: orange;">
+                                                    2020/10/10 22:48 
+                                                    <a style="padding: 0px 9px; margin-left: 10px; color: rgb(7, 192, 78);  border-left: 2px solid #777;" href="">Edit</a>
+                                                    <a style="color: rgb(253, 51, 118); padding: 0px 9px; border-left: 2px solid #777;" href="">Del</a>
+                                                </div>
+                                            </li>
+                                            <li style="margin: 10px 0px;">
+                                                Vegetable of cabbage lor 
+                                                <div style="padding-top: 4px; color: orange;">
+                                                    2020/10/10 22:48 
+                                                    <a style="padding: 0px 9px; margin-left: 10px; color: rgb(7, 192, 78);  border-left: 2px solid #777;" href="">Edit</a>
+                                                    <a style="color: rgb(253, 51, 118); padding: 0px 9px; border-left: 2px solid #777;" href="">Del</a>
+                                                </div>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                {% if is_authorized %}
+                                    <div class="w-100">
+                                        <div id="my-account-content" class="prfl-box-content pd-10">
+                                            <div class="w-100">
+                                                <div>
+                                                    <a style="padding: 5px 0px; display: inline-block;" id="add-post" href="{% url 'addPost' %}" class="is_modal">Add Post</a>
+                                                </div>
+                                                <div>
+                                                    <a style="padding: 5px 0px; display: inline-block;" id="change-name" href="{% url 'changeName' %}" class="is_modal">Change Name</a>
+                                                </div>
+                                                <div>
+                                                    <a style="padding: 5px 0px; display: inline-block;" id="change-phone" href="{% url 'changePhone' %}" class="is_modal">Change Phone</a>
+                                                </div>
+                                                <div>
+                                                    <a style="padding: 5px 0px; display: inline-block;" id="change-password" href="{% url 'changePassword' %}" class="is_modal">Change Password</a>
+                                                </div>
+                                                <div>
+                                                    <a style="padding: 5px 0px; display: inline-block;" id="change-phone" href="{% url 'changePhoneLocDesc' %}" class="is_modal">Update More</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>   
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="real-modal">
+        <div class="real-modal-container" tabindex="0">
+            <div class="real-modal-header">
+                <div>Profile Picture</div>
+                <div class="real-modal-close">&times;</div>
+            </div>
+            <div class="real-modal-body text-center">
+                <div>
+                    <button id="upload-pp-main">Upload Photo</button>
+                </div>
+                {% if my_profile.pp != 'pp/no_pp.png' %}
+                    <div>
+                        <button style="color: rgb(245, 51, 51); background-color: #f0f0f0;" id="upload-rm-pp">Remove Photo</button>
+                    </div>
+                {% endif %}
+                <div>
+                    <button class="real-modal-close rm-rl-cl-dwn">close</button>
+                </div>
+            </div> 
+            <div class="real-modal-footer-fm">
+                <div>
+                    <form action="up-profile-pic" method="POST" id="pp-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="pp" id="upload-pp" accept="image/jpeg,image/png" style="display: none;">
+                    </form>
+                </div>
+                <div>
+                    <form action="up-profile-pic2" method="POST" id="pp-form-2" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="pp" id="upload-pp-2" value="//">
+                    </form>
+                </div>
+            </div>     
+        </div>
+    </div>
+
+    <footer class="w-100">
+        <div class="text-center cprt">
+            &copy;Copyright 2020 Frutonp.com. All rights are reserved.
+        </div>
+    </footer>
+    
+
+    
+
+
+
+    
+{% endblock content %}
+
+{% block cookie %}
+    {% if not cookie_law %}
+        <div class="cookie-alert-all flex">
+            <div class="cookie-alert-content w-90" style="color: white;">We use cookies to ensure you have the best browsing experience on our website. By using our site, you acknowledge that you have read and understood our <a href="" style="border-bottom: 1px solid white; color: white;">Cookie Policy</a> & <a href="" style="border-bottom: 1px solid white; color: white;">Privacy Policy</a></div>
+            <div style="width: 75px; padding: 0px 10px; margin-top: 10px;"> <a class="cookie-accept" href="javascript:void(0);">Accept</a></div>
+        </div>
+    {% endif %}
+{% endblock cookie %}
+    
+{% block scripts %}
+    <div><script src="{% static 'js/profile_all.js' %}?version=33"></script></div>
+    <script>
+        $(document).ready(function(){
+            showPop = Pop.showPop;
+            hidePop = Pop.hidePop;
+            popShown = Pop.popShown;
+            $("#pp-upload").click(showPop);
+            $(".real-modal-close").click(hidePop);
+            $("#upload-pp-main").click(function(){
+                $("#upload-pp").trigger('click');
+            });
+
+            $(document).on("click", function(e){
+                if(e.target.id !== "pp-upload")
+                    if($(e.target).parents(".real-modal-container").length == 0)
+                        if(popShown)
+                            hidePop(); 
+            });
+            // On image is selected
+            $("#upload-pp").change(function(){
+                // if selected image is not null
+                if($(this).val().length > 0)
+                    $("#pp-form").attr("action", "upload-pp/").each(function(){
+                        $(this).submit();
+                    });
+            });
+
+            // Delete pp
+            $("#upload-rm-pp").click(function(){
+                $("#pp-form-2").attr("action", "delete-pp/").each(function(){
+                    $(this).submit();
+                });
+            });
+        });
+    </script>
+{% endblock scripts %}

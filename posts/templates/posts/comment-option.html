@@ -1,0 +1,39 @@
+<script>try{$(document).ready(function(){});}catch {window.location.replace('/');}</script>
+<div class="real-modal">
+    <div class="real-modal-container" tabindex="0">
+        <div class="real-modal-header">
+            <div>Comment</div>
+            <div class="real-modal-close">&times;</div>
+        </div>
+        <div class="real-modal-body text-center">
+            {% if user.id == comment.myuser.id %}
+                <div>
+                    <button id="edit-cm" data-cm-id="{{ comment.id }}">Edit Comment</button>
+                </div>
+            {% endif %}
+            {% if user.id == comment.post.myuser.id or user.id == comment.myuser.id %}
+                <div>
+                    <button style="color: rgb(245, 51, 51); background-color: #f0f0f0;" id="upload-rm-pp" data-cm-id="{{ comment.id }}">Delete Comment</button>
+                </div>
+            {% endif %}
+            
+            <div>
+                <button class="real-modal-close rm-rl-cl-dwn">Cancel</button>
+            </div>
+        </div> 
+        <div class="real-modal-footer-fm">
+            <div>
+                <form action="up-profile-pic" method="POST" id="pp-form">
+                    {% csrf_token %}
+                    <input type="file" name="pp" id="upload-pp" accept="image/jpeg,image/png" style="display: none;">
+                </form>
+            </div>
+            <div>
+                <form action="up-profile-pic2" method="POST" id="pp-form-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="pp" id="upload-pp-2" value="//">
+                </form>
+            </div>
+        </div>     
+    </div>
+</div>

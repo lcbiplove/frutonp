@@ -1,0 +1,52 @@
+{% extends 'profile_base.html' %}
+{% block title %}Profile | Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
+
+{% block content %}
+<div class="modal-close change-phone-loc-desc">
+    &times;
+</div>
+<!-- Form modal for change phone -->
+<div class="w-100" id="change-phone-loc-desc-modal">
+    <div class="pd-10">
+        <div class="w-100">
+            <h2 class="text-center sticky" style="margin: 80px 0px 60px 0px;">Update Profile</h2>
+            <div class="w-75 w-75-mg" style="margin: auto auto;">
+                <form id="profile-update" style="margin: 0px;" action="{% url 'changePhoneLocDesc' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="pd-5">
+                        <label for="phone2Id">Phone 2</label>
+                        <input type="text" name="phone2" id="phone2Id" value="{{ my_profile.phone2 }}">
+                    </div>
+                    <div class="pd-5">
+                        <label for="change-locationId">Location</label>
+                        <input type="text" name="location" id="change-locationId" value="{{ my_profile.location }}">
+                    </div>
+                    <div class="pd-5">
+                        <div>
+                            <label for="descId">Description</label>
+                        </div>
+                        <textarea name="description" id="" cols="30" rows="10" style="border: 1px solid rgb(7, 192, 68);">{{ my_profile.desc }}</textarea>
+                    </div>
+                    <div class="pd-5">
+                        <label for="change-phone-passwordId">Password</label>
+                        <input type="password" name="password" id="change-phone-passwordId">
+                    </div>
+                    <div class="pd-5">
+                        <button style="color: #eee" name="post" class="update-btn" disabled="disabled">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <script>
+        $(document).ready(function(){
+            $("input, textarea").keyup(function(){
+                $(".update-btn").removeAttr("disabled");
+            });
+        });
+    </script>
+</div>
+{% endblock content %}
+    

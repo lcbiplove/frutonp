@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login | Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
+        
+{% block content %}
+    <div style="margin-top: 40px;" class="actual-content">
+        <div class="w-50" style="margin: auto auto;">
+            <div class="signup-title text-center">
+                <div class="sign-create-sub">Login</div>
+            </div>
+        </div>
+        <div class="sign-cont">
+            <div class="w-100">
+                <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                    <div class="f-in-div">
+                        <label for="emailId">Email</label>
+                        <span class="em-dom-sug">@gmail.com</span>
+                        <span class="em-dom-sug">@hotmail.com</span>
+                        <span class="em-dom-sug">@outlook.com</span>
+                        <span class="em-dom-sug">@yahoo.com</span>
+                        <br>
+                        <input type="email" name="email" id="emailId" class="form-inpt" value="{{ email }}" autofocus/>
+                    </div>
+                    <div class="f-in-div">
+                        <label for="passId">Password</label>
+                        <br>
+                        <input type="password" name="pass" id="passId" class="form-inpt"/>
+                    </div>
+                    <label class="checkbox-label"> 
+                        Remember Me
+                        <input type="checkbox" name="remember_me" id="rememberMeId" class="form-inpt"/>
+                        <span class="check-span"></span>
+                    </label>
+                    
+                    <div>
+                        <button>Login</button>
+                    </div>
+                    <div class="w-100">
+                        <p style="font-size: 14px; width: auto; float: left;">No account? <a href="{% url 'signup'%}">Create</a></p>
+                        <p style="font-size: 14px; width: auto; float: right;"><a href="#">Forgot Password?</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    <div><script src="{% static 'js/email_sugg__.js' %}"></script></div>
+{% endblock scripts %}

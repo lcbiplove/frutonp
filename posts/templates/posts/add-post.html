@@ -1,0 +1,263 @@
+{% extends 'profile_base.html' %}
+{% load static %}
+{% block title %}Profile | Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
+
+{% block content %}
+<div class="modal-close add-post">
+    &times;
+</div>
+<div class="w-100" id="add-post-modal">
+        <div class="pd-10">
+            <div class="w-100">
+                <h2 class="text-center sticky" style="margin: 80px 0px 60px 0px;">Add Post</h2>
+                <div class="w-75 w-75-mg" style="margin: auto auto;">
+                    <form style="margin: 15px 0px;" action="{% url 'addPost' %}" method="POST" enctype="multipart/form-data" id="add-post-form">
+                        {% csrf_token %}
+                        <div class="pd-5">
+                            <label for="titleId">Title<span style="color: red;">*</span></label>
+                            <input type="text" placeholder="Post Title..." name="title" id="titleId" value="{{ post.title }}">
+                            <span class="err-mssg err-ttl">
+                                {{err.title}}
+                            </span>
+                        </div>
+                        
+                        <div class="pd-5">
+                            <div>
+                                <label for="descriptionId">Description<span style="color: red;">*</span></label>
+                            </div>
+                            <textarea placeholder="Post Description..." style="border: 1px solid rgb(7, 192, 68);" name="desc" id="descriptionId" cols="33" rows="10" placeholder="Description here...">{{ post.desc }}</textarea>
+                            <span class="err-mssg err-desc">
+                                {{err.desc}}
+                            </span>
+                        </div>
+                        <div class="pd-5">
+                            <div>
+                                <div>
+                                    <label for="vegetableId">Fruit / Vegetable<span style="color: red;">*</span></label>
+                                </div>
+                                <select name="vegetable" required>
+                                    <option value="" selected disabled="disabled">Choose One</option>
+                                    <optgroup class="optgroup" label="Fruits">
+                                        <option value="apple">Apple</option>
+                                        <option value="banana">Banana</option>
+                                        <option value="litchi">Litchi</option>
+                                        <option value="mango">Mango</option>
+                                        <option value="orange">Orange</option>
+                                    </optgroup>
+                                    <optgroup class="optgroup" label="Vegetables">
+                                        <option value="bitter-gourd">Bitter gourd</option>
+                                        <option value="cabbage">Cabbage</option>
+                                        <option value="cauli">Cauliflower</option>
+                                        <option value="ladies-finger">Ladies-finger</option>
+                                        <option value="pumpkin">Pumpkin</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <span class="err-mssg">
+                                {{err.foodType}}
+                            </span>
+                        </div>
+                        <div class="pd-5">
+                            <label for="priceId">Price<span style="color: red;">*</span></label>
+                            <input type="number" placeholder="Price with respect to quantity..." name="price" id="priceId" value="{{ post.price }}" min="0">
+                            <span class="err-mssg err-prc">
+                                {{err.price}}
+                            </span>
+                        </div>
+                        <div class="pd-5">
+                            <div>
+                                <label for="quantityId">Quantity<span style="color: red;">*</span></label>
+                            </div>
+                            <select name="quantity" required>
+                                <option value="" selected disabled="disabled">Choose One</option>
+                                <option value="kg">1 Kg</option>
+                                <option value="250gm">250 gm</option>
+                                <option value="200gm">200 gm</option>
+                                <option value="500gm">500 gm</option>
+                                <option value="2kg">2 Kg</option>
+                                <option value="5kg">5 Kg</option>
+                                <option value="10kg">10 Kg</option>
+                                <option value="25kg">25 Kg</option>
+                                <option value="50kg">50 Kg</option>
+                                <option value="quintal">Quintal</option>
+                            </select>
+                            <span class="err-mssg">
+                                {{err.quantity}}
+                            </span>
+                        </div>
+                        <div class="pd-5">
+                            <div>
+                                <label for="expireId">Expire</label>
+                            </div>
+                            <select name="expire" required>
+                                <option value="1">1 day</option>
+                                <option value="2">2 days</option>
+                                <option value="3">3 days</option>
+                                <option value="4">4 days</option>
+                                <option value="5">5 days</option>
+                                <option value="6">6 days</option>
+                                <option value="7">7 days</option>
+                                <option value="8">8 days</option>
+                                <option value="9">9 days</option>
+                                <option value="10" selected>10 days</option>
+                                <option value="11">11 days</option>
+                                <option value="12">12 days</option>
+                                <option value="13">13 days</option>
+                                <option value="14">14 days</option>
+                                <option value="15">15 days</option>
+                            </select>
+                            <small>
+                            {% if err.expire %}
+                                <span class="err-mssg">
+                                    {{err.expire}}
+                                </span>
+                            {% else %}
+                                Maximum day is 15 days from now. 10 days is default.
+                            {% endif %}
+                            </small>
+                            
+                        </div>
+                        <div class="pd-5">
+                            <label for="photosId">Photos</label>
+                            <input type="file" name="photos" id="photosId" accept="image/jpeg, image/png" multiple>
+                            <div>
+                                <small>
+                                {% if err.expire %}
+                                    <span class="err-mssg">
+                                        {{ err.photos }}
+                                    </span>
+                                {% else %}
+                                    Maximum 5 photos can be uploaded. If u don't have any photo. We will provide our own photos. But, your clicks are highly recommended.
+                                {% endif %}
+                                </small>
+                            </div>
+                            <span class="err-mssg">
+                                {{err.photos}}
+                            </span>
+                        </div>
+                        <div class="pd-5">
+                            <label for="phone2">Phone2</label>
+                            <input type="text" name="phone2" id="phone2" value="{{ post.phone2 }}">
+                            
+                            <small>
+                                {% if err.phone2 %}
+                                    <span class="err-mssg err-ttl">
+                                        {{err.phone2}}
+                                    </span>
+                                {% else %}
+                                    Phone number from your profile will be added as secondary choice in post.
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="pd-5">
+                            <label for="locationId">Location</label>
+                            <input type="text" name="location" id="locationId" value="{{ post.location }}">
+                            <small>Location from your profile will be added by default.</small>
+                        </div>
+                        <div class="pd-5">
+                            <button name="post" class="update-btn" disabled="disabled">Post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="load-thumb">
+        <div class="real-modal">
+            <div class="real-modal-container" tabindex="0" style="display: flex; justify-content: center; padding: 30px;">
+                <div class="load-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <form action="/" id="post-to-sel-thum" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="hide" value="//"/>
+        </form>
+    </div>
+{% endblock content %}
+    
+{% block scripts %}
+    <div>
+        <script>
+            $(document).ready(function(){
+                showPop = Pop.showPop;
+                hidePop = Pop.hidePop;
+                popShown = Pop.popShown;
+                /*          */
+                $("input").keyup(function(){
+                    $(".update-btn").removeAttr("disabled");
+                })                
+                $("#add-post-form").submit(function(e){
+                    var err = [];
+                    var title = $("input[name=title]").val();
+                    var price = $("input[name=price]").val();
+                    var desc = $.trim($("textarea").val());
+                    var phone2 = $("input[name=phone2]").val();
+                    
+                    if(title.length == 0){
+                        err[0] = true
+                        $(".err-desc").text("Must fill title");
+                    } else {
+                        $(".err-desc").text("");
+                    }
+
+                    if(desc.length == 0){
+                        err[1] = true
+                        $(".err-desc").text("Must fill description");
+                    } else {
+                        $(".err-desc").text("");
+                    }
+
+                    if(price[0]=="-"){
+                        price = price.slice(1);
+                    }
+                    if(isNaN(parseInt(price))){
+                        err[2] = true;
+                        $(".err-prc").text("Must be number only")
+                    } else {
+                        $(".err-prc").text("")
+                    }
+
+                    if(!((/^\d+$/.test(phone2) && phone2.length == 10) || phone2.length == 0)){
+                        err[4] = true
+                        $(".err-phn2").text("Must be 10 digit numbers");
+                    } else {
+                        $(".err-phn2").text("");
+                    }
+                    e.preventDefault();
+                    
+                    if(err.length == 0){
+                        var formData = new FormData(this);
+
+                        var fileUp = $.ajax({
+                            url: '/post/upload/',
+                            type: 'POST',
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false
+                        });
+                        showPop();
+                        $(".real-modal-container").addClass("back-trans fl-mid");
+                        fileUp.done(function(result){
+                            if(result.success == true){
+                                if(result.thumb_added == true){
+                                    $(location).attr('href', '/');
+                                } else {
+                                    $("#load-thumb").load("/post/select-thumbnail/", {data: "data"});
+                                }
+                            }
+                        });
+                        fileUp.fail(function(xhr, status, error){
+                            console.log(`${xhr.status} ${status} (${error})`);
+                            hidePop();
+                        });
+                    }
+                });
+            });
+        </script>
+        
+    </div>
+
+{% endblock scripts %}

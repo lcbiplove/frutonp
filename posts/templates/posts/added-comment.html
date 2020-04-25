@@ -1,0 +1,34 @@
+{% load static %}
+
+<script>
+    try{$(document).ready(function(){});}catch {window.location.replace('/');}
+</script>
+<div class="comment-of w-100 flex la-cm-of-pst">
+    <div style="padding: 10px 10px 5px 0px;">
+        <a href="{% url 'profile' comment.myuser.id %}">
+            <img src="/media/{{ comment.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="35px" height="35px" alt="">
+        </a>
+    </div>       
+    <div class="w-100">
+        <div style="margin: 10px 0px 0px 0px;">
+            <span style="font-weight: 600;">{{ comment.myuser.name }}</span>
+            <span class="act-com-text">{{ comment.text }}</span>
+        </div> 
+        <div>
+            <span style="color: #777; font-size: 14px;">{{ comment.uploaded_time }}</span>
+            <span style="padding: 0px 10px; margin-left: 10px;"><a class="show-reply" href="javascript:void(0);" data-cm-id="{{ comment.id }}">Reply</a></span>
+            {% if user.id == comment.myuser.id or user.id == comment.post.myuser.id %}
+                <span style="padding: 0px 10px;">
+                    <a class="comment-menu" href="javascript:void(0);" data-cm-id="{{ comment.id }}" title="Options">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </a>
+                </span>
+            {% endif %}
+        </div>
+        <div class="replies-cont">
+            <div class="replies-in"></div>
+        </div>
+    </div>                        
+</div>

@@ -1,0 +1,63 @@
+<script>
+    try{$(document).ready(function(){});setTimeout(function(){$(".no-comment").remove();},8000)}catch {window.location.replace('/');}
+</script>
+{% for comment in comments %}
+    <div class="comment-of w-100 flex la-cm-of-pst">
+        <div style="padding: 10px 10px 5px 0px;">
+            <a href="{% url 'profile' comment.myuser.id %}">
+                <img src="/media/{{ comment.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="35px" height="35px" alt="">
+            </a>
+        </div>       
+        <div class="w-100">
+            <div style="margin: 10px 0px 0px 0px;">
+                <span style="font-weight: 600;">{{ comment.myuser.name }}</span>
+                <span class="act-com-text">{{ comment.text }}</span>
+            </div> 
+            <div>
+                <span style="color: #777; font-size: 14px;">{{ comment.uploaded_time }}</span>
+                <span style="padding: 0px 10px; margin-left: 10px;"><a class="show-reply" href="javascript:void(0);" data-cm-id="{{ comment.id }}">Reply</a></span>
+                {% if user.id == comment.myuser.id or user.id == comment.post.myuser.id %}
+                    <span style="padding: 0px 10px;">
+                        <a class="comment-menu" href="javascript:void(0);" data-cm-id="{{ comment.id }}" title="Options">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </a>
+                    </span>
+                {% endif %}
+            </div>
+            <div class="replies-cont">
+                {% if comment.reply.count > 2 %}
+                    {% if comment.reply.count|add:-2 != 1 %}
+                        <p class="more-replies" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}"><span>{{ comment.reply.count|add:-2 }}</span> More Replies</p>
+                    {% else %}
+                        <p class="more-replies" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}"><span>{{ comment.reply.count|add:-2 }}</span> More Reply</p>                                                   
+                    {% endif %}
+                {% endif %}
+                <div class="replies-in">
+                {% for reply in comment.reply.all|dictsortreversed:"replied_at"|slice:":2"|dictsort:"replied_at" %}
+                    <div class="w-100 flex reply-of" style="font-size: 14px;" >
+                        <div style="padding: 10px 10px 5px 0px;">
+                            <img src="/media/{{ reply.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="Profile Picture"/>
+                        </div>       
+                        <div class="w-100">
+                            <div style="margin: 10px 0px 0px 0px;">
+                                <span style="font-weight: 600;">{{ reply.myuser.name }}</span>
+                                <span>{{ reply.text }}</span>
+                            </div> 
+                            <div>
+                                <span style="color: #777; font-size: 14px;" class="time-diff" data-rp-id="{{ reply.id }}">{{ reply.uploaded_time }}</span>
+                                {% if user == reply.myuser or user == reply.comment.post.myuser %}
+                                    <button class="rpl-del" data-rp-id="{{ reply.id }}">Delete</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>                        
+    </div>
+{% empty %}
+    <div class="no-comment" style="padding: 10px 0px;">Oops comment has been deleted...</div>
+{% endfor %}

@@ -1,0 +1,21 @@
+<script>try{$(document).ready(function(){});}catch {window.location.replace('/');}</script>
+
+{% for reply in replies %}
+    <div class="w-100 flex reply-of" style="font-size: 14px;" >
+        <div style="padding: 10px 10px 5px 0px;">
+            <img src="/media/{{ reply.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="Profile Picture"/>
+        </div>       
+        <div class="w-100">
+            <div style="margin: 10px 0px 0px 0px;">
+                <span style="font-weight: 600;">{{ reply.myuser.name }}</span>
+                <span>{{ reply.text }}</span>
+            </div> 
+            <div>
+                <span style="color: #777; font-size: 14px;" class="time-diff" data-rp-id="{{ reply.id }}">{{ reply.uploaded_time }}</span>
+                {% if user == reply.myuser or user == reply.comment.post.myuser %}
+                    <button class="rpl-del" data-rp-id="{{ reply.id }}">Delete</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endfor %}

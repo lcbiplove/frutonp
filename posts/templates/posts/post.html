@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load posts_extras %}
+{% block title %}Posts | Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
+
+{% block content %}
+<div class="actual-content">
+        <div class="w-100 text-center">
+            <div style="font-size: 24px; margin: 20px 0px;">{{ post.title }}</div>
+        </div>
+        <div class="w-100 flex fl-wrp">
+             <div class="w-40 text-center">
+                <img class="profile-pp" src="/media/{{ post.thumbnail }}" alt="{{ post.thumbnail }}">
+             </div>
+             <div class="w-60 w-60-same">
+                <div class="w-100">
+                    <div class="w-100">
+                        <div class="pd-10">
+                            <div class="w-100" style="margin: 0px 0px 8px 0px;">
+                                <span style="padding: 0px 15px 0px 0px;">{{ post.outerFood }}</span> <span style="padding: 0px 5px 0px 15px; border-left: 1px solid #222;">{{ views}}</span> <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="w-100" style="margin: 0px 0px 8px 0px;">
+                                Rs. {{ post.price }} per {{ post.quantity }}
+                            </div>
+                            <div class="w-100" style="margin: 0px 0px 8px 0px;">
+                                <a href="tel: {{ post.myuser.phone1 }}">{{ post.myuser.phone1 }}</a>
+                                {% if post.phone2 %}
+                                    | <a href="tel: {{ post.phone2 }}">{{ post.phone2 }}</a>
+                                {% endif %}
+                            </div>   
+                            {% if post.location %}
+                                <div class="w-100" style="margin: 0px 0px 8px 0px;">
+                                    Location
+                                </div>
+                            {% endif %}
+                            <div class="w-100" style="margin: 0px 0px 8px 0px;">
+                                {{ post.uploaded_at }}
+                            </div>
+                            <div class="w-100" style="margin: 0px 0px 8px 0px;">
+                                <a href="profile.html">{{ post.myuser.name }}</a>
+                            </div>                  
+                        </div>    
+                    </div>
+                </div>
+             </div>
+        </div>
+
+        <div class="w-100 flex fl-wrp">            
+            <div class="w-60 w-60-same">
+               <div class="w-100">
+                   <div class="w-100">
+                       <div class="pd-10">
+                            <div class="w-100 post-sub-ttl">Description</div>  
+                            <div class="w-100">
+                                <span style="padding: 0px 20px;"></span> 
+                                {{ post.desc }}
+                            </div>
+                            <div class="w-100 post-sub-ttl">
+                                Comments
+                            </div>
+                            <div id="comments" class="w-100">
+                                {% for comment in post.comment.all|dictsort:"commented_at" %}
+                                    <div class="comment-of w-100 flex">
+                                        <div style="padding: 10px 10px 5px 0px;">
+                                            <a href="{% url 'profile' comment.myuser.id %}">
+                                                <img src="/media/{{ comment.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="35px" height="35px" alt="">
+                                            </a>
+                                        </div>       
+                                        <div class="w-100">
+                                            <div style="margin: 10px 0px 0px 0px;">
+                                                <span style="font-weight: 600;">{{ comment.myuser.name }}</span>
+                                                <span class="act-com-text">{{ comment.text }}</span>
+                                            </div> 
+                                            <div>
+                                                <span style="color: #777; font-size: 14px;">{{ comment.uploaded_time }}</span>
+                                                <span style="padding: 0px 10px; margin-left: 10px;"><a class="show-reply" href="javascript:void(0);" data-cm-id="{{ comment.id }}">Reply</a></span>
+                                                {% if user.id == comment.myuser.id or user.id == comment.post.myuser.id %}
+                                                    <span style="padding: 0px 10px;">
+                                                        <a class="comment-menu" href="javascript:void(0);" data-cm-id="{{ comment.id }}" title="Options">
+                                                            <span></span>
+                                                            <span></span>
+                                                            <span></span>
+                                                        </a>
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="replies-cont">
+                                                {% if comment.reply.count > 2 %}
+                                                    {% if comment.reply.count|add:-2 != 1 %}
+                                                        <p class="more-replies" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}&_0">{{ comment.reply.count|add:-2 }} More Replies</p>
+                                                    {% else %}
+                                                        <p class="more-replies" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}&_0">{{ comment.reply.count|add:-2 }} More Reply</p>                                                   
+                                                    {% endif %}
+                                                {% endif %}
+                                                <div class="replies-in">
+                                                {% for reply in comment.reply.all|dictsortreversed:"replied_at"|slice:":2"|dictsort:"replied_at" %}
+                                                    <div class="w-100 flex reply-of" style="font-size: 14px;" >
+                                                        <div style="padding: 10px 10px 5px 0px;">
+                                                            <img src="/media/{{ reply.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="Profile Picture"/>
+                                                        </div>       
+                                                        <div class="w-100">
+                                                            <div style="margin: 10px 0px 0px 0px;">
+                                                                <span style="font-weight: 600;">{{ reply.myuser.name }}</span>
+                                                                <span>{{ reply.text }}</span>
+                                                            </div> 
+                                                            <div>
+                                                                <span style="color: #777; font-size: 14px;" class="time-diff" data-rp-id="{{ reply.id }}">{{ reply.uploaded_time }}</span>
+                                                                {% if user == reply.myuser or user == reply.comment.post.myuser %}
+                                                                    <button class="rpl-del" data-rp-id="{{ reply.id }}">Delete</button>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>                        
+                                    </div>
+                                {% empty %}
+                                    <div class="comment-of no-comment">No Comments</div>
+                                {% endfor %}
+                            </div>
+                            <p id="new-comments">
+                            </p>
+                            <div class="reply-inpt-box" id="reply-inpt-box">
+                                <div style="padding: 12px 10px 5px 0px;">
+                                    <img src="/media/{{ user.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="">
+                                </div> 
+                                <textarea name="reply" id="reply-txtarea" class="reply-txtarea" rows="1" placeholder="Add a reply..."></textarea>
+                                <div>
+                                    <button id="reply-btn" disabled="disabled">Reply</button>
+                                </div>
+                            </div>
+                            <div id="write-comments">
+                                <div style="padding: 10px 10px 5px 0px;">
+                                    <img src="/media/{{ user.myuserprofile.pp }}" style="border-radius: 50%;" width="35px" height="35px" alt="">
+                                </div>   
+                                <textarea id="write-comment-txtarea" name="comment" class="write-comment" placeholder="Add a comment.." rows="1" ></textarea>
+                                <button id="comment-btn" disabled="disabled">Comment</button>
+                                <button id="cancel-edit" class="d-none">Cancel</button>
+                            </div>
+                       </div>    
+                   </div>
+               </div>
+            </div>
+            <div class="w-40 text-center">
+                <div class="w-100">
+                    <div class="pd-10">
+                         <div class="w-100 post-sub-ttl">Photos</div>  
+                         <div class="w-100 flex fl-wrp">
+                            {% for photo in post.photos.all %}
+                                <div class="w-33 w-33-md">
+                                    <div class="w-100">
+                                        <div style="padding: 5px;">
+                                            <div class="w-100">
+                                                <img src="/media/{{ photo.photos }}" width="125"  style="max-width: 100%; margin: 0px 5px 5px 0px;" alt="">
+                                            </div>
+                                        </div>                                    
+                                    </div>
+                                </div>
+                            {% endfor %}
+                         </div>
+                    </div>    
+                </div>
+            </div>
+       </div>
+    </div>
+
+    <div id="chx0dmxd">
+        
+    </div>
+{% endblock content %}
+    
+{% block scripts %}
+    <div>
+        <script>Post={'csrf': "{{ csrf_token }}", 'uid': "{{ user.id }}"}</script>
+    </div>
+    <div><script type="module" src="{% static 'js/jquery.min.nice_scroll.js' %}"></script></div>
+    <div><script src="{% static 'js/post_reply_comment.js' %}?version=79"></script></div>
+{% endblock scripts %}
