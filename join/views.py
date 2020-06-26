@@ -1,6 +1,6 @@
 from re import match as reMatch
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.contrib import auth, messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import user_passes_test, login_required
@@ -99,12 +99,12 @@ def logout(request):
         return redirect('home')
 
 def ajax_email(request):
-    if request.POST:
+    if request.is_ajax():
         email = request.POST.get('em_ok_lkng_of')
         try:
             user = MyUser.objects.get(email=email)
             return JsonResponse({"status": "true"})
         except MyUser.DoesNotExist:
             return JsonResponse({"status": "false"})
-    return redirect('signup')
+    raise Http404()
 

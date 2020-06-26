@@ -1,284 +1,184 @@
 $(document).ready(function(){
-    nameErr = true;
-    emailErr = true;
-    passErr = true;
-    confPassErr = true;
-    captchaErr = true;
-    phoneErr = true;
-    var tick = '<i class="far fa-check-circle"></i>';
-
+    var nameErr = true;
+    var emailErr = true;
+    var passErr = true;
+    var confPassErr = true;
+    var captchaErr = true;
+    var phoneErr = true;
+    var tick_mark = '<i class="fas fa-check"></i>';
+    var small_loader = '<i class="fa fa-spinner small-loader"></i>';
+    var namePattern = /^[a-zA-Z-_ ]*$/;
+    var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var passPattern = /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/;
+    var phonePattern = /^\d+$/;
     $("#validate-signup").trigger("reset");
-
-    function uniqueErr() {
-        if($(".of-email .err-mssg").children().length > 0){
-            return true;
+    window.onReCaptchaSuccess = function(){
+        captchaErr = false;
+        if(exceptCaptchaAllFine()){
+            $("#form-sub").removeAttr("disabled");
         } else {
-            return false;
+            $("#form-sub").attr("disabled", "disabled");
         }
     }
-
-    function nameChk(par){        
-        if(par.length > 4 && par.length < 49){
-            if(/^[a-zA-Z-_ ]*$/.test(par)){
-                $("#cor-of-name").html(tick);
-                $(".of-name .err-mssg").html("");
-                $('input[name=name]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});
-                return false;
-            } else {
-                $("#cor-of-name").html("");
-                errMssg = "Should not contain other characters except letters, hyphens, underscore and spaces.";
-                $(".of-name .err-mssg").html(errMssg);
-                $('input[name=name]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});
-                return true;
-            }
-            
-        } else {
-            $("#cor-of-name").html("");
-            errMssg = "Must be more than 4 characters";
-            $(".of-name .err-mssg").html(errMssg);
-            $('input[name=name]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});
-            return true;
-        }
+    window.recaptchaExpired = function(){
+        captchaErr = true;
+        $("#form-sub").attr("disabled", "disabled");
     }
-
-    function phoneChk(par){        
-        if(par.length == 10 && /^\d+$/.test(par)){
-            $("#cor-of-phone").html(tick);
-            $(".of-phone .err-mssg").html("");
-            $('input[name=phone]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});
-            return false;
-        } else {
-            $("#cor-of-phone").html("");
-            errMssg = "Phone number must be of 10 numbers";
-            $(".of-phone .err-mssg").html(errMssg);
-            $('input[name=phone]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});
-            return true;
-        }
-    }
-
-    function emailChk(par){
-        if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(par)){
-            $("#cor-of-email").html(tick);
-            $(".of-email .err-mssg").html("");
-            $('input[name=email]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});
-            return false;
-        } else {
-            $("#cor-of-email").html("");
-            errMssg = "Invalid email pattern";
-            $(".of-email .err-mssg").html(errMssg);
-            $('input[name=email]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});
-            return true;
-        }
-    }
-
-    function passChk(par){
-        if(/^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/.test(par)){
-            $(".of-pass .err-mssg").html("");
-            $('input[name=pass]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});
-            return false;
-        } else {
-            errMssg = "Must be at least 8 characters with lowercase and number characters";
-            $(".of-pass .err-mssg").html(errMssg);
-            $('input[name=pass]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});
-            return true;
-        }
-    }
-
-    function confPassChk(par, pass){
-        if(par == pass){
-            $(".of-pass-conf .err-mssg").html("");
-            $('input[name=confPass]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});
-            return false;
-        } else {
-            errMssg = "Password does not match";
-            $(".of-pass-conf .err-mssg").html(errMssg);
-            $('input[name=confPass]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});
-            return true;
-        }
-    }
-    
-    function already_email(inp) {
-        par = inp;
-        csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
-        $.ajax({
-            type: "POSt",
-            url: "/join/aj_ch_em/",
+    function already_email(email_){
+        var request = $.ajax({
+            url: '/join/aj_ch_em/',
+            method: 'post',
             data: {
-                csrfmiddlewaretoken: csrfmiddlewaretoken,
-                em_ok_lkng_of: par
+                "em_ok_lkng_of": email_,
             },
-            dataType: 'json'
-        }).done(function(data){
-            var already = (data['status'] === 'true');
-            if(already){
+            headers:{
+                "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val()
+            }
+        });
+        request.done(function(response){
+            if(response.status=="true"){
+                $("#emailId").css({"box-shadow": "#c00 0px 0px 5px"});
                 $("#cor-of-email").html("");
-                errMssg = "The email already exists";
-                $(".of-email .err-mssg").html(errMssg);
-                $('input[name=email]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});
+                $(".of-email .err-mssg").html("Email already exists");
+                emailErr=true;
+                $("#form-sub").attr("disabled", "disabled");
             } else {
-                $("#cor-of-email").html(tick);
-                $(".of-email .err-mssg").html("");
-                $('input[name=email]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});
-                if(validate()){
-                    $("#form-sub").removeAttr("disabled", "disabled");
-                } else {
-                    $("#form-sub").attr("disabled", "");
-                }
+                $("#cor-of-email").html(tick_mark);
+                emailErr=false;
             }
         });
     }
-
-    function validate(){
-        if(nameErr || emailErr || passErr || confPassErr || uniqueErr() || captchaErr || phoneErr){
-            if(nameErr){
-                nameChk($("input[name=name]").val());
-            } 
-            if(phoneErr){
-                phoneChk($("input[name=phone]").val());
-            }
-            if(emailErr){
-                emailChk($("input[name=email]").val());
-            }
-            if(passErr){
-                passChk($("input[name=pass]").val());
-            }
-            if(confPassErr){
-                confPassChk($("input[name=confPass]").val());
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    function is_captcha(){
-        var response = grecaptcha.getResponse();
-        if(response.length == 0){
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    window.onReCaptchaSuccess = function(){
-        captchaErr = false;
-        if(validate()){
-            $("#form-sub").removeAttr("disabled", "disabled");
-        } else {
-            $("#form-sub").attr("disabled");
-        }
-    }
-
-    window.recaptchaExpired = function(){
-        $("#form-sub").attr("disabled", "disabled");
-    }
-
-    $("input[name=name]").keyup(function(){
-        nV = $(this).val();
-        nameErr = nameChk(nV);       
-    });
-
-    $("input[name=phone]").keyup(function(){
-        nV = $(this).val();
-        phoneErr = phoneChk(nV);       
-    });
-
-    $("input[name=email]").keyup(function(){
-        nV = $(this).val();
-        emailErr = emailChk(nV);
-
-        if(!emailErr){
-            already_email(nV);
-        }
-    });
-
-    $("input[name=pass]").keyup(function(){
-        nV = $(this).val();
-
-        passErr = passChk(nV);
-
-        $("input[name=confPass]").keyup();
-    });
-
-    $("input[name=confPass]").keyup(function(){
-        nV = $(this).val();
-
-        confPassErr = confPassChk(nV, $("input[name=pass]").val());
-    });        
-
-    $(".em-dom-sug").click(function(){
-        text = $(this).text();
-        val = $("input[name=email]").val().split("@", 1);
-        total = val+text;
-        emailChk(total);
-        if(!emailChk(total)){
-            already_email(total);
-            emailErr = false;
-        } else {
-            emailErr = true;
-        }
-    });
-
-    $("form input").focus(function(){
-        if($(this).attr("name") == "name"){
-            if(nameErr){
-                $('input[name=name]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});  
-            }   else {
-                $('input[name=name]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});  
-            }
-        } 
-
-        if($(this).attr("name") == "phone"){
-            if(nameErr){
-                $('input[name=phone]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});  
-            }   else {
-                $('input[name=phone]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});  
-            }
-        } 
-        
-        if($(this).attr("name") == "email"){
-            if(emailErr || uniqueErr()){
-                $('input[name=email]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});  
-            }   else {
-                $('input[name=email]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});  
-            }
-        } 
-
-        if($(this).attr("name") == "pass"){
-            if(passErr){
-                $('input[name=pass]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});  
+    function nameChk(par){       
+        if(par.length > 4 && par.length < 48){
+            if(namePattern.test(par)){
+                $("#nameId").css({"box-shadow": "#0c0 0px 0px 5px"});
+                $("#cor-of-name").html(tick_mark);
+                $(".of-name .err-mssg").html("");
+                nameErr=false;
             } else {
-                $('input[name=pass]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});  
+                $("#nameId").css({"box-shadow": "#c00 0px 0px 5px"});
+                $("#cor-of-name").html("");
+                $(".of-name .err-mssg").html("Name may contain underscore, spaces or hypen only");
+                nameErr=true;
             }
-        } 
+        } else {
+            $("#nameId").css({"box-shadow": "#c00 0px 0px 5px"});
+            $("#cor-of-name").html("");
+            $(".of-name .err-mssg").html("Name should contain more than 4 and less than 48 characters");
+            nameErr=true;
+        }
+    }
+    function phoneChk(par){        
+        if(par.length == 10 && phonePattern.test(par)){
+            $("#phoneId").css({"box-shadow": "#0c0 0px 0px 5px"});
+            $("#cor-of-phone").html(tick_mark);
+            $(".of-phone .err-mssg").html("");
+            phoneErr=false;
+        } else {
+            $("#phoneId").css({"box-shadow": "#c00 0px 0px 5px"});
+            $("#cor-of-phone").html("");
+            $(".of-phone .err-mssg").html("Phone should be 10 digit numbers");
+            phoneErr=true;
+        }
+    }
+    function emailChk(par){
+        if(emailPattern.test(par)){
+            $("#emailId").css({"box-shadow": "#0c0 0px 0px 5px"});
+            //$("#cor-of-email").html(tick_mark);
+            $("#cor-of-email").html(small_loader);
 
-        if($(this).attr("name") == "confPass"){
-            if(confPassErr){
-                $('input[name=confPass]:focus').css({'box-shadow' : '#b00 0px 0px 2px 2px'});  
-                } else {
-                $('input[name=confPass]:focus').css({'box-shadow' : '#07C044 0px 0px 2px 2px'});  
+            $(".of-email .err-mssg").html("");
+            emailErr=false;
+            already_email(par);
+        } else {
+            $("#emailId").css({"box-shadow": "#c00 0px 0px 5px"});
+            $("#cor-of-email").html("");
+            $(".of-email .err-mssg").html("Email pattern does not match");
+            emailErr=true;
+        }
+    }
+    function passChk(par){
+        if(passPattern.test(par)){
+            $("#passId").css({"box-shadow": "#0c0 0px 0px 5px"});
+            $(".of-pass .err-mssg").html("");
+            passErr=false;
+            if(par == $("#confPassId").val()){
+                $("#confPassId").css({"box-shadow": "#0c0 0px 0px 5px"});
+                $(".of-pass-conf .err-mssg").html("");
+                confPassErr=false;
+            } else {
+                $("#confPassId").css({"box-shadow": "#c00 0px 0px 5px"});
+                $(".of-pass-conf .err-mssg").html("Password does not match");
+                confPassErr=true;
+            }
+        } else {
+            $("#passId").css({"box-shadow": "#c00 0px 0px 5px"});
+            $(".of-pass .err-mssg").html("Password should contain at least 8 characters with numbers, capital letters");
+            passErr=true;
+            if(par != $("#confPassId").val()) {
+                $("#confPassId").css({"box-shadow": "#c00 0px 0px 5px"});
+                $(".of-pass-conf .err-mssg").html("Password does not match");
+                confPassErr=true;
             }
         }
-    });
-
-    $(".sign-create-sub").click(function(){
-        console.log(is_captcha());
-    })
-
-    $("input").keyup(function(){
-        captchaErr = !is_captcha();
-        if(validate()){
-            $("#form-sub").removeAttr("disabled", "disabled");
+    }
+    function confPassChk(par){
+        if(par == $("#passId").val()){
+            if(passPattern.test(par)){
+                $("#confPassId").css({"box-shadow": "#0c0 0px 0px 5px"});
+            }
+            $(".of-pass-conf .err-mssg").html("");
+            confPassErr=false;
         } else {
-            $("#form-sub").attr("disabled", "");
+            $("#confPassId").css({"box-shadow": "#c00 0px 0px 5px"});
+            $(".of-pass-conf .err-mssg").html("Password does not match");
+            confPassErr=true;
         }
+    }
+    function exceptCaptchaAllFine(){
+        if(!emailErr && !nameErr && !phoneErr && !passErr && !confPassErr && !captchaErr) {
+            $("#form-sub").removeAttr("disabled");
+            return true;
+        } else {
+            $("#form-sub").attr("disabled", "disabled");
+            return false;
+        }
+    }
+    function validate(that){
+        var inpt_id = that.id;
+        switch (inpt_id) {
+            case "nameId":
+                nameChk(that.value);
+                break;
+            case "emailId":
+                emailChk(that.value);
+                break;
+            case "phoneId":
+                phoneChk(that.value);
+                break;
+            case "passId":
+                passChk(that.value);
+                break;
+            case "confPassId":
+                confPassChk(that.value);
+                break;
+            case "":
+                var index = $("#emailId").val().indexOf("@");
+                var par = index == -1 ? $("#emailId").val()+$(that).html() : $("#emailId").val().slice(0, index) + $(that).html();
+                emailChk(par);
+                break;
+            default:
+                break;
+        }
+        exceptCaptchaAllFine();
+    }
+
+    $("#validate-signup input").on("keyup", function(){
+        validate(this);
+    });
+    $(".em-dom-sug").on("click", function(){
+        validate(this);
     });
 
-    $("#validate-signup").submit(function(e) {
-        if(!validate() && !uniqueErr() && !is_captcha()){
-            e.preventDefault();
-        } else {
-            $(this).submit();
-        }
-    });
+    
 });

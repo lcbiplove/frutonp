@@ -4,8 +4,8 @@ from django.utils import timezone
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
-from frutonp.utils import randomToken, file_size, image_crop
 from django.core.validators import FileExtensionValidator
+from frutonp.utils import randomToken, file_size, image_crop, validate_phone, validate_name
 from home.models import NotifClick
 
 class MyUserManager(BaseUserManager):
@@ -55,8 +55,8 @@ class MyUser(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
-    name = models.CharField(max_length=48)
-    phone1 = models.BigIntegerField()
+    name = models.CharField(max_length=48, validators=[validate_name])
+    phone1 = models.BigIntegerField(validators=[validate_phone])
     token = models.CharField(max_length=65, null=True)
     is_activated = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

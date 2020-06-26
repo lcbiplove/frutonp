@@ -1,3 +1,5 @@
+
+from re import match as reMatch
 import urllib
 import json
 import string
@@ -45,6 +47,22 @@ def right_ext(ext_of, accept_ext=[]):
                 return False
         if ext_of.endswith(accept_ext[i]):
             return True
+
+def validate_name(value):
+    """
+    Validate name
+    """
+    if reMatch('^[a-zA-Z-_ ]+$', value) is None or len(value) <=4 or len(value) >= 48:
+        raise ValidationError("Name should be greater than 4 and less than 48 with underscores, whitespace and hyphen only.")
+        
+
+def validate_phone(value):
+    """
+    Raise error if validation faild
+    """
+    if len(str(value)) != 10:
+        raise ValidationError(f"Phone number should be of 10 digits, you gave {len(str(value))} digit number.")
+
 
 def add_photo_default(foodType):
     """
