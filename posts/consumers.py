@@ -24,11 +24,17 @@ class CommentConsumer(AsyncConsumer):
             'type': 'websocket.accept'
         })
 
+    async def post_edit_send(self, event):
+        await self.send({
+            'type': 'websocket.send',
+            'text': event.get('text')
+        })
+
     async def websocket_receive(self, event):
         received = event.get('text', None)
         if received is not None:
             loaded_data = json.loads(received)
-            if loaded_data.get('desc') == "comment_delete":
+            if loaded_data.get('desc').rfind("_delete") != -1:
                 user = {}
             else:
                 user = {

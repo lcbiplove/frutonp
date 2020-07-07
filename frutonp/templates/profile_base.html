@@ -11,7 +11,7 @@
     <title>{% if yes_no == "yes" %}({{ notif_num }}) {% endif %}{% block title %}{% endblock title %}</title>
     <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png" sizes="16x16">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?version=38">
     <script src="{% static 'js/jquery.min.3.4.1.js' %}"></script>
 </head>
 <body>
@@ -37,15 +37,16 @@
                 </div>
                 <div class="mb-side-bar">
                     <div class="mb-srch-n-sel">
-                        <input type="search" name="" id="mb-srch-inpt">
+                        <input type="search" name="search" id="mb-srch-inpt">
                         <select class="mb-srch-select" name="search-option">
                             <option value="vegetable">Vegetable</option>
                             <option value="name">Name</option>
                             <option value="fruit">Fruit</option>
                             <option value="username">Username</option>
-                        </select>       
+                        </select>   
+                        <span id="mb-srch-cls">&times;</span>
                     </div>
-                    <span id="mb-srch-icon"><i class="fas fa-search"></i></span>
+                    <span id="mb-srch-icon" class="mb-srch-icon"><i class="fas fa-search"></i></span>
                 </div>
                 <div class="catag-b-med">
                     <div class="pos-rel top-cat">
@@ -66,7 +67,7 @@
                 <div style="margin: 0px 10px;" class="pos-rel">
                     <!-- Settings -->
                     <a id="settings-btn" href="javascript:void(0);" class="set-not-btn pos-rel" title="Settings">
-                        <i class="fas fa-cog"></i><i id="t-up" style="font-size: 16px; position: absolute; right: 1px; top: 2px;" class="fas fa-sort-down"></i>
+                        <i class="fas fa-cog"></i><i id="t-up" class="fas fa-sort-down t-side-ar"></i>
                     </a>
                     <div class="set-cont" tabindex="0">
                         <span>
@@ -105,7 +106,7 @@
                     <div class="pos-rel" style="margin-right: 10px;">
                         <!-- Notifications -->
                         <a id="notif-btn" href="javascript:void(0);" class="set-not-btn pos-rel" title="Notifications">
-                            <i class="fas fa-bell"></i><i id="t-up-notif" style="font-size: 16px; position: absolute; right: 1px; top: 2px;" class="fas fa-sort-down"></i>
+                            <i class="fas fa-bell"></i><i id="t-up-notif" class="fas fa-sort-down t-side-ar"></i>
                             <span id="notif-num" class="notif-num-{{ yes_no }}">{{ notif_num }}</span>
                         </a>
                         <div class="notif-cont" tabindex="0">
@@ -146,7 +147,7 @@
                         </div>
                     {% else %}
                         <div>
-                            <a href="{% url 'profile' %}" class="auth-user">
+                            <a href="{% url 'profile' user.id %}" class="auth-user">
                                 <img src="/media/{{ user.myuserprofile.pp }}" width=25 height=25/>
                                 {{ user.short_name }}
                             </a>
@@ -169,7 +170,7 @@
                 </div> 
             {% else %}     
                 <div style="margin-top: 50px; margin-bottom: 0px;">
-                    <a href="{% url 'profile' %}" class="auth-user-mb" style="display: flex; align-items: center;">
+                    <a href="{% url 'profile' user.id %}" class="auth-user-mb" style="display: flex; align-items: center;">
                         <img src="/media/{{ user.myuserprofile.pp }}" width=25 height=25 alt="Profile Picture"/>
                         {{ user.short_name }}
                     </a>
@@ -197,6 +198,15 @@
             </div>
         {% endif %}
 
+        <div class="act-div">
+            <div class="act-cont">
+                <span class="act-guess"></span>
+                <span class="act-sol"></span>
+                <span class="act-extra"></span>
+                <span class="act-close"><i class="fas fa-times"></i></span>
+            </div>
+        </div>
+
         {% block content %}
         {% endblock content %}
 
@@ -208,28 +218,29 @@
         {% endblock cookie %}
     </div>
 
-    <script>
-        $(document).ready(function(){
-            /* Logout on click */
-            $("#logout").on('click', function(){
-                $("#logout-form").submit();
+    <div>
+        <script>
+            $(document).ready(function(){
+                /* Logout on click */
+                $("#logout").on('click', function(){
+                    $("#logout-form").submit();
+                });
+                /* Close modals of profile forms */
+                try{
+                    classFromClose = $(".modal-close").attr("class").split('')[1]; // To get the class name of which modal
+                }
+                catch {
+                    classFromClose = "";
+                }
+                $(".modal-close").on('click', function(){
+                    var modalId = "#"+classFromClose+"-modal";
+                    $(".modal-close").css("display", "none");
+                    window.history.go(-1);
+                });
             });
-
-            /* Close modals of profile forms */
-            try{
-                classFromClose = $(".modal-close").attr("class").split('')[1]; // To get the class name of which modal
-            }
-            catch {
-                classFromClose = "";
-            }
-            $(".modal-close").on('click', function(){
-                var modalId = "#"+classFromClose+"-modal";
-                $(".modal-close").css("display", "none");
-                window.history.go(-1);
-            });
-        });
-    </script>
-    <div><script src="{% static 'js/nav_all___.js' %}?version=0"></script></div>
+        </script>
+    </div>
+    <div><script src="{% static 'js/nav_all___.js' %}?version=30"></script></div>
     <div><script src="{% static 'js/notifs__.js' %}?version=99"></script></div>
     <div><script src="{% static 'js/content_scroll_card.js' %}"></script></div>
     <div><script src="{% static 'js/sess_mssg_.js' %}"></script></div>

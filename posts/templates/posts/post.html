@@ -6,38 +6,44 @@
 {% block content %}
 <div class="actual-content">
         <div class="w-100 text-center">
-            <div style="font-size: 24px; margin: 20px 0px;">{{ post.title }}</div>
+            <div id="title" style="font-size: 24px; margin: 20px 0px;">{{ post.title }}</div>
         </div>
         <div class="w-100 flex fl-wrp">
              <div class="w-40 text-center">
-                <img class="profile-pp" src="/media/{{ post.thumbnail }}" alt="{{ post.thumbnail }}">
+                <img id="thumbnail" class="profile-pp" src="/media/{{ post.thumbnail }}" alt="{{ post.thumbnail }}">
+                <div class="post-edit-del">
+                    {% if user == post.myuser %}
+                        <a href="{% url 'editPost' post.id %}">Edit</a>
+                        <a href="#" id="del-post">Delete</a>
+                    {% endif %}
+                </div>
              </div>
              <div class="w-60 w-60-same">
                 <div class="w-100">
                     <div class="w-100">
                         <div class="pd-10">
                             <div class="w-100" style="margin: 0px 0px 8px 0px;">
-                                <span style="padding: 0px 15px 0px 0px;">{{ post.outerFood }}</span> <span style="padding: 0px 5px 0px 15px; border-left: 1px solid #222;">{{ views}}</span> <i class="fas fa-eye"></i>
+                                <span id="foodType" style="padding: 0px 15px 0px 0px;">{{ post.outerFood }}</span> <span style="padding: 0px 5px 0px 15px; border-left: 1px solid #222;">{{ views }}</span> <i class="fas fa-eye"></i>
                             </div>
                             <div class="w-100" style="margin: 0px 0px 8px 0px;">
-                                Rs. {{ post.price }} per {{ post.quantity }}
+                                Rs. <span id="price">{{ post.price }}</span> per <span id="quantity">{{ post.quantity }}</span>
                             </div>
                             <div class="w-100" style="margin: 0px 0px 8px 0px;">
-                                <a href="tel: {{ post.myuser.phone1 }}">{{ post.myuser.phone1 }}</a>
-                                {% if post.phone2 %}
-                                    | <a href="tel: {{ post.phone2 }}">{{ post.phone2 }}</a>
-                                {% endif %}
-                            </div>   
-                            {% if post.location %}
-                                <div class="w-100" style="margin: 0px 0px 8px 0px;">
-                                    Location
+                                <a href="tel:{{ post.myuser.phone1 }}">{{ post.myuser.phone1 }}</a>
+                                <div class="{% if not post.phone2 %}d-none {% else %} d-in-block {% endif %}">
+                                    | <a id="phone2" href="tel:{{ post.phone2 }}">{{ post.phone2 }}</a>
                                 </div>
-                            {% endif %}
+                            </div>   
+                                <div id="location" class="w-100 {% if not post.location %}d-none {% else %} d-in-block {% endif %}" style="margin: 0px 0px 8px 0px;">
+                                    {{post.location}}
+                                </div>
                             <div class="w-100" style="margin: 0px 0px 8px 0px;">
                                 {{ post.uploaded_at }}
                             </div>
                             <div class="w-100" style="margin: 0px 0px 8px 0px;">
-                                <a href="profile.html">{{ post.myuser.name }}</a>
+                                <a href="{% url 'profile' post.myuser.id %}">{{ post.myuser.name }}</a>
+                                <input id="uid" type="hidden" name="uid" value="{{ user.id }}"/>
+                                <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
                             </div>                  
                         </div>    
                     </div>
@@ -53,13 +59,13 @@
                             <div class="w-100 post-sub-ttl">Description</div>  
                             <div class="w-100">
                                 <span style="padding: 0px 20px;"></span> 
-                                {{ post.desc }}
+                                <span id="desc">{{ post.desc }}</span>
                             </div>
                             <div class="w-100 post-sub-ttl">
-                                Comments
+                                Comments (<span id="total-cmnts">{{ post.comment.all.count }}</span>)
                             </div>
                             <div id="comments" class="w-100">
-                                {% for comment in post.comment.all|dictsort:"commented_at" %}
+                                {% for comment in post.comment.all|slice:max_comment %}
                                     <div class="comment-of w-100 flex">
                                         <div style="padding: 10px 10px 5px 0px;">
                                             <a href="{% url 'profile' comment.myuser.id %}">
@@ -117,14 +123,17 @@
                                         </div>                        
                                     </div>
                                 {% empty %}
-                                    <div class="comment-of no-comment">No Comments</div>
+                                    <div class="comment-of no-comment dis-color">No Comment</div>
                                 {% endfor %}
                             </div>
+                            {% if post.comment.all.count > max_comment %}
+                                <p id="more-comments" class="more-comments"><span>{{ post.comment.all.count|subtract:max_comment }}</span> More comments</p>
+                            {% endif %}
                             <p id="new-comments">
                             </p>
                             <div class="reply-inpt-box" id="reply-inpt-box">
-                                <div style="padding: 12px 10px 5px 0px;">
-                                    <img src="/media/{{ user.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="">
+                                <div style="padding: 0px 10px 0px 0px;">
+                                    <img src="/media/{{ user.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="Profile Pic">
                                 </div> 
                                 <textarea name="reply" id="reply-txtarea" class="reply-txtarea" rows="1" placeholder="Add a reply..."></textarea>
                                 <div>
@@ -132,8 +141,8 @@
                                 </div>
                             </div>
                             <div id="write-comments">
-                                <div style="padding: 10px 10px 5px 0px;">
-                                    <img src="/media/{{ user.myuserprofile.pp }}" style="border-radius: 50%;" width="35px" height="35px" alt="">
+                                <div style="padding: 0px 10px 5px 0px;">
+                                    <img src="/media/{{ user.myuserprofile.pp }}" style="border-radius: 50%;" width="35px" height="35px" alt="Profile Pic">
                                 </div>   
                                 <textarea id="write-comment-txtarea" name="comment" class="write-comment" placeholder="Add a comment.." rows="1" ></textarea>
                                 <button id="comment-btn" disabled="disabled">Comment</button>
@@ -153,7 +162,7 @@
                                     <div class="w-100">
                                         <div style="padding: 5px;">
                                             <div class="w-100">
-                                                <img src="/media/{{ photo.photos }}" width="125"  style="max-width: 100%; margin: 0px 5px 5px 0px;" alt="">
+                                                <img class="photo" src="/media/{{ photo.photos }}" width="125"  style="max-width: 100%; margin: 0px 5px 5px 0px;" alt="Photo">
                                             </div>
                                         </div>                                    
                                     </div>
@@ -172,9 +181,6 @@
 {% endblock content %}
     
 {% block scripts %}
-    <div>
-        <script>Post={'csrf': "{{ csrf_token }}", 'uid': "{{ user.id }}"}</script>
-    </div>
     <div><script type="module" src="{% static 'js/jquery.min.nice_scroll.js' %}"></script></div>
-    <div><script src="{% static 'js/post_reply_comment.js' %}?version=79"></script></div>
+    <div><script src="{% static 'js/post_reply_comment.js' %}?version=358"></script></div>
 {% endblock scripts %}

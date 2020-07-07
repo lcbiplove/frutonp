@@ -5,6 +5,8 @@ from . import views
 urlpatterns = [
     path('', views.index, name="profile"),
     path('<int:id>/', views.index, name="profile"),
+    path('profile-post/', views.profilePost, name="profilePost"),
+    path('<int:id>/profile-post/', views.profilePost, name="profilePost"),
     path('edit/', views.changePhoneLocDesc, name="changePhoneLocDesc"),
     path('upload-pp/', views.uploadPP, name="uploadPP"),
     path('<int:id>/upload-pp/', views.uploadPP, name="uploadPP"),

@@ -3,6 +3,10 @@ from . import views
 
 urlpatterns = [
     path('<int:id>/', views.index, name="post"),
+    path('<int:id>/post-comment/', views.postComment, name="postComment"),
+    # path('add-post-test/', views.addPostTest, name='addPostTest'),
+    path('<int:id>/edit/', views.editPost, name="editPost"),
+    path('delete/', views.deletePost, name="deletePost"),
     path('upload/', views.addPost, name="addPost"),
     path('select-thumbnail/', views.selectThumbnail, name="selectThumbnail"),
     path('<int:id>/add-comment/', views.addComment, name="addComment"),

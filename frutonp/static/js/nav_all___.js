@@ -20,13 +20,13 @@ function showSet(){
     $(".set-cont").css({"display": "block"});
     $("#t-up").removeClass("fa-sort-down");
     $("#t-up").addClass("fa-sort-up");
-    $("#t-up").css("top", "5px");
+    $("#t-up").css("margin-top", "5px");
 }
 function hideSet(){
     $(".set-cont").css({"display": "none"});
     $("#t-up").removeClass("fa-sort-up");
     $("#t-up").addClass("fa-sort-down");
-    $("#t-up").css("top", "2px");
+    $("#t-up").css("margin-top", "0");
 }
 function setClick(){
     if($("#t-up").hasClass("fa-sort-down")){
@@ -35,7 +35,6 @@ function setClick(){
         hideSet();
     }
 }
-
 /* Nav bar functions */
 function showNav(){
     $(".side-bar").css({"width": "275px"});
@@ -49,22 +48,18 @@ function hideNav(){
 }
 /* Mobile search functions */
 function openMbSearch(){
-    setTimeout(function(){
-        $(".mb-srch-n-sel").css("display", "block");
-        $(".set-not-btn").css("display", "none");
-        $("#mb-srch-icon").css({"background-color": "rgb(7, 192, 68)", "padding": "9px 10px 8px 10px", "top": "-22px",});
-        $("#mb-srch-icon").addClass("canSrchOn");
-        $("#mb-srch-inpt").focus();
-    }, 0);
+    $("#mb-srch-icon").addClass("mb-srch-open");
+    $(".mb-srch-n-sel").css("display", "block");
+    $(".set-not-btn").css("display", "none");
+    $("#menu-btn").css("display", "none");
+    $("#mb-srch-inpt").focus();
 }
 function closeMbSearch(){
+    $("#mb-srch-icon").removeClass("mb-srch-open");
+    
+    $(".mb-srch-n-sel").css({"display": "none"});
     $(".set-not-btn").css("display", "flex");
-    $("#mb-srch-icon").css({"background-color": "initial", "padding": "3px", "top": "-14px", "left": "-23px"});
-    $("#mb-srch-icon").removeAttr("class");
-
-    setTimeout(function(){
-        $(".mb-srch-n-sel").css("display", "none");
-    }, 200);
+    $("#menu-btn").css("display", "block");
 }
 function fullButNoFocus(){
     var width = $("#mb-srch-inpt").css("width");
@@ -97,14 +92,16 @@ $(document).click(function(e){
     } 
     // Search icon on nav
     if(e.target.id == "mb-srch-icon" || $(e.target).parent("#mb-srch-icon").length){
-        if(!$("#mb-srch-icon").hasClass("canSrchOn")){
+        if(!$("#mb-srch-icon").hasClass("mb-srch-open")){
             openMbSearch();
         } else {
             fullButNoFocus();
         }
     }
-    else if(!$(e.target).parents(".mb-side-bar").length) {
-        closeMbSearch();
+    else if(!$(e.target).parents(".mb-side-bar").length || e.target.id == "mb-srch-cls") {
+        if($("#mb-srch-icon").hasClass("mb-srch-open")){
+            closeMbSearch();
+        }
     }
     if(e.target.className == "mb-srch-select") {
         fullButNoFocus();

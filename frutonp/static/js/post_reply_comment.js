@@ -1,14 +1,26 @@
 var showPop = Pop.showPop;
 var hidePop = Pop.hidePop;
 var popShown = Pop.popShown;
-var uid = Post.uid;
+const MAX_POST_LOAD = 10;
+var uid = $("#uid").val();
+var csrf = $("#csrf_token").val();
 var comment_area = $("#write-comment-txtarea");
 var reply_area = $("#reply-txtarea");
 var reply_box = $("#reply-inpt-box");
+var post_id = (window.location.pathname).split('/')[2];  
+var wait_scroll = false;    
+var comment_loaded = 1;
 
 var load_circle = Pop.load_circle;
 var load_elips = Pop.load_elips;
+var post_edited_data;
+var small_load = '<i class="fa fa-spinner small-load"></i>'
 var new_cmnt_count = 0;
+
+function manageTotalComments(plus_minus="-"){
+    plus_minus = plus_minus == "-" ? plus_minus = parseInt($("#total-cmnts").html())-1 : plus_minus = parseInt($("#total-cmnts").html())+1;
+    $("#total-cmnts").html(plus_minus);
+}
 function showTextArea(){
     comment_area.css({"height": "auto"});
     $("#comment-btn").removeAttr("disabled");
@@ -27,8 +39,9 @@ function commentMenuClicked(e){
 function commentEditOpen(){
     return !(($("#cancel-edit").hasClass("d-none")));
 }
-function showDeleteDialog(){
-    $("#chx0dmxd").html('<div class="real-modal"><div class="real-modal-container" tabindex="0"><div class="real-modal-header" style="background-color: #ff4a4a;"><div>Delete</div><div class="real-modal-close">&times;</div></div><div class="real-modal-body" style="padding: 10px 10px 10px 20px;">Are you sure you want to delete?</div><div class="modal-del-options"><button id="del-yes">Yes</button><button class="real-modal-close" id="del-no">No</button></div></div></div>');
+function showDeleteDialog(for_=null){
+    var for_ = for_=="delete_post" ? "the post" : "";
+    $("#chx0dmxd").html(`<div class="real-modal"><div class="real-modal-container" tabindex="0"><div class="real-modal-header" style="background-color: #ff4a4a;"><div>Delete</div><div class="real-modal-close">&times;</div></div><div class="real-modal-body" style="padding: 10px 10px 10px 20px;">Are you sure you want to delete ${for_}?</div><div class="modal-del-options"><button id="del-yes">Yes</button><button class="real-modal-close" id="del-no">No</button></div></div></div>`);
     showPop();
 }
 function deleteConfirmation(e){
@@ -36,6 +49,60 @@ function deleteConfirmation(e){
 }
 function isReplyOpened(){
     return reply_box.css("display")=="flex" ? true : false;
+}
+function errorMessageHandler(guess=null, sol="Try again or reload the page.", extra="Reload", timeout=20000){
+    $(".act-guess").html(guess);
+    $(".act-sol").html(sol);
+    $(".act-extra").html(extra);
+    $(".act-div").css({"bottom": "0px"});
+    setTimeout(function(){
+        $(".act-div").css({"bottom": "-1000px"});
+    }, timeout); 
+}
+function addCmmntMssgErrHandler(comment, edit_cm_id=null){
+    if(edit_cm_id == null){
+        errorMessageHandler(guess="Could not add comment.", sol="Try again!!!", extra=null);
+        comment_area.val(comment);
+        comment_area.focus();
+        comment_area.trigger("keyup");
+    } else {
+        errorMessageHandler(guess="Could not edit comment.", sol="Try again!!!", extra=null);
+        editComment(edit_cm_id);
+    }
+    
+}
+function editComment(cm_id){
+    var text = $(`.comment-menu[data-cm-id='${cm_id}']`).closest("div").prev("div").children(".act-com-text").text();
+    hidePop();
+    $('html, body').animate({scrollTop: comment_area.offset().top}, 1000, function(){
+        comment_area.val(text);
+    });
+    showTextArea();
+    comment_area.focus();
+    comment_area.attr("placeholder", "Enter edits..");
+    $("#cancel-edit").removeClass("d-none");
+    $("#comment-btn").text("Save edit"); 
+}
+function showNewComment(new_cmnt_count){
+    if(new_cmnt_count == 1){
+        $("#new-comments").html(`<span>${new_cmnt_count}</span> New Comment`);
+    } else {
+        $("#new-comments").html(`<span>${new_cmnt_count}</span> New Comments`);
+    }
+    $("#new-comments").addClass("new-comments-p");
+}
+function viewReplies(cm_id){
+    var new_reply_div = $(`.show-reply[data-cm-id="${cm_id}"]`).closest("div").next("div.replies-cont");
+    if(new_reply_div.children("p.more-replies").length == 0){
+        new_reply_div.prepend(`<p class="more-replies" data-cm-id="${cm_id}&_&_1">New Reply (+1)</p>`);
+    } 
+    else {
+        var new_reply_para = new_reply_div.children("p.more-replies");
+        var arr__ = new_reply_para.attr("data-cm-id").split("&_");
+        reply_count=arr__[2];
+        reply_count++;
+        new_reply_para.removeAttr("class").attr({"data-cm-id": `${cm_id}&_${arr__[1]}&_${reply_count}`, "class": "more-replies"}).html(`${arr__[1]} More Replies (+${reply_count})`);
+    }
 }
 
 function startSocket(websocketServerLocation=window.location, sec=5000){
@@ -52,16 +119,20 @@ function startSocket(websocketServerLocation=window.location, sec=5000){
 
     socket.onmessage = function(e){
         json = JSON.parse(e.data);
-        if(json.desc == "comment_added" && json.me != uid){
+        if(json.desc=="post_delete" && json.me != uid){
+            $(".actual-content").css({"opacity": "0.35", "pointer-events": "none", "user-select": "none"});
+        }
+        else if(json.desc=="post_edit"){
+            $(".post-edit-del").html('<span class="post-edited">Post Edited</span>');
+            post_edited_data = json.data;
+        }
+        else if(json.desc == "comment_added" && json.me != uid){
             new_cmnt_count++;
-            if(new_cmnt_count == 1){
-                $("#new-comments").html(`<span>${new_cmnt_count}</span> New Comment`);
-            } else {
-                $("#new-comments").html(`<span>${new_cmnt_count}</span> New Comments`);
-            }
-            $("#new-comments").addClass("new-comments-p");
+            showNewComment(new_cmnt_count);
+            manageTotalComments("+");
         }
         else if(json.desc == "comment_delete" && json.me != uid){
+            manageTotalComments();
             var del_div = $(`.show-reply[data-cm-id="${json.cm_id}"]`).closest("div.comment-of");
             del_div.css({"opacity": "0.35", "pointer-events": "none", "user-select": "none"});
             del_div.click(function(){return false;});
@@ -70,17 +141,7 @@ function startSocket(websocketServerLocation=window.location, sec=5000){
             var edit_div = $(`.show-reply[data-cm-id="${json.cm_id}"]`).closest("div").prev("div").children("span:nth-child(2)").html(json.editted_text);
         }
         else if(json.desc == "reply_added" && json.me != uid){
-            var new_reply_div = $(`.show-reply[data-cm-id="${json.cm_id}"]`).closest("div").next("div.replies-cont");
-            if(new_reply_div.children("p.more-replies").length == 0){
-                new_reply_div.prepend(`<p class="more-replies" data-cm-id="${json.cm_id}&_&_1">New Reply (+1)</p>`);
-            } 
-            else {
-                var new_reply_para = new_reply_div.children("p.more-replies");
-                var arr__ = new_reply_para.attr("data-cm-id").split("&_");
-                reply_count=arr__[2];
-                reply_count++;
-                new_reply_para.removeAttr("class").attr({"data-cm-id": `${json.cm_id}&_${arr__[1]}&_${reply_count}`, "class": "more-replies"}).html(`${arr__[1]} More Replies (+${reply_count})`);
-            }
+            viewReplies(json.cm_id);
         }
         else if(json.desc == "reply_delete" && json.me != uid){
             var del_reply_div = $(`span.time-diff[data-rp-id="${json.rp_id}"]`).closest("div.reply-of");
@@ -100,6 +161,109 @@ function startSocket(websocketServerLocation=window.location, sec=5000){
 }
 socket = startSocket();
 
+$("#more-comments").click(function(){
+    $("#more-comments").css({"pointer-events": "none"});
+    console.log("H");
+    $("#comments").after("<span class='load-cic mg-t10'><span style='background-color: #999; height: 1.8rem; width: 1.8rem;'></span></span>");
+    var req = $.ajax({
+        url: 'post-comment/',
+        type: 'POST',
+        headers:{
+            "X-CSRFToken": csrf
+        },
+        data: {
+            "no": comment_loaded
+        }
+    });
+    req.done(function(response){
+        if(response.full_load){
+            $("#more-comments").remove();
+        } else {
+            if($("#comments .comment-of:first-child").hasClass("dis-color")){
+                $("#comments .comment-of:first-child").remove();
+            }
+            $("#comments").append(response);
+            if($("#comments .comment-of:last-child").hasClass("d-none")){
+                $("#more-comments").remove();
+            } else {
+                comment_loaded++;
+                $("#more-comments span").html(parseInt($("#more-comments span").html())-MAX_POST_LOAD);
+            }
+        }
+        $(".load-cic").remove();
+    });
+    req.fail(function(response){
+        $(".load-cic").remove();
+        errorMessageHandler(guess="Could not load comments.", sol="Try again!!!", extra=null);
+    });
+    req.always(function(response){
+        $("#more-comments").css({"pointer-events": "auto"});
+    });
+});
+
+
+$(".post-edit-del").on("click", ".post-edited", function(){
+    $(this).html(small_load);
+    setTimeout(function(){
+        for (const [key, value] of Object.entries(post_edited_data)) {
+            if(key=="location"){
+                if(value){
+                    $(`#${key}`).html(value).removeClass("d-none").addClass("la-cm-of-pst d-in-block");
+                } else {
+                    $(`#${key}`).html(value).removeClass("d-in-block").addClass("la-cm-of-pst d-none");
+                }
+            }
+            else if(key=="phone2"){
+                if(value){
+                    $(`#${key}`).html(value).parent("div").removeClass("d-none").addClass("la-cm-of-pst d-in-block");
+                } else {
+                    $(`#${key}`).html(value).parent("div").removeClass("d-in-block").addClass("la-cm-of-pst d-none");
+                }
+            }
+            else if(key=="thumbnail"){
+                $(`#${key}`).attr("src", `/media/${value}`).addClass("la-cm-of-pst");
+                $('.photo').attr("src", `/media/${value}`).addClass("la-cm-of-pst");
+            }
+            else {
+                $(`#${key}`).html(value).addClass("la-cm-of-pst");
+            }
+        }
+        $(".post-edited").remove();
+    }, 100);
+}); 
+
+$("#del-post").on("click", function(e){
+    e.preventDefault();
+    showDeleteDialog("delete_post");
+    e.stopPropagation();
+    $("#del-yes").on("click", function(e){  
+        $(".real-modal-container").addClass("back-trans fl-mid").html(load_elips);
+        var response = $.ajax({
+            type: "POST",
+            url: "/post/delete/",
+            data: {
+                'csrfmiddlewaretoken': csrf,
+                'pid': post_id
+            }
+        });
+        response.done(function(result){
+            hidePop();
+            if(result.status){
+                $(".actual-content").css({"opacity": "0.35", "pointer-events": "none", "user-select": "none"});
+                socket.send(JSON.stringify({"desc": "post_delete"}));
+                $("#chx0dmxd").html('');
+            }
+        });
+        response.fail(function(xhr, status, error){
+            hidePop();
+            if(xhr.status==404){
+                errorMessageHandler(guess="Post might have been deleted already.");
+            } else {
+                errorMessageHandler(guess="Could not delete post.");
+            }
+        });
+    });
+});
 
 /*  */
 comment_area.on("focus", function(){
@@ -129,7 +293,7 @@ $("#comments").on("click", ".comment-menu", function(e){
         if(status == 'success'){
             showPop();
         } else {
-            $("#chx0dmxd").html(``);
+            $("#chx0dmxd").html("");
         }
     });     
 });
@@ -137,16 +301,7 @@ $("#comments").on("click", ".comment-menu", function(e){
 /** If edit button on comment is clicked */
 $("#chx0dmxd").on("click", "#edit-cm", function(){
     cm_id = $(this).data("cm-id");
-    var text = $(`.comment-menu[data-cm-id='${cm_id}']`).closest("div").prev("div").children(".act-com-text").text();
-    hidePop();
-    $('html, body').animate({scrollTop: comment_area.offset().top}, 1000, function(){
-        comment_area.val(text);
-    });
-    showTextArea();
-    comment_area.focus();
-    comment_area.attr("placeholder", "Enter edits..");
-    $("#cancel-edit").removeClass("d-none");
-    $("#comment-btn").text("Save edit");       
+    editComment(cm_id);      
 });
 
 /** If delete button on comment is clicked, Delete comment */
@@ -160,13 +315,14 @@ $("#chx0dmxd").on("click", "#upload-rm-pp", function(e){
             type: "POST",
             url: `del-comment/${cm_id}/`,
             data: {
-                'csrfmiddlewaretoken': Post.csrf,
+                'csrfmiddlewaretoken': csrf,
                 'cm_id': cm_id
             }
         });
         response.done(function(result){
             hidePop();
             socket.send(JSON.stringify({"desc": "comment_delete", "cm_id": cm_id}));
+            manageTotalComments();
 
             var edit_div = $(`.comment-menu[data-cm-id='${cm_id}']`).closest(".comment-of");
             $('html, body').animate({scrollTop: (edit_div.offset().top-55)}, 500, function(){
@@ -174,7 +330,7 @@ $("#chx0dmxd").on("click", "#upload-rm-pp", function(e){
                 edit_div.fadeOut(1000, 'linear', function(){
                     this.remove();
                     if(!($('.comment-of').length)){
-                        $("#comments").html('<div class="comment-of no-comment">No Comments</div>');
+                        $("#comments").html('<div class="comment-of no-comment dis-color">No Comment</div>');
                     }
                 });
                 $("#chx0dmxd").html('');
@@ -182,15 +338,19 @@ $("#chx0dmxd").on("click", "#upload-rm-pp", function(e){
         });
         response.fail(function(xhr, status, error){
             hidePop();
-            console.log(`${xhr.status} ${status} (${error})`);
+            if(xhr.status==404){
+                errorMessageHandler(guess="Comment might have been deleted already.");
+            } else {
+                errorMessageHandler(guess="Could not delete comment.");
+            }
         });
-
     });
 });
 
 $("#comment-btn").on("click", function(){
     var comment = comment_area.val();
     comment = comment.trim();
+    var is_edit = $("#cancel-edit").hasClass("d-none") ? false : true;
     try{
         cm_id = $("#edit-cm").data("cm-id");
     } catch{
@@ -199,7 +359,7 @@ $("#comment-btn").on("click", function(){
     if(comment.length !== 0){
         var data = {
             'comment': comment,
-            'csrfmiddlewaretoken': Post.csrf
+            'csrfmiddlewaretoken': csrf
         }
         if(commentEditOpen() && cm_id !== null){
             data['cm_id'] = cm_id;
@@ -221,18 +381,27 @@ $("#comment-btn").on("click", function(){
                     var edit_div = $(`.comment-menu[data-cm-id='${cm_id}']`).closest(".comment-of");
                     $('html, body').animate({scrollTop: (edit_div.offset().top-55)}, 1000, function(){
                         edit_div.load('added-comment/'+comment_id+'/');
+                        $.get('added-comment/'+comment_id+'/', function(data){ 
+                            edit_div.replaceWith(data);
+                        });
                     });
                 } else {
                     socket.send(JSON.stringify({"desc": "comment_added", "cm_id": comment_id}));
+                    manageTotalComments("+");
 
                     $.get('added-comment/'+comment_id+'/', function(data){ 
+                        $("#comments").append(data);
                         if($(".comment-of").hasClass('no-comment')){
-                            $(".comment-of").hide();
+                            $($(".comment-of.no-comment")).remove();
                         }
-                        $(".comment-of").last().after(data);
                     });
                 }                    
+            } else {
+                addCmmntMssgErrHandler(data.comment, cm_id);
             }
+        });
+        response.fail(function(xhr, status, error){
+            addCmmntMssgErrHandler(data.comment, cm_id);
         });
     }
 });
@@ -255,14 +424,20 @@ $("#cancel-edit").click(function(){
 /** Load new comments */
 $("#new-comments").on("click", function(){
     var last_cm_id = $("#comments .comment-of").last().children(".w-100").children("div:nth-child(2)").children("span:nth-child(2)").children("a.show-reply").data("cm-id");
+    last_cm_id = last_cm_id == null ? 0 : last_cm_id;
     try{
         last_cm_id = parseInt(last_cm_id);
-        new_cmnt_count = 0;
         $(this).removeClass("new-comments-p").html("");
         $.get(`new-comments/${last_cm_id}/`, function (data, textStatus, jqXHR){
-                $("#comments .comment-of").last().after(data);
+            new_cmnt_count = 0;
+            $("#comments").append(data);
+            if(last_cm_id==0){
+                $(".comment-of.no-comment").remove();
             }
-        );
+        }).fail(function(){
+            errorMessageHandler(guess="Could not load new comments.", sol="Try again!!!", extra=null);
+            showNewComment(new_cmnt_count);
+        });
     } catch (e){}
 });
 
@@ -295,12 +470,8 @@ reply_area.keyup(function(){
     }
 
     if($(this).val().length >= 50){
-        $("#reply-btn").css({"padding": "23px 5px", "bottom": "0px"});
-        $(this).css({"height": "auto"});
         $(this).attr("rows", "3");
     } else {
-        $("#reply-btn").css({"padding": "8px 5px", "bottom": "9px"});
-        $(this).css({"height": "31px"});
         $(this).attr("rows", "1");
     }
 });
@@ -309,7 +480,7 @@ $("#reply-btn").click(function(){
     reply_btn = $(this);
     cm_id = $(this).attr("data-cm-id");
     var data = {
-        'csrfmiddlewaretoken': Post.csrf,
+        'csrfmiddlewaretoken': csrf,
         'cm_id': cm_id,
         'reply': reply_area.val()
     }
@@ -341,12 +512,14 @@ $("#reply-btn").click(function(){
     });
     response.fail(function(xhr, status, error){
         reply_btn.removeAttr("disabled");
+        errorMessageHandler(guess="Could not add reply.", sol="Try again!!!", extra=null);
     });
 });
 
 /* View replies on click, New repliess */
 $("#comments").on("click", ".more-replies", function(){
     var reply_p = $(this);
+    var current_html = $(this).html();
     var data_cm_id = $(this).attr("data-cm-id").split("&_");
     var cm_id = data_cm_id[0]; 
     if($(this).hasClass("showing")){
@@ -372,7 +545,8 @@ $("#comments").on("click", ".more-replies", function(){
         });
         reply_p.html('<span class="load-cic"><span style="width: 0.85em; height: 0.85em;"></span></span>');
         response.fail(function(xhr, status, error){
-            reply_p.children(".load-cic").remove();
+            reply_p.html(current_html);
+            errorMessageHandler(guess="Could not load new replies.", sol="Try again!!!", extra=null);
         });
     }
 });
@@ -391,7 +565,7 @@ $(".replies-cont").on("click", ".rpl-del", function(e){
             type: "POST",
             url: `comment/${cm_id}/del-reply/${rp_id}/`,
             data: {
-                'csrfmiddlewaretoken': Post.csrf,
+                'csrfmiddlewaretoken': csrf,
                 'cm_id': cm_id,
                 'rp_id': rp_id
             }
@@ -409,7 +583,11 @@ $(".replies-cont").on("click", ".rpl-del", function(e){
             });
         });
         response.fail(function(xhr, status, error){
-            console.log(`${xhr.status} ${status} (${error})`);
+            if(xhr.status==404){
+                errorMessageHandler(guess="Reply might have been deleted already.");
+            } else {
+                errorMessageHandler(guess="Could not delete reply.");
+            }
         });
     });
 });

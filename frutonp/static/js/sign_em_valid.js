@@ -179,6 +179,4 @@ $(document).ready(function(){
     $(".em-dom-sug").on("click", function(){
         validate(this);
     });
-
-    
 });

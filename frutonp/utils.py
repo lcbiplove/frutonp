@@ -63,31 +63,6 @@ def validate_phone(value):
     if len(str(value)) != 10:
         raise ValidationError(f"Phone number should be of 10 digits, you gave {len(str(value))} digit number.")
 
-
-def add_photo_default(foodType):
-    """
-    Return the image path according to the food type
-
-    @param: foodType, type of food
-    
-    @return: String 
-    """
-    path = {
-        # Fruits
-        'apple': 'post/default/apple.jpg',
-        'banana': 'post/default/banana.jpg',
-        'litchi': 'post/default/litchi.jpg',
-        'mango': 'post/default/mango.jpg',
-        'orange': 'post/default/orange.jpg',
-        # Vegetables
-        'bitter-gourd': 'post/default/bitter_gourd.jpg',
-        'cabbage': 'post/default/cabbage.jpg',
-        'cauli': 'post/default/cauli.jpg',
-        'ladies-finger': 'post/default/ladies_finger.jpg',
-        'pumpkin': 'post/default/pumpkin.jpg',
-    }[foodType]
-    return path
-
 def add_post_date(day):
     """
     Return the added datetime according to the day

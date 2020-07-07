@@ -7,7 +7,7 @@ function startSocket(websocketServerLocation=window.location, sec=5000){
     var socket = new WebSocket(websocketServerLocation);
     
     socket.onopen = function(e){
-        console.log("Notification Opened");
+        //console.log("Notification Opened");
     }
 
     socket.onmessage = function(e){

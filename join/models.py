@@ -96,11 +96,12 @@ class MyUser(AbstractBaseUser):
         return self.is_admin
 
 class MyUserProfile(models.Model):
+    default_pp = 'pp/default/no_pp.png'
     myuser = models.OneToOneField(MyUser, on_delete=models.CASCADE)
     location = models.CharField(max_length=255, null=True, default="")
     desc = models.TextField(null=True, default="")
     phone2 = models.CharField(max_length=10, null=True, default="")
-    pp = models.ImageField(null=True, default='pp/no_pp.png', upload_to='pp/', validators=[file_size, FileExtensionValidator(['jpg', 'jpeg', 'png',])],)
+    pp = models.ImageField(null=True, default=default_pp, upload_to='pp/', validators=[file_size, FileExtensionValidator(['jpg', 'jpeg', 'png',])],)
     modified_at = models.DateTimeField()
 
     def save(self, *args, **kwargs):

@@ -7,9 +7,9 @@ from .models import NotifClick
 
 # Create your views here.
 def home(request):
-    all_post = Post.objects.all().order_by('-uploaded_at')
-    veg_posts = all_post.filter(category="vegetable")
-    fruit_posts = all_post.filter(category="fruit")
+    all_post = Post.objects.all()
+    veg_posts = all_post.filter(foodType__startswith='V')
+    fruit_posts = all_post.filter(foodType__startswith='F')
     return render(request, 'home/home.html', {
         'veg_posts': veg_posts,
         'fruit_posts': fruit_posts,

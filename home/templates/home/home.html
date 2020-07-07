@@ -25,7 +25,7 @@
                                     <div class="veg-card-main">
                                         <a href="{% url 'post' post.id %}" style="color: #333;">
                                             <div class="w-100 flex">
-                                                <div class="w-100">
+                                                <div class="w-100 veg-thumb-up">
                                                     <img src="/media/{{ post.thumbnail }}" class="veg-card-thumb" alt="{{ post.outerFood }}">
                                                 </div>
                                                 <div class="veg-name-price-desk w-100">
@@ -43,9 +43,15 @@
                                                 {% endif %}
                                             </div>
                                             {% if post.location %}
-                                                <div class="up-location up-desc"><i class="fas fa-map-marker-alt"></i> {{ post.myuser.myuserprofile.location }}</div>
+                                                <div class="up-location up-desc"><i class="fas fa-map-marker-alt"></i>
+                                                    {% if post.location %}
+                                                        {{ post.location }}
+                                                    {% else %}
+                                                        {{ post.myuser.myuserprofile.location  }}
+                                                    {% endif%}
+                                                </div>
                                             {% endif %}
-                                            <div class="up-name up-desc"><i class="fas fa-user-secret"></i> {{ post.myuser.name }}</div>
+                                            <a href="{% url 'profile' post.myuser.id %}"><div class="up-name up-desc"><i class="fas fa-user-secret"></i> {{ post.myuser.name }}</div></a>
                                             <div class="up-time up-desc"><i class="far fa-clock"></i> {{ post.uploaded_time }}</div>
                                         </div>
                                     </div>
@@ -82,7 +88,7 @@
                                     <div class="veg-card-main">
                                         <a href="{% url 'post' post.id %}" style="color: #333;">
                                             <div class="w-100 flex">
-                                                <div class="w-100">
+                                                <div class="w-100 veg-thumb-up">
                                                     <img src="/media/{{ post.thumbnail }}" class="veg-card-thumb" alt="{{ post.outerFood }}">
                                                 </div>
                                                 <div class="veg-name-price-desk w-100">
@@ -102,7 +108,7 @@
                                             {% if post.location %}
                                                 <div class="up-location up-desc"><i class="fas fa-map-marker-alt"></i> {{ post.myuser.myuserprofile.location }}</div>
                                             {% endif %}
-                                            <div class="up-name up-desc"><i class="fas fa-user-secret"></i> {{ post.myuser.name }}</div>
+                                            <div class="up-name up-desc"><a href="{% url 'profile' post.myuser.id %}"><i class="fas fa-user-secret"></i> {{ post.myuser.name }}</a></div>
                                             <div class="up-time up-desc"><i class="far fa-clock"></i> {{ post.uploaded_time }}</div>
                                         </div>
                                     </div>

@@ -35,8 +35,7 @@
                                 <div>
                                     <label for="vegetableId">Fruit / Vegetable<span style="color: red;">*</span></label>
                                 </div>
-                                <select name="foodType">
-                                    <option value="" selected disabled="disabled">Choose One</option>
+                                <select name="foodType" value="{{ post.foodType }}">
                                     <optgroup class="optgroup" label="Fruits">
                                         <option value="FAP">Apple</option>
                                         <option value="FBA">Banana</option>
@@ -68,8 +67,7 @@
                             <div>
                                 <label for="quantityId">Quantity<span style="color: red;">*</span></label>
                             </div>
-                            <select name="quantity">
-                                <option value="" selected disabled="disabled">Choose One</option>
+                            <select name="quantity" value="{{ post.quantity }}">
                                 <option value="kg">1 Kg</option>
                                 <option value="250gm">250 gm</option>
                                 <option value="200gm">200 gm</option>
@@ -89,7 +87,7 @@
                             <div>
                                 <label for="expireId">Expire</label>
                             </div>
-                            <select name="expire">
+                            <select name="expire" value="{{ post.expire }}">
                                 <option value="1">1 day</option>
                                 <option value="2">2 days</option>
                                 <option value="3">3 days</option>
@@ -99,7 +97,7 @@
                                 <option value="7">7 days</option>
                                 <option value="8">8 days</option>
                                 <option value="9">9 days</option>
-                                <option value="10" selected>10 days</option>
+                                <option value="10">10 days</option>
                                 <option value="11">11 days</option>
                                 <option value="12">12 days</option>
                                 <option value="13">13 days</option>
@@ -110,24 +108,8 @@
                                 <span class="err-mssg">
                                     {{err.expire}}
                                 </span>
-                                Maximum day is 15 days from now. 10 days is default.
                             </small>
                             
-                        </div>
-                        <div class="pd-5">
-                            <label for="photosId">Photos</label>
-                            <input type="file" name="photos" id="photosId" accept="image/jpeg, image/png" multiple>
-                            <div>
-                                <small>
-                                    <span class="err-mssg">
-                                        {{ err.photos }}
-                                    </span>
-                                    Maximum 5 photos can be uploaded. If u don't have any photo. We will provide our own photos. But, your clicks are highly recommended.
-                                </small>
-                            </div>
-                            <span class="err-mssg">
-                                {{err.photos}}
-                            </span>
                         </div>
                         <div class="pd-5">
                             <label for="phone2">Phone2</label>
@@ -175,9 +157,13 @@
                 showPop = Pop.showPop;
                 hidePop = Pop.hidePop;
                 popShown = Pop.popShown;
+                $("#add-post-modal select[name=foodType]").val($("#add-post-modal select[name=foodType]").attr("value"));
+                $("#add-post-modal select[name=quantity]").val($("#add-post-modal select[name=quantity]").attr("value"));
+                $("#add-post-modal select[name=expire]").val($("#add-post-modal select[name=expire]").attr("value"));
+
                 $("input").keyup(function(){
                     $(".update-btn").removeAttr("disabled");
-                })                
+                });
                 $("#add-post-form").submit(function(e){
                     var err = [];
                     var title = $("input[name=title]").val();
@@ -219,9 +205,10 @@
                     
                     if(err.length == 0){
                         var formData = new FormData(this);
+                        var path_ = window.location.pathname;
 
                         var fileUp = $.ajax({
-                            url: '/post/upload/',
+                            url: `${path_}`,
                             type: 'POST',
                             data: formData,
                             cache: false,
@@ -232,12 +219,8 @@
                         $(".real-modal-container").addClass("back-trans fl-mid");
                         fileUp.done(function(result){
                             if(result.success == true){
-                                if(result.thumb_added == true){
-                                    $(location).attr('href', '/');
-                                } else {
-                                    $("#load-thumb").load("/post/select-thumbnail/", {data: "data"});
-                                    $(".real-modal-container").focus();
-                                }
+                                path_arr = path_.split('/')
+                                $(location).attr('href', `/${path_arr[1]}/${path_arr[2]}/`);
                             } else {
                                 hidePop();
                                 $("span.err-mssg").html("");
@@ -254,7 +237,6 @@
                 });
             });
         </script>
-        
     </div>
 
 {% endblock scripts %}

@@ -15,9 +15,27 @@
                         {% if is_authorized %}
                             <a href="{% url 'addPost' %}" title="Add post">
                                 <img src="/media/{{ my_profile.pp }}" class="profile-pp" alt="Profile pic of {{ myuser.name }}">
+                                <input id="uid" type="hidden" name="uid" value="{{ user.id }}"/>
+                                <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
                             </a>
                             <div style="margin:-3px auto 0px auto; height: auto;">
-                                <button id="pp-upload" class="pp-upload">Upload</button>
+                                <button id="pp-upload" class="pp-upload" data-def-pp="{% if my_profile.pp == my_profile.default_pp %}true{% else %}false{% endif %}">Upload</button>
+                            </div>
+                            <div class="d-none">
+                                <div>
+                                    <form action='up-profile-pic' method='POST' id='pp-form' enctype='multipart/form-data'>
+                                        {% csrf_token %}
+                                        <input type='file' name='pp' id='upload-pp' accept='image/jpeg,image/png' style='display: none;'>
+                                    </form>
+                                </div>
+                                {% if my_profile.pp != my_profile.default_pp %}
+                                    <div>
+                                        <form action='up-profile-pic2' method='POST' id='pp-form-2' enctype='multipart/form-data'>
+                                            {% csrf_token %}
+                                            <input type='hidden' name='pp' id='upload-pp-2' value='//'>
+                                        </form>
+                                    </div>
+                                {% endif %}
                             </div>
                         {% else %}
                             <img src="/media/{{ my_profile.pp }}" class="profile-pp" alt="Profile pic of {{ myuser.name }}">
@@ -35,7 +53,7 @@
                     </div>
                     <div class="w-100">
                         <div class="mb-10">
-                            <a href="mailto: {{ myuser }}">{{ myuser }}</a>
+                            <a href="mailto:{{ myuser }}">{{ myuser }}</a>
                         </div>
                     </div>
                     <div class="w-100">
@@ -52,7 +70,7 @@
                             {% if is_authorized %}
                                 <a href="{% url 'changePhoneLocDesc' %}">Location not added yet</a>
                             {% else %}
-                                <span style="color: #888;">Location not added yet</span>
+                                <span class="dis-color">Location not added yet</span>
                             {% endif %}
                         {% else %}
                             {{ my_profile.location }}
@@ -74,7 +92,7 @@
                                 {% if is_authorized %}
                                     <a href="{% url 'changePhoneLocDesc' %}">No Description</a>
                                 {% else %}
-                                    <span style="color: #888;">No Description</span>
+                                    <span class="dis-color">No Description</span>
                                 {% endif %}
                             </span>
                         </div>
@@ -94,7 +112,7 @@
                         <div class="profile-box">
                             <div class="w-100 flex">
                                 <div id="post" class="prfl-box-ttl prfl-active">
-                                    Posts
+                                    Posts (<span>{{ myuser.post_set.all.count }}</span>)
                                 </div>
                                 {% if is_authorized %}
                                     <div id="my-account" class="prfl-box-ttl">
@@ -109,43 +127,41 @@
                                 <div class="w-100">
                                     <div id="post-content" class="prfl-box-content">
                                         <ol aria-sort="ascending">
-                                            <li style="margin: 10px 0px;">
-                                                Vegetable of cabbage lor 
-                                                <div style="padding-top: 4px; color: orange;">
-                                                    2020/10/10 22:48 
-                                                    <a style="padding: 0px 9px; margin-left: 10px; color: rgb(7, 192, 78);  border-left: 2px solid #777;" href="">Edit</a>
-                                                    <a style="color: rgb(253, 51, 118); padding: 0px 9px; border-left: 2px solid #777;" href="">Del</a>
+                                        {% for post in myuser.post_set.all|slice:max_post %}
+                                            <li>
+                                                <a class="post-ttl" href="{% url 'post' post.id %}">{{post.title}}</a>
+                                                <div>
+                                                    <span class="post-date">{{post.uploaded_at|date:"b d, Y"}}</span> 
+                                                    {% if is_authorized %}
+                                                        <a href="{% url 'editPost' post.id %}" class="post-edit">Edit</a>
+                                                        <a href="#" class="post-del" data-pid="{{ post.id }}">Del</a>
+                                                    {% endif %}
                                                 </div>
                                             </li>
-                                            <li style="margin: 10px 0px;">
-                                                Vegetable of cabbage lor 
-                                                <div style="padding-top: 4px; color: orange;">
-                                                    2020/10/10 22:48 
-                                                    <a style="padding: 0px 9px; margin-left: 10px; color: rgb(7, 192, 78);  border-left: 2px solid #777;" href="">Edit</a>
-                                                    <a style="color: rgb(253, 51, 118); padding: 0px 9px; border-left: 2px solid #777;" href="">Del</a>
-                                                </div>
-                                            </li>
+                                        {% empty %}
+                                            <li class="dis-color">No post</li>
+                                        {% endfor %}
                                         </ol>
                                     </div>
                                 </div>
                                 {% if is_authorized %}
                                     <div class="w-100">
-                                        <div id="my-account-content" class="prfl-box-content pd-10">
+                                        <div id="my-account-content" class="prfl-box-content">
                                             <div class="w-100">
                                                 <div>
-                                                    <a style="padding: 5px 0px; display: inline-block;" id="add-post" href="{% url 'addPost' %}" class="is_modal">Add Post</a>
+                                                    <a id="add-post" href="{% url 'addPost' %}" class="is_modal">Add Post</a>
                                                 </div>
                                                 <div>
-                                                    <a style="padding: 5px 0px; display: inline-block;" id="change-name" href="{% url 'changeName' %}" class="is_modal">Change Name</a>
+                                                    <a id="change-name" href="{% url 'changeName' %}" class="is_modal">Change Name</a>
                                                 </div>
                                                 <div>
-                                                    <a style="padding: 5px 0px; display: inline-block;" id="change-phone" href="{% url 'changePhone' %}" class="is_modal">Change Phone</a>
+                                                    <a id="change-phone" href="{% url 'changePhone' %}" class="is_modal">Change Phone</a>
                                                 </div>
                                                 <div>
-                                                    <a style="padding: 5px 0px; display: inline-block;" id="change-password" href="{% url 'changePassword' %}" class="is_modal">Change Password</a>
+                                                    <a id="change-password" href="{% url 'changePassword' %}" class="is_modal">Change Password</a>
                                                 </div>
                                                 <div>
-                                                    <a style="padding: 5px 0px; display: inline-block;" id="change-phone" href="{% url 'changePhoneLocDesc' %}" class="is_modal">Update More</a>
+                                                    <a id="change-phone" href="{% url 'changePhoneLocDesc' %}" class="is_modal">Update More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -159,55 +175,14 @@
             </div>
         </div>
     </div>
-
-    <div class="real-modal">
-        <div class="real-modal-container" tabindex="0">
-            <div class="real-modal-header">
-                <div>Profile Picture</div>
-                <div class="real-modal-close">&times;</div>
-            </div>
-            <div class="real-modal-body text-center">
-                <div>
-                    <button id="upload-pp-main">Upload Photo</button>
-                </div>
-                {% if my_profile.pp != 'pp/no_pp.png' %}
-                    <div>
-                        <button style="color: rgb(245, 51, 51); background-color: #f0f0f0;" id="upload-rm-pp">Remove Photo</button>
-                    </div>
-                {% endif %}
-                <div>
-                    <button class="real-modal-close rm-rl-cl-dwn">close</button>
-                </div>
-            </div> 
-            <div class="real-modal-footer-fm">
-                <div>
-                    <form action="up-profile-pic" method="POST" id="pp-form" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="file" name="pp" id="upload-pp" accept="image/jpeg,image/png" style="display: none;">
-                    </form>
-                </div>
-                <div>
-                    <form action="up-profile-pic2" method="POST" id="pp-form-2" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="hidden" name="pp" id="upload-pp-2" value="//">
-                    </form>
-                </div>
-            </div>     
-        </div>
-    </div>
+    
+    <div id="chx0dmxd"></div>
 
     <footer class="w-100">
         <div class="text-center cprt">
             &copy;Copyright 2020 Frutonp.com. All rights are reserved.
         </div>
-    </footer>
-    
-
-    
-
-
-
-    
+    </footer>    
 {% endblock content %}
 
 {% block cookie %}
@@ -223,12 +198,26 @@
     <div><script src="{% static 'js/profile_all.js' %}?version=33"></script></div>
     <script>
         $(document).ready(function(){
-            showPop = Pop.showPop;
-            hidePop = Pop.hidePop;
-            popShown = Pop.popShown;
-            $("#pp-upload").click(showPop);
-            $(".real-modal-close").click(hidePop);
-            $("#upload-pp-main").click(function(){
+            const MAX_POST_LOAD = 20;
+            var showPop = Pop.showPop;
+            var hidePop = Pop.hidePop;
+            var popShown = Pop.popShown;
+            var csrf = $("[name=csrfmiddlewaretoken]").val();
+            var wait_scroll = false;
+            var post_loaded = 1;
+            $("#pp-upload").click(function(){
+                var rmv_btn = "";
+                var is_default_pp = $(this).attr("data-def-pp") == 'true';
+                if(!is_default_pp){
+                    rmv_btn = "<div><button style='color: rgb(245, 51, 51); background-color: #f0f0f0;' id='upload-rm-pp'>Remove Photo</button></div>"
+                }
+                $("#chx0dmxd").html(`<div class='real-modal'><div class='real-modal-container' tabindex='0'><div class='real-modal-header'><div>Profile Picture</div><div class='real-modal-close'>&times;</div></div><div class='real-modal-body text-center'><div><button id='upload-pp-main'>Upload Photo</button></div>${rmv_btn}<div><button class='real-modal-close rm-rl-cl-dwn'>close</button></div></div></div></div>`);
+                showPop();
+            });
+            $("#chx0dmxd").on("click", ".real-modal-close", function(){
+                hidePop();
+            });
+            $("#chx0dmxd").on("click", "#upload-pp-main", function(){
                 $("#upload-pp").trigger('click');
             });
 
@@ -246,11 +235,92 @@
                         $(this).submit();
                     });
             });
-
             // Delete pp
-            $("#upload-rm-pp").click(function(){
+            $("#chx0dmxd").on("click", "#upload-rm-pp", function(){
                 $("#pp-form-2").attr("action", "delete-pp/").each(function(){
                     $(this).submit();
+                });
+            });
+            if(!$("#post-content ol li").hasClass("dis-color") && $("#post-content ol li").length >= MAX_POST_LOAD){
+                $(window).scroll(function() {
+                    if(((window.innerHeight + window.scrollY) >= document.body.offsetHeight) && !wait_scroll) {
+                        wait_scroll = true;
+                        $("#post-content ol").after("<span class='load-cic'><span style='background-color: #888; height: 1.8rem; width: 2rem;'></span></span>");
+                        var req = $.ajax({
+                            url: 'profile-post/',
+                            type: 'POST',
+                            headers:{
+                                "X-CSRFToken": csrf
+                            },
+                            data: {
+                                "no": post_loaded
+                            }
+                        });
+                        req.done(function(response){
+                            if(response.full_load){
+                                wait_scroll = true;
+                            } else {
+                                if($("#post-content ol li:first-child").hasClass("dis-color")){
+                                    $("#post-content ol li:first-child").remove();
+                                }
+                                $("#post-content ol").append(response);
+                                if($("#post-content ol li:last-child").hasClass("d-none")){
+                                    wait_scroll = true;
+                                } else {
+                                    wait_scroll = false;
+                                    post_loaded++;
+                                }
+                            }
+                            $(".load-cic").remove();
+                        });
+                    }
+                });
+            }
+            $(".post-del").on("click", function(e){
+                e.preventDefault();
+                var post_id = $(this).attr("data-pid");
+                $("#chx0dmxd").html(`<div class="real-modal"><div class="real-modal-container" tabindex="0"><div class="real-modal-header" style="background-color: #ff4a4a;"><div>Delete</div><div class="real-modal-close">&times;</div></div><div class="real-modal-body" style="padding: 10px 10px 10px 20px;">Are you sure you want to delete the post?</div><div class="modal-del-options"><button id="del-yes">Yes</button><button class="real-modal-close" id="del-no">No</button></div></div></div>`);
+                showPop();
+                e.stopPropagation();
+                $("#del-yes").on("click", function(e){  
+                    $(".real-modal-container").addClass("back-trans fl-mid").html(Pop.load_elips);
+                    e.stopPropagation();
+                    var response = $.ajax({
+                        type: "POST",
+                        url: `/post/delete/`,
+                        data: {
+                            'csrfmiddlewaretoken': csrf,
+                            'pid': post_id
+                        },
+                        cache: false
+                    });
+                    response.done(function(result){
+                        hidePop();
+                        if(result.status){
+                            $(`a[data-pid=${post_id}]`).closest("li").animate({"opacity": "0"}, 1000, function(){
+                                $("#post span").html(parseInt($("#post span").html())-1);
+                                $(`a[data-pid=${post_id}]`).closest("li").remove();
+                                if(!$("#post-content ol").children().length){
+                                    $("#post-content ol").html('<li class="dis-color">No post</li>')
+                                }
+                            });
+                            $("#chx0dmxd").html('');
+                        } 
+                    });
+                    response.fail(function(xhr, status, error){
+                        hidePop();
+                        if(xhr.status==404){
+                            $(".act-guess").html("Post might have been deleted already.");
+                        } else {
+                            $(".act-guess").html("Could not delete post.");
+                        }
+                        $(".act-sol").html("Try again or reload the page.");
+                        $(".act-extra").html("Reload");
+                        $(".act-div").css({"bottom": "0px"});
+                        setTimeout(function(){
+                            $(".act-div").css({"bottom": "-1000px"});
+                        }, 20000); 
+                    });
                 });
             });
         });

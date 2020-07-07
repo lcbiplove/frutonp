@@ -2,22 +2,24 @@ import os
 import re
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
 from join.models import MyUser, MyUserProfile, ProfilePicForm
+from posts.models import Post
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.conf import settings
 from django.utils import timezone
 
+MAX_POST_LOAD = 20
+
 def index(request, id=None):
     if id is None:
         if request.user.is_authenticated:
             id = request.user.id
-
-    if id is None:
-        raise Http404()
+        else:
+            raise Http404()
     
     user_id = request.user.id
     user_from_id = get_object_or_404(MyUser, pk=id)
@@ -25,8 +27,32 @@ def index(request, id=None):
     return render(request, 'profiles/profile.html', {
         'myuser': user_from_id,
         'my_profile': profile_from_id,
-        'is_authorized': user_id==user_from_id.id and True or False
+        'is_authorized': user_id==user_from_id.id and True or False,
+        'max_post': MAX_POST_LOAD,
     })
+
+def profilePost(request, id=None):
+    if id is None:
+        if request.user.is_authenticated:
+            id = request.user.id
+        else:
+            raise Http404()
+
+    if request.is_ajax():
+        user = get_object_or_404(MyUser, pk=id)
+        no_of_obj = int(request.POST.get("no"))
+        posts = user.post_set.all()[MAX_POST_LOAD*no_of_obj:MAX_POST_LOAD*(no_of_obj+1)]
+        obj_finished = False
+        if posts.count() == 0:
+            return JsonResponse({"full_load": True})
+        elif posts.count() < MAX_POST_LOAD:
+            obj_finished = True
+
+        return render(request, 'profiles/profile-post.html', {
+            'posts': posts,
+            'obj_finished': obj_finished
+        })
+    raise Http404()
 
 @login_required
 def changeName(request):
@@ -107,12 +133,13 @@ def changePassword(request):
         password_updated = request.user.password_updated
         response = redirect('changePassword')
         
+        
         if password_updated is not None:
             # try because if less than 1 days, difference give integer valueerror. So
             try:
                 days = int(str(timezone.localtime() - password_updated).split()[0])
             except:
-                cookie = int(request.COOKIES.get('__ch_in_pw__', 0))
+                cookie = int(request.COOKIES.get('__ck__ss__', 0))
                 # if cookie is greater than 4, user is restricted to change password
                 if cookie >= 4:
                     messages.error(request, "You have changed passwords more than four times today. Please cool down for 24 hours")
@@ -120,17 +147,17 @@ def changePassword(request):
                 response = redirect('profile')
                 max_age = 24*60*60    # 24 hour
                 expires = datetime.datetime.strftime(timezone.localtime() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
-                response.set_cookie('__ch_in_pw__', cookie+1, max_age, expires)
-                        
+
         if check_password(oldPassword, request.user.password):
             if newPass == confPass:
-                if re.match('^(?=.*[a-z])(?=.*[0-9])(?=.{8,})', newPass):
+                if re.match('^(?=.*[a-z])(?=.*[0-9])(?=.{8,})', newPass) or request.user.is_staff:
                     response = redirect('profile')
                     user = get_object_or_404(MyUser, pk=request.user.id)
                     user.set_password(newPass)
                     user.password_updated = timezone.now()
                     user.save(update_fields=['password', 'password_updated'])
                     update_session_auth_hash(request, user)
+                    response.set_cookie('__ck__ss__', cookie+1, max_age, expires)
                     messages.success(request, "Password changed succesfully.")
                 else:
                     messages.error(request, "Password must be at least 8 characters with lower characters and numbers")
@@ -187,7 +214,6 @@ def uploadPP(request, id=None):
     if request.POST:
         pp = ProfilePicForm(request.POST, request.FILES)
         my_profile = request.user.myuserprofile
-        id = request.user.id
         if pp.is_valid():
             pp=get_object_or_404(MyUserProfile, pk=my_profile.id)
             pp.pp = request.FILES.get('pp')
@@ -201,7 +227,8 @@ def deletePP(request, id=None):
         id = request.user.id
         my_profile = request.user.myuserprofile
         pp=get_object_or_404(MyUserProfile, pk=my_profile.id)
-        pp.pp = 'pp/no_pp.png'
-        pp.save(update_fields=['pp'])
+        if pp.pp != MyUserProfile.default_pp:
+            pp.pp = MyUserProfile.default_pp
+            pp.save(update_fields=['pp'])
     return redirect('profile')
 
