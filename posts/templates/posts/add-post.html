@@ -1,5 +1,6 @@
 {% extends 'profile_base.html' %}
 {% load static %}
+{% load posts_extras %}
 {% block title %}Profile | Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
 
 {% block content %}
@@ -38,18 +39,14 @@
                                 <select name="foodType">
                                     <option value="" selected disabled="disabled">Choose One</option>
                                     <optgroup class="optgroup" label="Fruits">
-                                        <option value="FAP">Apple</option>
-                                        <option value="FBA">Banana</option>
-                                        <option value="FLI">Litchi</option>
-                                        <option value="FMA">Mango</option>
-                                        <option value="FOR">Orange</option>
+                                        {% for fruit in fruits %}
+                                            <option value="{{ fruit }}">{{ fruit|get_display_food_choice }}</option>
+                                        {% endfor %}
                                     </optgroup>
                                     <optgroup class="optgroup" label="Vegetables">
-                                        <option value="VBG">Bitter gourd</option>
-                                        <option value="VCA">Cabbage</option>
-                                        <option value="VCF">Cauliflower</option>
-                                        <option value="VLF">Ladies Finger</option>
-                                        <option value="VPK">Pumpkin</option>
+                                        {% for veg in vegs %}
+                                            <option value="{{ veg }}">{{ veg|get_display_food_choice }}</option>
+                                        {% endfor %}
                                     </optgroup>
                                 </select>
                             </div>
@@ -70,16 +67,9 @@
                             </div>
                             <select name="quantity">
                                 <option value="" selected disabled="disabled">Choose One</option>
-                                <option value="kg">1 Kg</option>
-                                <option value="250gm">250 gm</option>
-                                <option value="200gm">200 gm</option>
-                                <option value="500gm">500 gm</option>
-                                <option value="2kg">2 Kg</option>
-                                <option value="5kg">5 Kg</option>
-                                <option value="10kg">10 Kg</option>
-                                <option value="25kg">25 Kg</option>
-                                <option value="50kg">50 Kg</option>
-                                <option value="quintal">Quintal</option>
+                                {% for q in quantity %}
+                                    <option value="{{ q }}">{{ q|get_display_quantity_choice }}</option>
+                                {% endfor %}
                             </select>
                             <span class="err-mssg">
                                 {{err.quantity}}

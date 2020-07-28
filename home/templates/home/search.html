@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
+
+{% block content %}
+    <div class="search-content">
+        <div class="no-of-srch-res max-950">
+            {% if not posts %}
+            0 
+            {% else %}
+                {% if sort_by == sort_by_const.cheapest %}
+                    {{ posts|length }}
+                {% else %}
+                    {{ posts.count }}
+                {% endif %}
+            {% endif %} 
+            results found for <q>{{ query }}</q>
+        </div>
+        {% if tab != tab_const.users %}
+        <div class="max-950 sort-by">
+            <div class="sort-by-div">
+                <label for="sort-by-select">Sort By: </label>
+                <select name="sort-by" id="sort-by-select" value="{% if not sort_by %}{{ sort_by_const.newest }}{% else %}{{sort_by}}{% endif %}">
+                    <optgroup label="Sort By:">
+                        <option value="{{ sort_by_const.newest }}">Newest</option>
+                        <option value="{{ sort_by_const.most_viewed }}">Most Viewed</option>
+                        <option value="{{ sort_by_const.cheapest }}">Cheapest</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+        {% endif %}
+        <div class="srch-tabs">
+            <a href="{% url 'searchQuery' query %}?tab=vegetable" class="veg {% if tab != tab_const.fruit and tab != tab_const.loc and tab != tab_const.users %}srch-tab-active{% endif %}">Vegetables</a>
+            <a href="{% url 'searchQuery' query %}?tab=fruit" class="{% if tab == tab_const.fruit %}srch-tab-active{% endif %}">Fruits</a>
+            <a href="{% url 'searchQuery' query %}?tab=location" class="{% if tab == tab_const.loc %}srch-tab-active{% endif %}">Location</a>
+            <a href="{% url 'searchQuery' query %}?tab=name" class="{% if tab == tab_const.users %}srch-tab-active{% endif %}">Users</a>
+        </div>
+
+        <div class="srch-result-cont{% if tab == tab_const.users %} max-950{% endif %}">
+            <div class="w-100 flex fl-wrp">
+                {% if not posts %}
+                    <div class="no-post-intial">
+                        <div class="text-center">
+                            <div>No results</div>
+                            <div>Try similar search terms</div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if tab == tab_const.users %}
+                    {% for user in posts %}
+                    <a href="{% url 'profile' user.id %}" class="srch-tab-users">
+                        <img src="/media/{{ user.myuserprofile.pp }}" alt="Profile Pic">
+                        <div class="cont">
+                            <div>{{ user.name }} | {{ user.post_set.all.count }}{% if user.post_set.all.count < 2 %} post {% else %} posts{% endif %}</div>
+                            <div>{{ user.location }}</div>
+                            <div>{{ user.phone1 }}</div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    {% for post in posts %}
+                        <div class="w-25">
+                            <div class="w-100">
+                                <div class="veg-card-main">
+                                    <a href="{% url 'post' post.id %}" style="color: #333;">
+                                        <div class="w-100 flex">
+                                            <div class="w-100 veg-thumb-up">
+                                                <img src="/media/{{ post.thumbnail }}" class="veg-card-thumb" alt="{{ post.outerFood }}">
+                                            </div>
+                                            <div class="veg-name-price-desk w-100">
+                                                <div class="veg-name-of-card">{{ post.outerFood }}</div>
+                                                <div class="veg-name-of-card">Rs. {{ post.price }}/{{ post.quantity }}</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="w-100">
+                                        <div class="veg-name-price-mb green" class="text-center hidden">{{ post.outerFood }} | Rs. {{ post.price }}/{{ post.quantity }}</div>
+                                        <div class="up-phone up-desc" style="color: #0099FF;"><i class="fas fa-mobile-alt"></i>
+                                            <a href="tel:{{ post.myuser.phone1 }}">{{ post.myuser.phone1 }}</a>
+                                            {% if post.phone2  %}
+                                                | {{ post.phone2 }}
+                                            {% endif %}
+                                        </div>
+                                        {% if post.location %}
+                                            <div class="up-location up-desc"><i class="fas fa-map-marker-alt"></i>
+                                                {% if post.location %}
+                                                    {{ post.location }}
+                                                {% else %}
+                                                    {{ post.myuser.myuserprofile.location  }}
+                                                {% endif%}
+                                            </div>
+                                        {% endif %}
+                                        <a href="{% url 'profile' post.myuser.id %}"><div class="up-name up-desc"><i class="fas fa-user-secret"></i> {{ post.myuser.name }}</div></a>
+                                        <div class="up-time up-desc"><i class="far fa-clock"></i> {{ post.uploaded_time }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+</script>
+{% endblock scripts %}

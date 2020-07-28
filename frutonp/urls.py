@@ -27,4 +27,6 @@ urlpatterns = [
     path('join/', include('join.urls')),
     path('profile/', include('profiles.urls')),
     path('post/', include('posts.urls')),
+    path('search/', views.search, name="search"),
+    path('search/<query>/', views.searchQuery, name="searchQuery"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

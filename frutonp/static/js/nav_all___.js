@@ -1,4 +1,7 @@
 heightFromTop = $(this).scrollTop();
+
+$("#sort-by-select").val($("#sort-by-select").attr("value"));
+
 if(heightFromTop > 10){
     $('.nav-bar').css({"box-shadow": "3px 0px 5px #555", "padding": "3px 0px"});
 } else {
@@ -60,6 +63,9 @@ function closeMbSearch(){
     $(".mb-srch-n-sel").css({"display": "none"});
     $(".set-not-btn").css("display", "flex");
     $("#menu-btn").css("display", "block");
+    $("body").removeClass("o-hidden");
+    $(".srch-overlay").addClass("d-none");
+    $(".nav-bar").removeClass("pad-3");
 }
 function fullButNoFocus(){
     var width = $("#mb-srch-inpt").css("width");
@@ -98,7 +104,7 @@ $(document).click(function(e){
             fullButNoFocus();
         }
     }
-    else if(!$(e.target).parents(".mb-side-bar").length || e.target.id == "mb-srch-cls") {
+    else if(!$(e.target).parents(".mb-side-bar").length) {
         if($("#mb-srch-icon").hasClass("mb-srch-open")){
             closeMbSearch();
         }
@@ -108,6 +114,18 @@ $(document).click(function(e){
     }
 });
 
+$(".srch-form").on("submit", function(e){
+    $(this).children("input[type=search]").attr("name", "");
+    $(this).children("input[type=search]").val();
+    $(this).attr("action", `/search/${$(this).children("input[type=search]").val()}`);
+});
+
+$("#sort-by-select").on("change", function(){
+    active_tab = $(".srch-tab-active").html();
+    active_tab = active_tab.toLowerCase();
+    active_tab = active_tab.indexOf("s", active_tab.length-1) == -1 ? active_tab : active_tab.substring(0, active_tab.length-1)
+    console.log(window.location.replace(window.location.href.split('?')[0]+`?tab=${active_tab}&sort-by=${$(this).val()}`));
+});
 $(window).resize(function(){
     if($(window).width() > 850){
         if(navIsOpen){
@@ -123,6 +141,15 @@ $(window).resize(function(){
     }
 });
 
+$("header").on("click", ".mb-srch-open", function(){
+    $("#mb-srch-form").submit();
+});
+
+$("#mb-srch-inpt").on("focus", function(){
+    $("body").addClass("o-hidden");
+    $(".srch-overlay").removeClass("d-none");
+    $(".nav-bar").addClass("pad-3");
+});
 /* Pop up */
 Pop = {
     load_circle: '<span class="load-cic"><span style="background: #ddd;"></span></span>',

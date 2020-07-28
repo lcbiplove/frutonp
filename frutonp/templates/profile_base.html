@@ -11,7 +11,7 @@
     <title>{% if yes_no == "yes" %}({{ notif_num }}) {% endif %}{% block title %}{% endblock title %}</title>
     <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png" sizes="16x16">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?version=38">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?version=9986">
     <script src="{% static 'js/jquery.min.3.4.1.js' %}"></script>
 </head>
 <body>
@@ -25,26 +25,33 @@
                 
                 <div style="position: relative; width: 74%;">
                     <div class="search-w">
-                        <input type="search" name="search" id="search" class="search-inpt" title="Search for your choice" />
-                        <select class="srch-select" name="search-option">
-                            <option value="vegetable">Vegetable</option>
-                            <option value="name">Name</option>
-                            <option value="fruit">Fruit</option>
-                            <option value="username">Username</option>
-                        </select>                        
-                        <span class="srch-icon"><i class="fas fa-search"></i></span>
+                        <form class="srch-form" action="{% url 'search' %}">
+                            <input type="search" name="q" id="search" class="search-inpt" title="Search for your choice" />
+                            <!--
+                            <select class="srch-select" name="so">
+                                <option value="vegetable">Vegetable</option>
+                                <option value="fruit">Fruit</option>
+                                <option value="location">Location</option>
+                                <option value="name">User</option>
+                            </select> 
+                            -->                       
+                            <button class="srch-icon"><i class="fas fa-search"></i></button>
+                        </form>
                     </div>
                 </div>
                 <div class="mb-side-bar">
                     <div class="mb-srch-n-sel">
-                        <input type="search" name="search" id="mb-srch-inpt">
-                        <select class="mb-srch-select" name="search-option">
-                            <option value="vegetable">Vegetable</option>
-                            <option value="name">Name</option>
-                            <option value="fruit">Fruit</option>
-                            <option value="username">Username</option>
-                        </select>   
-                        <span id="mb-srch-cls">&times;</span>
+                        <form action="{% url 'search' %}" id="mb-srch-form" class="srch-form">
+                            <input type="search" name="q" id="mb-srch-inpt">
+                            <!--
+                            <select class="mb-srch-select" name="so">
+                                <option value="vegetable">Vegetable</option>
+                                <option value="fruit">Fruit</option>
+                                <option value="location">Location</option>
+                                <option value="name">User</option>
+                            </select> 
+                            -->
+                        </form>  
                     </div>
                     <span id="mb-srch-icon" class="mb-srch-icon"><i class="fas fa-search"></i></span>
                 </div>
@@ -182,6 +189,7 @@
                 <a href="" style="margin-left: 30px;"><i class="fas fa-apple-alt"></i> Fruits</a>
             </div>
         </div>
+        <div class='srch-overlay d-none'></div>
     </header>
 
     
@@ -240,7 +248,7 @@
             });
         </script>
     </div>
-    <div><script src="{% static 'js/nav_all___.js' %}?version=30"></script></div>
+    <div><script src="{% static 'js/nav_all___.js' %}?version=43"></script></div>
     <div><script src="{% static 'js/notifs__.js' %}?version=99"></script></div>
     <div><script src="{% static 'js/content_scroll_card.js' %}"></script></div>
     <div><script src="{% static 'js/sess_mssg_.js' %}"></script></div>

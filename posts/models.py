@@ -2,37 +2,37 @@ from django.db import models
 from django.forms import ModelForm
 from join.models import MyUser
 from django.core.validators import FileExtensionValidator
-from frutonp.utils import file_size, image_crop, getUploadTimeDiff
+from frutonp.utils import file_size, image_crop, getUploadTimeDiff, getWeightNumForCalc
 from datetime import timedelta
 from django.utils import timezone
 
 class Post(models.Model):
-    VEG = ['VBG', 'VCA', 'VCF', 'VLF', 'VPK']
-    FRUIT = ['FAP', 'FBA', 'FLI', 'FMA', 'FOR']
+    VEG = ['bitter-gourd', 'cabbage', 'cauliflower', 'ladies-finger', 'pumpkin']
+    FRUIT = ['apple', 'banana', 'litchi', 'mango', 'orange']
     FOOD_CHOICES = (
-        ('FAP', 'Apple'),
-        ('FBA', 'Banana'),
-        ('FLI', 'Litchi'),
-        ('FMA', 'Mango'),
-        ('FOR', 'Orange'),
-        ('VBG', 'Bitter Gourd'),
-        ('VCA', 'Cabbage'),
-        ('VCF', 'Cauliflower'),
-        ('VLF', 'Ladies Finger'),
-        ('VPK', 'Pumpkin'),
+        ('apple', 'Apple'),
+        ('banana', 'Banana'),
+        ('litchi', 'Litchi'),
+        ('mango', 'Mango'),
+        ('orange', 'Orange'),
+        ('bitter-gourd', 'Bitter Gourd'),
+        ('cabbage', 'Cabbage'),
+        ('cauliflower', 'Cauliflower'),
+        ('ladies-finger', 'Ladies Finger'),
+        ('pumpkin', 'Pumpkin'),
     )
     QUANTITY = ['kg', '250gm', '200gm', '500gm', '2kg', '5kg', '10kg', '25kg', '50kg', 'quintal']
     QUANTITY_CHOICES = (
-        ('kg', 'kg'),
-        ('250gm', '250gm'),
-        ('200gm', '200gm'),
-        ('500gm', '500gm'),
-        ('2kg', '2kg'),
-        ('5kg', '5kg'),
-        ('10kg', '10kg'),
-        ('25kg', '25kg'),
-        ('50kg', '50kg'),
-        ('quintal', 'quintal'),
+        ('kg', '1 kg'),
+        ('250gm', '250 gm'),
+        ('200gm', '200 gm'),
+        ('500gm', '500 gm'),
+        ('2kg', '2 kg'),
+        ('5kg', '5 kg'),
+        ('10kg', '10 kg'),
+        ('25kg', '25 kg'),
+        ('50kg', '50 kg'),
+        ('quintal', '1 quintal'),
     )
     EXPIRE = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
     EXPIRE_CHOICES = (
@@ -56,7 +56,7 @@ class Post(models.Model):
     myuser = models.ForeignKey(to=MyUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     desc = models.TextField(verbose_name='Description')
-    foodType = models.CharField(max_length=30, verbose_name='Food Type', choices=FOOD_CHOICES)
+    foodType = models.CharField(max_length=50, verbose_name='Food Type', choices=FOOD_CHOICES)
     price = models.BigIntegerField()
     quantity = models.CharField(max_length=30, choices=QUANTITY_CHOICES)
     expire = models.CharField(null=True, max_length=10, choices=EXPIRE_CHOICES, default='10')
@@ -78,6 +78,9 @@ class Post(models.Model):
 
     def outerFood(self):
         return self.get_foodType_display()
+        
+    def priceToWeightRatio(self):
+        return self.price/getWeightNumForCalc(self.quantity)
     
 class Photo(models.Model):
     post = models.ForeignKey(to=Post, on_delete=models.CASCADE, related_name='photos')

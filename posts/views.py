@@ -33,16 +33,17 @@ def index(request, id):
 """
 def addPostTest(request):
     title = 'Title'
-    desc = '(request.POST.get()).strip()'
-    foodType = 'VCA'
-    price = 45
-    quantity = '250gm'
+    desc = 'A retail salesperson assists customers in making purchases, including processing payments. This type of position exists in a wide variety of businesses that sell merchandise directly to customers, such as furniture, clothing, cars and equipment. Creating a strong job description is essential to defining the responsibilities of this role within your organization and determining the requirements for a candidate. The required skills and experience for a retail salesperson can vary. Some common abilities for which businesses look include verbal communication and customer service skills. It is common for a worker in this position to not need any specific education but instead receive on-the-job training. Job description examples provide insight into what to list in your own posting.'
+    foodType = 'ladies-finger'
+    price = 4000
+    quantity = 'quintal'
     expire = 8
-    thumbnail = 'post/default/VCF.jpg'
+    thumbnail = 'post/default/ladies-finger.jpg'
     post = Post(myuser=request.user, title=title, desc=desc, foodType=foodType, price=price, thumbnail=thumbnail, quantity=quantity, expire=expire)
     post.save()
     return HttpResponse("Done")
 """
+
 def postComment(request, id=None):
     if request.is_ajax():
         post = get_object_or_404(Post, pk=id)
@@ -170,11 +171,15 @@ def editPost(request, id):
             return JsonResponse(err)
         else:
             post = get_object_or_404(Post, pk=id)
-            loc_n_phn = {
-                'location': request.user.myuserprofile.location,
-                'phone2': request.user.myuserprofile.phone2,
-            }
-        return render(request, 'posts/edit-post.html', {'err': err, 'loc_n_phn': loc_n_phn, 'post': post})
+            loc_n_phn = {'location': request.user.myuserprofile.location, 'phone2': request.user.myuserprofile.phone2,}
+        return render(request, 'posts/edit-post.html', {
+            'err': err, 
+            'loc_n_phn': loc_n_phn, 
+            'post': post,
+            'vegs': Post.VEG,
+            'fruits': Post.FRUIT,
+            'quantity': Post.QUANTITY,
+        })
     raise Http404()
 
 def editedPost(request, id):
@@ -307,8 +312,13 @@ def addPost(request):
             'location': request.user.myuserprofile.location,
             'phone2': request.user.myuserprofile.phone2,
         }
-        
-        return render(request, 'posts/add-post.html', {'err': err, 'post': post})
+        return render(request, 'posts/add-post.html', {
+            'err': err, 
+            'post': post, 
+            'vegs': Post.VEG,
+            'fruits': Post.FRUIT,
+            'quantity': Post.QUANTITY,
+        })
 
 @login_required
 def addComment(request, id):

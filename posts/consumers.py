@@ -12,7 +12,6 @@ from .models import Post, Comment, Reply
 
 class CommentConsumer(AsyncConsumer):
     async def websocket_connect(self, event):
-        print("Connected", event)
         post_id = self.scope['url_route']['kwargs']['post_id']
         self.post_room = f"post_id_{post_id}"
         # Create a channel group for the post_id
@@ -63,8 +62,8 @@ class CommentConsumer(AsyncConsumer):
         
             
     async def websocket_disconnect(self, event):
-        print("Disconnected", event)
-
+        pass
+    
     @database_sync_to_async
     def get_comment_user(self, id):
         comment = get_object_or_404(Comment, pk=id)

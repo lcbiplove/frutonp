@@ -34,7 +34,6 @@ class NotifConsumer(AsyncConsumer):
         })
             
     async def websocket_disconnect(self, event):
-        print("Notif disconnected", event)
         await self.channel_layer.group_discard(
             self.notif_room,
             self.channel_name

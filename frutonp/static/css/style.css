@@ -346,6 +346,9 @@ body {
 .back-trans {
     background: transparent !important;
 }
+.o-hidden {
+    overflow: hidden;
+}
 .red {
     color: rgb(228, 32, 32);
 }
@@ -366,6 +369,9 @@ body {
 }
 .bg-orange {
     background-color: #ffa500;
+}
+.pad-3 {
+    padding: 3px 0 !important;
 }
 input:focus, textarea:focus, select:focus {
     box-shadow: green 0px 0px 5px;
@@ -396,6 +402,10 @@ textarea {
 }
 div:focus {
     outline: none;
+}
+.max-950 {
+    max-width: 950px !important;
+    margin: auto auto !important;
 }
 .sticky {
     position: sticky;
@@ -529,6 +539,14 @@ div:focus {
     display: flex;
     margin: 0px 3px;
 }
+.srch-overlay {
+    position: fixed; 
+    z-index: 100; 
+    width: 100%; 
+    height: 100%; 
+    background-color: #00000090; 
+    top: 0;
+}
 .logo-img {
     width: 40px;
 }
@@ -548,7 +566,7 @@ div:focus {
 .search-inpt {
     width: 100%;
     max-width: 1000px;
-    padding: 10px 125px 10px 8px;
+    padding: 10px 40px 10px 8px;
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
@@ -564,21 +582,18 @@ div:focus {
     box-shadow: none;
 }
 .srch-icon {
+    display: inline-block;
     color: #eee;
     position: absolute;
-    right: 0px;
-    top: 0px;
-    padding: 7px 10px 8px 10px;
+    right: 1px;
+    top: 1px;
+    padding: 10px;
     background-color: #07C044;
 }
 .srch-icon:hover {
-    padding: 6px 10px;
     color: #07C044;
-    top: 2px;
-    padding: 6px 10px;
     background-color: #fff;
     cursor: pointer;
-
 }
 .log-link {
     border-radius: 3px;
@@ -779,7 +794,7 @@ div:focus {
     font-size: 18px;
     position: absolute;
     top: 6px;
-    right: 42px;
+    right: 6px;
     padding: 8px 0;
     width: 40px;
     text-align: center;
@@ -791,8 +806,8 @@ div:focus {
     font-size: 1em;
     top: 6px;
     left: 6px;
-    width: calc(100% - 90px);
-    padding: 10px 85px 10px 5px;
+    width: calc(100% - 54px);
+    padding: 10px 10px 10px 5px;
     border: 1px solid #ccc;
     position: absolute;
     transition: width 0.5s;
@@ -802,15 +817,7 @@ div:focus {
     padding: 9px 0px 10px 0px;
     border: 0px;
     top: 8px;
-    right: 86px;
-}
-#mb-srch-cls {
-    position: absolute;
-    width: 35px;
-    right: 3px;
-    top: 6px;
-    font-size: 1.9em;
-    text-align: center;
+    right: 50px;
 }
 .auth-user {
     display: flex;
@@ -1576,6 +1583,104 @@ input[type=checkbox] {
         background-color: #07C044;
     }
 }
+/* Search page*/
+.search-content {
+    width: 100%;
+    color: #333;
+    box-sizing: border-box;
+    padding: 10px;
+}
+.no-of-srch-res {
+    margin: 0;
+    margin-bottom: 20px;
+}
+.no-of-srch-res q{
+    color: #000;
+    font-weight: 600;
+}
+.sort-by {
+    display: flex;
+    justify-content: flex-end;
+}
+.sort-by>div{
+    border-bottom: 1px solid #000;
+}
+.sort-by label{
+    font-weight: 600;
+}
+#sort-by-select {
+    padding: 10px 5px;
+    border: 0;
+    background-color: transparent;
+    font-size: 1rem;
+    color: #333;
+}
+.srch-tabs {
+    max-width: 950px;
+    margin: auto auto;
+    margin-top: 20px;
+    display: flex;
+    overflow-y: auto;
+    border-bottom: 1px solid #ccc;
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+}
+.srch-tabs::-webkit-scrollbar { 
+    display: none;
+}
+.srch-tabs>a{
+    display: block;
+    color: #333;
+    margin-right: 30px;
+    padding: 10px 0;
+    cursor: pointer;
+}
+.srch-tabs>a:hover{
+    border-bottom: 1px solid #000;
+}
+.srch-tab-active {
+    border-bottom: 1px solid #000 !important;
+    cursor: default !important;
+    pointer-events: none !important;
+}
+.srch-result-cont {
+    margin-top: 20px;
+}
+.srch-tab-users {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    margin: 10px 0;
+    color: #333;
+    box-shadow: 0 0 10px #ccc;
+}
+.srch-tab-users:hover{
+    box-shadow: 0 0 30px #ccc;
+}
+.srch-tab-users:first-child {
+    margin-top: 30px;
+}
+.srch-tab-users img {
+    width: 100%;
+    max-width: 125px;
+    height: 100%;
+    max-height: 125px;
+    align-self: center;
+}
+.srch-tab-users .cont {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px 10px 5px;
+    box-sizing: border-box;
+}
+.srch-tab-users .cont>div:first-child {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.srch-tab-users .cont>div {
+    margin-top: 5px;
+}
 
 /* Loading */
 .load-cic {
@@ -2011,6 +2116,10 @@ input[type=checkbox] {
 
     .load-cic > span {
         background: #fff;
+    }
+    /* Search */
+    .sort-by>div{
+        margin-top: 10px;
     }
 }
 

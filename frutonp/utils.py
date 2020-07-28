@@ -1,4 +1,3 @@
-
 from re import match as reMatch
 import urllib
 import json
@@ -162,3 +161,14 @@ def getUploadTimeDiff(par, isComment=False):
         out = out[:(num+2)]
         out = out.replace(" ", "")
     return out
+
+def getWeightNumForCalc(weight):
+    if weight[-2:] == 'gm':
+        return int(weight[:-2])/1000
+    elif weight[-2:] == 'kg':
+        try:
+            return int(weight[:-2])
+        except:
+            return 1
+    else:
+        return 100
