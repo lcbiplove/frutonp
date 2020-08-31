@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'join.apps.JoinConfig',
     'profiles.apps.ProfilesConfig',
     'posts.apps.PostsConfig',
-    'item.apps.itemConfig',
+    'item.apps.ItemConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
