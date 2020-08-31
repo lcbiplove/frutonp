@@ -50,22 +50,29 @@
                 </div>
              </div>
         </div>
+        
+        <div class="w-60 w-60-same">
+            <div class="w-100">
+                <div class="pd-10">
+                    <div class="w-100 post-sub-ttl">Description</div>  
+                    <div class="w-100">
+                        <span style="padding: 0px 20px;"></span> 
+                        <span id="desc">{{ post.desc }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div class="w-100 flex fl-wrp">            
+        <div class="w-100 flex fl-wrp fl-rev-850">           
             <div class="w-60 w-60-same">
                <div class="w-100">
                    <div class="w-100">
                        <div class="pd-10">
-                            <div class="w-100 post-sub-ttl">Description</div>  
-                            <div class="w-100">
-                                <span style="padding: 0px 20px;"></span> 
-                                <span id="desc">{{ post.desc }}</span>
-                            </div>
                             <div class="w-100 post-sub-ttl">
                                 Comments (<span id="total-cmnts">{{ post.comment.all.count }}</span>)
                             </div>
                             <div id="comments" class="w-100">
-                                {% for comment in post.comment.all|slice:max_comment %}
+                                {% for comment in post.comment.all %}
                                     <div class="comment-of w-100 flex">
                                         <div style="padding: 10px 10px 5px 0px;">
                                             <a href="{% url 'profile' comment.myuser.id %}">
@@ -92,32 +99,56 @@
                                             </div>
                                             <div class="replies-cont">
                                                 {% if comment.reply.count > 2 %}
-                                                    {% if comment.reply.count|add:-2 != 1 %}
+                                                    {% if comment.id == notif_cm_id and notif_cm_id != None %}
+                                                        <p class="more-replies showing" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}&_0">Hide replies</p>
+                                                    {% elif comment.reply.count|add:-2 != 1 %}
                                                         <p class="more-replies" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}&_0">{{ comment.reply.count|add:-2 }} More Replies</p>
                                                     {% else %}
                                                         <p class="more-replies" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}&_0">{{ comment.reply.count|add:-2 }} More Reply</p>                                                   
                                                     {% endif %}
                                                 {% endif %}
                                                 <div class="replies-in">
-                                                {% for reply in comment.reply.all|dictsortreversed:"replied_at"|slice:":2"|dictsort:"replied_at" %}
-                                                    <div class="w-100 flex reply-of" style="font-size: 14px;" >
-                                                        <div style="padding: 10px 10px 5px 0px;">
-                                                            <img src="/media/{{ reply.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="Profile Picture"/>
-                                                        </div>       
-                                                        <div class="w-100">
-                                                            <div style="margin: 10px 0px 0px 0px;">
-                                                                <span style="font-weight: 600;">{{ reply.myuser.name }}</span>
-                                                                <span>{{ reply.text }}</span>
-                                                            </div> 
-                                                            <div>
-                                                                <span style="color: #777; font-size: 14px;" class="time-diff" data-rp-id="{{ reply.id }}">{{ reply.uploaded_time }}</span>
-                                                                {% if user == reply.myuser or user == reply.comment.post.myuser %}
-                                                                    <button class="rpl-del" data-rp-id="{{ reply.id }}">Delete</button>
-                                                                {% endif %}
+                                                {% if notif_cm_id != None and comment.id == notif_cm_id  %}
+                                                    {% for reply in comment.reply.all|dictsortreversed:"replied_at"|dictsort:"replied_at" %}
+                                                        <div class="w-100 flex reply-of" style="font-size: 14px;" >
+                                                            <div style="padding: 10px 10px 5px 0px;">
+                                                                <img src="/media/{{ reply.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="Profile Picture"/>
+                                                            </div>       
+                                                            <div class="w-100">
+                                                                <div style="margin: 10px 0px 0px 0px;">
+                                                                    <span style="font-weight: 600;">{{ reply.myuser.name }}</span>
+                                                                    <span>{{ reply.text }}</span>
+                                                                </div> 
+                                                                <div>
+                                                                    <span style="color: #777; font-size: 14px;" class="time-diff" data-rp-id="{{ reply.id }}">{{ reply.uploaded_time }}</span>
+                                                                    {% if user == reply.myuser or user == reply.comment.post.myuser %}
+                                                                        <button class="rpl-del" data-rp-id="{{ reply.id }}">Delete</button>
+                                                                    {% endif %}
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                {% endfor %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {% for reply in comment.reply.all|dictsortreversed:"replied_at"|slice:":2"|dictsort:"replied_at" %}
+                                                        <div class="w-100 flex reply-of" style="font-size: 14px;" >
+                                                            <div style="padding: 10px 10px 5px 0px;">
+                                                                <img src="/media/{{ reply.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="Profile Picture"/>
+                                                            </div>       
+                                                            <div class="w-100">
+                                                                <div style="margin: 10px 0px 0px 0px;">
+                                                                    <span style="font-weight: 600;">{{ reply.myuser.name }}</span>
+                                                                    <span>{{ reply.text }}</span>
+                                                                </div> 
+                                                                <div>
+                                                                    <span style="color: #777; font-size: 14px;" class="time-diff" data-rp-id="{{ reply.id }}">{{ reply.uploaded_time }}</span>
+                                                                    {% if user == reply.myuser or user == reply.comment.post.myuser %}
+                                                                        <button class="rpl-del" data-rp-id="{{ reply.id }}">Delete</button>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% endif %}
                                                 </div>
                                             </div>
                                         </div>                        
@@ -126,9 +157,6 @@
                                     <div class="comment-of no-comment dis-color">No Comment</div>
                                 {% endfor %}
                             </div>
-                            {% if post.comment.all.count > max_comment %}
-                                <p id="more-comments" class="more-comments"><span>{{ post.comment.all.count|subtract:max_comment }}</span> More comments</p>
-                            {% endif %}
                             <p id="new-comments">
                             </p>
                             <div class="reply-inpt-box" id="reply-inpt-box">
@@ -145,17 +173,17 @@
                                     <img src="/media/{{ user.myuserprofile.pp }}" style="border-radius: 50%;" width="35px" height="35px" alt="Profile Pic">
                                 </div>   
                                 <textarea id="write-comment-txtarea" name="comment" class="write-comment" placeholder="Add a comment.." rows="1" ></textarea>
-                                <button id="comment-btn" disabled="disabled">Comment</button>
+                                <button id="comment-btn" disabled="disabled" data-disabled="{% if post.comment.all.count >= max_comment %}true{% else %}false{% endif %}">Comment</button>
                                 <button id="cancel-edit" class="d-none">Cancel</button>
                             </div>
                        </div>    
                    </div>
                </div>
             </div>
-            <div class="w-40 text-center">
+            <div class="w-40">
                 <div class="w-100">
                     <div class="pd-10">
-                         <div class="w-100 post-sub-ttl">Photos</div>  
+                         <div class="w-100 post-sub-ttl ml-5">Photos</div>  
                          <div class="w-100 flex fl-wrp">
                             {% for photo in post.photos.all %}
                                 <div class="w-33 w-33-md">
@@ -171,7 +199,7 @@
                          </div>
                     </div>    
                 </div>
-            </div>
+            </div> 
        </div>
     </div>
 
@@ -182,5 +210,5 @@
     
 {% block scripts %}
     <div><script type="module" src="{% static 'js/jquery.min.nice_scroll.js' %}"></script></div>
-    <div><script src="{% static 'js/post_reply_comment.js' %}?version=358"></script></div>
+    <div><script src="{% static 'js/post_reply_comment.js' %}?version=66"></script></div>
 {% endblock scripts %}

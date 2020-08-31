@@ -1,12 +1,14 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, Http404
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, JsonResponse
 import datetime
 from django.utils import timezone
 from posts.models import Post, Photo, PostView
 from join.models import MyUser
-from .models import NotifClick
+from .models import NotifClick, Notif
 from django.db.models import Q, Count
 
+NOTIF_COUNT = 15
 """ If you change this, might need to change nav_all__.js """
 TAB_CONST = {
     'veg': 'vegetable',
@@ -19,22 +21,51 @@ SORT_BY_CONST = {
     'most_viewed': 'views',
     'cheapest': 'value',
 }
+NUM_OF_POST_AT_BEGINING = 10
 
-# Create your views here.
 def home(request):
-    all_post = Post.objects.all()
-    veg_posts = all_post.filter(foodType__in=Post.VEG)
-    fruit_posts = all_post.filter(foodType__in=Post.FRUIT)
+    veg_posts = Post.objects.filter(foodType__in=Post.VEG)[:NUM_OF_POST_AT_BEGINING]
+    fruit_posts = Post.objects.filter(foodType__in=Post.FRUIT)[:NUM_OF_POST_AT_BEGINING]
     return render(request, 'home/home.html', {
         'veg_posts': veg_posts,
         'fruit_posts': fruit_posts,
     })
 
-def reloadNotif(request):
-    notif = NotifClick.objects.get(myuser=request.user)
+''' Reload notification click to 0 '''
+def reloadNotif(user):
+    notif = NotifClick.objects.get(myuser=user)
     notif.new_count = 0
     notif.save(update_fields=['new_count'])
-    return redirect("home")
+
+@login_required
+def showNotif(request):
+    if request.POST and request.is_ajax():
+        page_no = request.GET.get('page', 1)
+        total_notifs = Notif.objects.filter(notif_click__myuser=request.user).count()
+        if page_no != 1 or page_no != '1':
+            try:
+                page_no = int(page_no)
+
+                if total_notifs <= (page_no-1)*NOTIF_COUNT:
+                    return JsonResponse({"finished": True})
+            except:
+                pass
+        notifs = Notif.objects.filter(notif_click__myuser=request.user).order_by('-received_at')[NOTIF_COUNT*(page_no-1):NOTIF_COUNT*page_no]
+        reloadNotif(request.user)
+
+        return render(request, 'home/show-notif.html', {'notifs': notifs})
+    raise Http404()
+
+@login_required
+def makeNotifSeen(request, id):
+    if request.POST and request.is_ajax():
+        notif = get_object_or_404(Notif, pk=id)
+        if notif.notif_click.myuser == request.user:
+            notif.is_seen = True
+            notif.save(update_fields=['is_seen'])
+            return JsonResponse({'success': True})
+    raise Http404()
+
 
 def cookieLaw(request):
     response = render(request, 'profile_base.html')

@@ -10,9 +10,10 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt 
 from django.contrib.auth.decorators import login_required
 
-MAX_COMMENT_LOAD = 10
+MAX_COMMENT_CAPACITY = 24
+MAX_REPLY_CAPACITY = 24
 
-def index(request, id):    
+def index(request, id, cm_id=None, rp_id=None):    
     post = get_object_or_404(Post, pk=id)
     try:
         auth_id = request.user.id
@@ -28,7 +29,29 @@ def index(request, id):
     # Total views
     total_views = PostView.objects.filter(post=post).count()
 
-    return render(request, "posts/post.html", {'post': post, 'views': total_views, 'max_comment': MAX_COMMENT_LOAD})
+    return render(request, "posts/post.html", {
+            'post': post,
+            'views': total_views, 
+            'max_comment': MAX_COMMENT_CAPACITY, 
+            'max_reply': MAX_REPLY_CAPACITY,
+            'notif_cm_id': cm_id,
+        })
+
+def commentFromNotification(request, id, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if comment.post.id == id:
+        return index(request, id)
+
+    raise Http404()
+
+
+def replyFromNotification(request, id, comment_id, reply_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    reply = get_object_or_404(Reply, pk=reply_id)
+    if comment.post.id == id and reply.comment.id == comment_id:
+        return index(request, id, cm_id=comment_id, rp_id=reply_id)
+
+    raise Http404()
 
 """
 def addPostTest(request):
@@ -43,8 +66,8 @@ def addPostTest(request):
     post.save()
     return HttpResponse("Done")
 """
-
-def postComment(request, id=None):
+"""
+def moreComment(request, id=None):
     if request.is_ajax():
         post = get_object_or_404(Post, pk=id)
         no_of_obj = int(request.POST.get("no"))
@@ -60,6 +83,7 @@ def postComment(request, id=None):
             'obj_finished': obj_finished
         })
     raise Http404()
+"""
 
 @login_required
 def editPost(request, id):  
@@ -80,19 +104,19 @@ def editPost(request, id):
                     price = price[1:]
                 price = int(price)
             except:
-                err['price'] = "Price must be in numbers"
+                err['price'] = "Price must be in numbers."
 
             if len(title)==0:
-                err['title'] = "Title must be filled"
+                err['title'] = "Title must be filled."
 
             if desc == "":
-                err['desc'] = "Description must be filled"
+                err['desc'] = "Description must be filled."
 
             if (foodType not in Post.VEG) and (foodType not in Post.FRUIT):
-                err['foodType'] = "Please select from the given options only"
+                err['foodType'] = "Please select from the given options only."
 
             if quantity not in Post.QUANTITY:
-                err['quantity'] = "Please select from the given options only"
+                err['quantity'] = "Please select from the given options only."
 
             if expire not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']:
                 err['expire'] = "Please select from the given options only."
@@ -102,7 +126,7 @@ def editPost(request, id):
             """
             
             if not (len(phone2)==10 and re.match('^\d+$', phone2) or len(phone2)==0):
-                err['phone2'] = "Phone should contain 10 numbers"
+                err['phone2'] = "Phone should contain 10 numbers."
 
             if len(err)==0:
                 data = {}
@@ -251,19 +275,19 @@ def addPost(request):
                 price = price[1:]
             price = int(price)
         except:
-            err['price'] = "Price must be in numbers"
+            err['price'] = "Price must be in numbers."
 
         if len(title)==0:
-            err['title'] = "Title must be filled"
+            err['title'] = "Title must be filled."
 
         if desc == "":
-            err['desc'] = "Description must be filled"
+            err['desc'] = "Description must be filled."
 
         if (foodType not in Post.VEG) and (foodType not in Post.FRUIT):
-            err['foodType'] = "Please select from the given options only"
+            err['foodType'] = "Please select from the given options only."
 
         if quantity not in Post.QUANTITY:
-            err['quantity'] = "Please select from the given options only"
+            err['quantity'] = "Please select from the given options only."
 
         if expire not in Post.EXPIRE:
             err['expire'] = "Please select from the given options only."
@@ -271,10 +295,10 @@ def addPost(request):
             #expire = add_post_date(int(expire))
 
         if len(request.FILES.getlist('photos')) > 5:
-            err['photos'] = "Max photo upload is 5"
+            err['photos'] = "Max photo upload is 5."
         
         if not (len(phone2)==10 and re.match('^\d+$', phone2) or len(phone2)==0):
-            err['phone2'] = "Phone should contain 10 numbers"
+            err['phone2'] = "Phone should contain 10 numbers."
 
         photoform = PhotoForm(request.POST, request.FILES)
         if len(err)==0:
@@ -333,14 +357,19 @@ def addComment(request, id):
         if len(comment_text) != 0:
             if cm_id is None:
                 """ New Comment is added """
-                comment = Comment(post=post, myuser=user, text=comment_text)
-                comment.save()
-                result['status'] = True
+                total_comments = post.comment.count()
+                if total_comments >= MAX_COMMENT_CAPACITY:
+                    result['status'] = 'MAX_COMMENT'
+                else:
+                    comment = Comment(post=post, myuser=user, text=comment_text)
+                    comment.save()
+                    result['status'] = True
 
-                if user != post.myuser:
-                    notif_click, created = NotifClick.objects.get_or_create(myuser=post.myuser)
-                    notif = Notif(notif_click=notif_click, sender=user, post=post, comment=comment)
-                    notif.save()
+                    if user != post.myuser:
+                        notif_click, created = NotifClick.objects.get_or_create(myuser=post.myuser)
+                        notif = Notif(notif_click=notif_click, sender=user, post=post, comment=comment)
+                        notif.save()
+                    result['id'] = comment.id
                     
             else:
                 """ Comment is editted """
@@ -352,8 +381,7 @@ def addComment(request, id):
                     result['edit'] = True
                     result['status'] = True
                     result['text'] = comment.text
-
-            result['id'] = comment.id
+                    result['id'] = comment.id
     return JsonResponse(result)
 
 @login_required
@@ -365,11 +393,11 @@ def addedComment(request, post_id, comment_id):
     raise Http404()
 
 @login_required
-def newComment(request, post_id, last_cm_id):
+def newComment(request, post_id, num_of_cm):
     if request.is_ajax():
         user = request.user
         post = Post.objects.get(pk=post_id)
-        comments = reversed(post.comment.filter(id__gt=last_cm_id).order_by('-commented_at'))
+        comments = reversed(post.comment.order_by('-commented_at')[:num_of_cm])
         return render(request, 'posts/new-comments.html', {'comments': comments})
     raise Http404()
 
@@ -389,11 +417,6 @@ def deleteComment(request, post_id, comment_id):
         cm_id = request.POST.get('cm_id')
         comment = get_object_or_404(Comment, pk=comment_id)
         if request.user == comment.myuser or request.user == comment.post.myuser:
-            if request.user != comment.post.myuser:
-                notif_click, created = NotifClick.objects.get_or_create(myuser=comment.post.myuser)
-                notif = Notif(notif_click=notif_click, sender=request.user, post=comment.post, comment=comment)
-                notif.save()
-                
             comment.delete()
             result['status'] = True    
             return JsonResponse(result)
@@ -409,14 +432,24 @@ def addReply(request, post_id, comment_id):
         reply_text = request.POST.get('reply')
         if len(reply_text) != 0:
             """ New reply is added """
-            reply = Reply(comment=comment, myuser=request.user, text=reply_text)
-            reply.save()
-            result['id'] = reply.id
+            if comment.reply.count() >= MAX_REPLY_CAPACITY:
+                result['id'] = 'MAX_REPLY'
+            else:
+                reply = Reply(comment=comment, myuser=request.user, text=reply_text)
+                reply.save()
+                result['id'] = reply.id
 
-            if request.user != reply.comment.post.myuser:
-                notif_click, created = NotifClick.objects.get_or_create(myuser=comment.post.myuser)
-                notif = Notif(notif_click=notif_click, sender=request.user, post=comment.post, comment=comment)
-                notif.save()
+                post_admin_notif_sent = False
+                if request.user != reply.comment.post.myuser:             
+                    notif_click, created = NotifClick.objects.get_or_create(myuser=comment.post.myuser)
+                    notif = Notif(notif_click=notif_click, sender=request.user, post=comment.post, comment=comment, reply=reply)
+                    notif.save()
+                    post_admin_notif_sent = True
+
+                if request.user != reply.comment.myuser and not post_admin_notif_sent:
+                    notif_click, created = NotifClick.objects.get_or_create(myuser=comment.myuser)
+                    notif = Notif(notif_click=notif_click, sender=request.user, post=comment.post, comment=comment, reply=reply)
+                    notif.save()
             
         return JsonResponse(result)
     raise Http404()

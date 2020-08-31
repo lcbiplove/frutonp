@@ -30,7 +30,7 @@ SECRET_KEY = '@&v-!=25*s)-%pgx*l6ra2$!m*&ea11c+(dvd^wav)cw3obq_z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','192.168.0.1', '192.168.1.1']
+ALLOWED_HOSTS = ['*']
 
 RECAPTCHA_PUBLIC_KEY = '6Ld2V9kUAAAAAJtGC_niS0G1sxpPNhQg4PcQ40tn'
 #RECAPTCHA_SECRET_KEY = '6Ld2V9kUAAAAABv0hfFVUL2FdrvwRLqrPzsltPC5'
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'join.apps.JoinConfig',
     'profiles.apps.ProfilesConfig',
     'posts.apps.PostsConfig',
+    'item.apps.itemConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

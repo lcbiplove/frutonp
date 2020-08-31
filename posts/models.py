@@ -2,7 +2,7 @@ from django.db import models
 from django.forms import ModelForm
 from join.models import MyUser
 from django.core.validators import FileExtensionValidator
-from frutonp.utils import file_size, image_crop, getUploadTimeDiff, getWeightNumForCalc
+from frutonp.utils import file_size, image_crop, getUploadTimeDiff, getWeightNumForCalc, getSlicedNotificationMessages
 from datetime import timedelta
 from django.utils import timezone
 
@@ -122,8 +122,15 @@ class Comment(models.Model):
     editted = models.BooleanField(default=False)
     commented_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.text
+
     def uploaded_time(self):
         output = getUploadTimeDiff(self, isComment=True)
+        return output
+
+    def uploaded_time_for_notif(self):
+        output = getUploadTimeDiff(self, longStatus=True)
         return output
 
     def getUniversalDate(self):
@@ -137,17 +144,30 @@ class Comment(models.Model):
         except:
             pass
 
+    def comment_for_notif(self):
+        return getSlicedNotificationMessages(self.text)
+
 class Reply(models.Model):
     comment = models.ForeignKey(to=Comment, on_delete=models.CASCADE, related_name='reply')
     myuser = models.ForeignKey(to=MyUser, on_delete=models.CASCADE, related_name='reply')
     text = models.TextField(verbose_name='Reply', null=False)
     replied_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.text
+
     def uploaded_time(self):
         output = getUploadTimeDiff(self, isComment=True)
+        return output
+        
+    def uploaded_time_for_notif(self):
+        output = getUploadTimeDiff(self, longStatus=True)
         return output
 
     def getUniversalDate(self):
         """ To use external function getUploadTimeDiff in every model, return datetime field of to be calculated
         date time """
         return self.replied_at
+    
+    def reply_for_notif(self):
+        return getSlicedNotificationMessages(self.text)

@@ -12,6 +12,8 @@ application = ProtocolTypeRouter({
             URLRouter(
                 [
                     path('post/<int:post_id>/', CommentConsumer),
+                    path('post/<int:post_id>/<int:comment_id>/', CommentConsumer),
+                    path('post/<int:post_id>/<int:comment_id>/<int:reply_id>/', CommentConsumer),
                     path('home/', NotifConsumer),
                 ]
             )

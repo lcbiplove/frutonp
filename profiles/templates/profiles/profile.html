@@ -245,7 +245,7 @@
                 $(window).scroll(function() {
                     if(((window.innerHeight + window.scrollY) >= document.body.offsetHeight) && !wait_scroll) {
                         wait_scroll = true;
-                        $("#post-content ol").after("<span class='load-cic'><span style='background-color: #888; height: 1.8rem; width: 2rem;'></span></span>");
+                        $("#post-content ol").append('<li class="fl-mid loading-more-post"><span class="my-small-load"><span></span></span></li>');
                         var req = $.ajax({
                             url: 'profile-post/',
                             type: 'POST',
@@ -257,6 +257,7 @@
                             }
                         });
                         req.done(function(response){
+                            $(".loading-more-post").remove();
                             if(response.full_load){
                                 wait_scroll = true;
                             } else {
@@ -271,7 +272,6 @@
                                     post_loaded++;
                                 }
                             }
-                            $(".load-cic").remove();
                         });
                     }
                 });

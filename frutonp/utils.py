@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from PIL import Image, ExifTags
 from django.utils import timezone
 
+SLICE_MESSAGE_FOR_NOTIFICATION = 70
 
 def getExpireOfCookie(max_age):
     """ To return expire date time in string
@@ -129,7 +130,7 @@ def image_crop(obj):
 
     return img.save(obj.get_image())
 
-def getUploadTimeDiff(par, isComment=False):
+def getUploadTimeDiff(par, longStatus=False, isComment=False):
     """ Take object and return time difference """
     diff = timezone.now()-par.getUniversalDate()
     days, seconds = diff.days, diff.seconds
@@ -137,24 +138,27 @@ def getUploadTimeDiff(par, isComment=False):
     minutes = (seconds % 3600) // 60
     seconds = seconds % 60
     if seconds < 60 and minutes == 0 and hours == 0:
-        out = f"{seconds} sec ago"
+        out = longStatus and f"few seconds ago" or f"{seconds} sec ago"
     elif minutes < 60 and hours == 0:
-        out = f"{minutes} min ago"
+        out = longStatus and ( minutes==1 and f"{minutes} minute ago" or f"{minutes} minutes ago") or f"{minutes} min ago"
     elif hours < 6:
         if isComment:
-            out = f"{hours} hr ago"
+            out = longStatus and ( hours==1 and f"{hours} hour ago" or f"{hours} hours ago") or f"{hours} hr ago"
         else:            
             if minutes == 0:
                 out = f"{hours} hr ago"
             else:
                 out = f"{hours} hr {minutes} min ago"
     elif hours < 24:
-        out = f"{hours} hr ago"
+        out = longStatus and ( hours==1 and f"{hours} hour ago" or f"{hours} hours ago") or f"{hours} hr ago"
     else:
         if days == 1:
             out = f"{days} day ago"
         else:
             out = f"{days} days ago"
+
+    if longStatus:
+        return out
 
     if isComment:
         num = out.find(" ")
@@ -172,3 +176,6 @@ def getWeightNumForCalc(weight):
             return 1
     else:
         return 100
+
+def getSlicedNotificationMessages(text):
+    return len(text)<=SLICE_MESSAGE_FOR_NOTIFICATION and text or f"{text[:SLICE_MESSAGE_FOR_NOTIFICATION]}..."

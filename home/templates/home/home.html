@@ -11,14 +11,6 @@
                 </div>
                 <div class="veg-cont">
                     <div class="w-100 flex fl-wrp">
-                        {% if not veg_posts %}
-                            <div class="no-post-intial">
-                                <div class="text-center">
-                                    <div>Oops </div>
-                                    <div>No post added yet</div>
-                                </div>
-                            </div>
-                        {% endif %}
                         {% for post in veg_posts %}
                             <div class="w-25">
                                 <div class="w-100">
@@ -57,6 +49,13 @@
                                     </div>
                                 </div>
                             </div>
+                        {% empty %}
+                            <div class="no-post-intial">
+                                <div class="text-center">
+                                    <div>Oops </div>
+                                    <div>No post added yet</div>
+                                </div>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -74,14 +73,6 @@
                 </div>
                 <div class="veg-cont">
                     <div class="w-100 flex fl-wrp">
-                        {% if not fruit_posts %}
-                            <div class="no-post-intial">
-                                <div class="text-center">
-                                    <div>Oops </div>
-                                    <div>No post added yet</div>
-                                </div>
-                            </div>
-                        {% endif %}
                         {% for post in fruit_posts %}
                             <div class="w-25">
                                 <div class="w-100">
@@ -112,6 +103,13 @@
                                             <div class="up-time up-desc"><i class="far fa-clock"></i> {{ post.uploaded_time }}</div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="no-post-intial">
+                                <div class="text-center">
+                                    <div>Oops </div>
+                                    <div>No post added yet</div>
                                 </div>
                             </div>
                         {% endfor %}

@@ -252,6 +252,9 @@
 body {
     font-family: 'Open Sans', 'Times New Roman', Times, serif;
 }
+.h-100 {
+    height: 100%;
+}
 .w-100 {
     width: 100%;
 }
@@ -283,7 +286,9 @@ body {
 .w-25 {
     width: 25%;
 }
-
+.font-12 {
+    font-size: 1.2em;
+}
 .w-10 {
     width: 10%;
 }
@@ -297,6 +302,9 @@ body {
 .m-t0 {
     margin-top: 0px;
 }
+.ml-5 {
+    margin-left: 5px !important;
+}
 .mg-t10 {
     margin-top: 10px;
 }
@@ -309,11 +317,17 @@ body {
 .fl-wrp {
     flex-wrap: wrap;
 }
+.fl-column {
+    flex-direction: column;
+}
 .no-fl-wrp {
     flex-wrap: nowrap;
 }
 .text-bold {
     font-weight: 1000;
+}
+.font-w-6 {
+    font-weight: 600;
 }
 .text-center {
     text-align: center;
@@ -407,6 +421,34 @@ div:focus {
     max-width: 950px !important;
     margin: auto auto !important;
 }
+#nprogress {
+    pointer-events: none;
+}
+
+#nprogress .bar {
+    background: #07C044;
+    position: fixed;
+    z-index: 1031;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+}
+
+/* Fancy blur effect */
+#nprogress .peg {
+    display: block;
+    position: absolute;
+    right: 0px;
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 10px #07C044, 0 0 5px #07C044;
+    opacity: 1.0;
+    -webkit-transform: rotate(3deg) translate(0px, -4px);
+    -ms-transform: rotate(3deg) translate(0px, -4px);
+    transform: rotate(3deg) translate(0px, -4px);
+}
+  
 .sticky {
     position: sticky;
     width: 100%;
@@ -523,7 +565,11 @@ div:focus {
     color: #07C044;
     background-color: white;
 }
-
+.big-bell-slash {
+    font-size: 3em;
+    color: #444;
+    margin-bottom: 5px;
+}
 /* Nav bar */
 .nav-bar {
     z-index: 101;
@@ -557,6 +603,10 @@ div:focus {
     display: block;
     padding: 8px 15px;
     color: #222;
+}
+.nav-reduced {
+    box-shadow: 3px 0px 5px #555 !important;
+    padding: 3px 0px !important;
 }
 .search-w {
     width: 74%;
@@ -659,7 +709,7 @@ div:focus {
     display: none;
     position: absolute;
     background: #fafafa;
-    top: 43px;
+    top: 44px;
     box-shadow: 0px 8px 40px #bbb;
     z-index: 2;
 }
@@ -703,30 +753,73 @@ div:focus {
     display: none;
     position: absolute;
     background: #fafafa;
-    top: 43px;
+    top: 44px;
     right: 0px;
     box-shadow: 0px 8px 40px #bbb;
     z-index: 2;
 }
 #notificaion-cont {
     list-style-type: none;
-    margin: 10px;
+    margin: 0;
     padding: 0px;
-    width: 320px;
+    width: 420px;
     font-size: 12px;
     height: 400px;
     overflow-y: auto;
 }
 #notificaion-cont li a{
+    color: #000;
+    font-size: 0.9rem;
     overflow: hidden;
-    display: block;
+    display: flex;
+    padding: 5px 0;
+    justify-content: space-between;
+}
+#notificaion-cont a:first-child{
+    padding-top: 15px;
+}
+.recent-notif {
+    background-color: #eee;
+}
+#notificaion-cont li a:hover{
+    background-color: #eee;
+}
+.notif-pp-n-indic {
+    display: flex;
+    height: 30px;
+    padding: 0 10px;
+    justify-content: space-around;
+}
+.notif-sender {
+    width: 30px;
+    height: 30px;
+    padding: 0 5px;
+    border-radius: 50%;
+}
+.notif-main-mssg {
     margin-bottom: 5px;
+}
+.notif-indic {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin: auto 0;
+    border-radius: 50%;
+}
+.notif-not-seen {
+    background-color: #0099FF;
+}
+.notif-post {
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    margin-left: auto;
 }
 #notif-num {
     position: absolute;
-    top: -10px;
+    top: -5px;
     font-size: 11px;
-    right: 2px;
+    right: 5px;
 }
 .notif-num-yes {
     background-color: #d00;
@@ -827,6 +920,8 @@ div:focus {
     padding: 3px 5px; 
     align-items: center; 
     font-size: 14px;
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
 }
 .auth-user:hover {
     border-bottom: 1px solid #ffa500;
@@ -1491,6 +1586,7 @@ input[type=checkbox] {
 }
 #reply-btn {
     background-color: #ffa500;
+    color: #111;
     border: 0px;
     position: absolute;
     height: 100%;
@@ -1505,6 +1601,7 @@ input[type=checkbox] {
     overflow: auto;
 }
 #comment-btn {
+    color: #111;
     background-color: #ffa500;
     border: 0px;
     border-radius: 0 23px 23px 0;
@@ -1856,7 +1953,36 @@ input[type=checkbox] {
     transform: rotate(360deg);
     }
 }
-  
+
+
+/* Own load */
+.my-load {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: 1px solid #07C044;
+    border-top: 1px solid transparent;
+    border-radius: 50%;
+    animation: my-load 1s infinite ease-in-out;
+}
+.my-small-load {
+    width: 15px;
+    height: 15px;
+    background-color: transparent;
+    border: 1px solid #07C044;
+    border-top: 1px solid transparent;
+    border-radius: 50%;
+    animation: my-load 1s infinite ease-in-out;
+}
+
+@keyframes my-load {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 
 @media screen and (max-width: 1120px) {
@@ -1866,22 +1992,25 @@ input[type=checkbox] {
 }
 
 @media screen and (max-width: 850px) {
-    .w-25 {
-        width: 50%;
+    .fl-rev-850 {
+        flex-wrap: wrap-reverse;
     }
-    .w-33-md {
+    .w-25 {
         width: 50%;
     }
     .w-60 {
         width: 100%;
     }
     .w-60-same {
-        width: 60%;
+        width: 100%;
     }
     .w-25-md {
         width: 100%;
     }
     .w-75 {
+        width: 100%;
+    }
+    .w-40 {
         width: 100%;
     }
     .hd-3{

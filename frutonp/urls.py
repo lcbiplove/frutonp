@@ -22,7 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name="home"),
-    path('home/reload-notif/', views.reloadNotif, name="reloadNotif"),
+    path('home/show-notif/', views.showNotif, name="showNotif"),
+    path('home/notif-seen/<int:id>/', views.makeNotifSeen, name="makeNotifSeen"),
     path('__ck__law__/', views.cookieLaw, name="cookieLaw"),
     path('join/', include('join.urls')),
     path('profile/', include('profiles.urls')),

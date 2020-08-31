@@ -228,6 +228,7 @@ def deletePP(request, id=None):
         my_profile = request.user.myuserprofile
         pp=get_object_or_404(MyUserProfile, pk=my_profile.id)
         if pp.pp != MyUserProfile.default_pp:
+            # pp.pp.delete(False)
             pp.pp = MyUserProfile.default_pp
             pp.save(update_fields=['pp'])
     return redirect('profile')

@@ -3,17 +3,17 @@ heightFromTop = $(this).scrollTop();
 $("#sort-by-select").val($("#sort-by-select").attr("value"));
 
 if(heightFromTop > 10){
-    $('.nav-bar').css({"box-shadow": "3px 0px 5px #555", "padding": "3px 0px"});
+    $('.nav-bar').addClass("nav-reduced");
 } else {
-    $('.nav-bar').css({"box-shadow": "none", "padding": "10px 0px"});
+    $('.nav-bar').removeClass("nav-reduced");
 }
 
 $(window).scroll(function(){
     heightFromTop = $(this).scrollTop();
     if(heightFromTop > 10){
-        $('.nav-bar').css({"box-shadow": "3px 0px 6px #555", "padding": "3px 0px"});
+        $('.nav-bar').addClass("nav-reduced");
     } else {
-        $('.nav-bar').css({"box-shadow": "none", "padding": "10px 0px"});
+        $('.nav-bar').removeClass("nav-reduced");
     }
 });
 
