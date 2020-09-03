@@ -30,4 +30,5 @@ urlpatterns = [
     path('post/', include('posts.urls')),
     path('search/', views.search, name="search"),
     path('search/<query>/', views.searchQuery, name="searchQuery"),
+    path('item/', include('item.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

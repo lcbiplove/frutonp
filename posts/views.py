@@ -212,7 +212,6 @@ def editedPost(request, id):
             data = {}
             post = get_object_or_404(Post, pk=id)
             data['title']=post.title
-            #posts_serialized = serializers.serialize('json', posts)
             return JsonResponse(data) 
 
     raise Http404()

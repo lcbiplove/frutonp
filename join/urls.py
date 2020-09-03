@@ -7,5 +7,4 @@ urlpatterns = [
     path('logout/', views.logout, name="logout"),
     path('aj_ch_em/', views.ajax_email, name="ajax_email"),
     path('check/', views.check, name="check"),
-
 ] 

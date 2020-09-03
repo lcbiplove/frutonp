@@ -1,5 +1,5 @@
-var screen_height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-var screen_width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+var screen_height = MyScreen.height;
+var screen_width = MyScreen.width
 var load_circle = Pop.load_circle;
 var load_elips = Pop.load_elips;
 var csrf = $("#prfl_base_csrf").val();

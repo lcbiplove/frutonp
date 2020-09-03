@@ -1,4 +1,5 @@
 {% load static %}
+{% load home_extras %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +12,7 @@
     <title>{% if yes_no == "yes" %}({{ notif_num }}) {% endif %}{% block title %}{% endblock title %}</title>
     <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png" sizes="16x16">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?version=10">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?version=88">
     <script src="{% static 'js/jquery.min.3.4.1.js' %}"></script>
 </head>
 <body>
@@ -28,14 +29,6 @@
                     <div class="search-w">
                         <form class="srch-form" action="{% url 'search' %}">
                             <input type="search" name="q" id="search" class="search-inpt" title="Search for your choice" />
-                            <!--
-                            <select class="srch-select" name="so">
-                                <option value="vegetable">Vegetable</option>
-                                <option value="fruit">Fruit</option>
-                                <option value="location">Location</option>
-                                <option value="name">User</option>
-                            </select> 
-                            -->                       
                             <button class="srch-icon"><i class="fas fa-search"></i></button>
                         </form>
                     </div>
@@ -44,14 +37,6 @@
                     <div class="mb-srch-n-sel">
                         <form action="{% url 'search' %}" id="mb-srch-form" class="srch-form">
                             <input type="search" name="q" id="mb-srch-inpt">
-                            <!--
-                            <select class="mb-srch-select" name="so">
-                                <option value="vegetable">Vegetable</option>
-                                <option value="fruit">Fruit</option>
-                                <option value="location">Location</option>
-                                <option value="name">User</option>
-                            </select> 
-                            -->
                         </form>  
                     </div>
                     <span id="mb-srch-icon" class="mb-srch-icon"><i class="fas fa-search"></i></span>
@@ -64,10 +49,34 @@
                         </a>
                         <div class="cat-drp-mn" >
                             <ul>
-                                <li><a href="javascript:void(0);" class="flex">
-                                    <span><i class="fas fa-carrot"></i></span> 
-                                    <span>Vegetables</span></a></li>
-                                <li><a href="javascript:void(0);"><i class="fas fa-apple-alt"></i> Fruits</a></li>
+                                <li>
+                                    <div class="desk-cat-each">
+                                        <span>
+                                            <span><i class="fas fa-carrot"></i></span> 
+                                            <span>Vegetables</span>
+                                        </span>
+                                        <div id="category-of-vegetables" class="cat-each-item">
+                                            <a href="{% url 'itemVegetable' %}">All</a>
+                                            {% for veg in cat_vegs %}
+                                                <a href="{% url 'itemVegetableName' veg %}">{{ veg|get_display_food_choice }}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="desk-cat-each">
+                                        <span>
+                                            <span><i class="fas fa-apple-alt"></i></span>
+                                            <span>Fruits</span>
+                                        </span>
+                                        <div id="category-of-fruits" class="cat-each-item cat-each-fruit">
+                                            <a href="{% url 'itemFruit' %}">All</a>
+                                            {% for fruit in cat_fruits %}
+                                                <a href="{% url 'itemFruitName' fruit %}">{{ fruit|get_display_food_choice }}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -152,31 +161,61 @@
             </div> 
         </div>          
         <div class="side-bar">
-            <span id="side-close"><i class="fas fa-times"></i></span>
-            {% if not user.is_authenticated %}
-                <div class="flex" style="margin-top: 50px;">
-                    <a href="{% url 'login' %}" class="w-50 text-center" style="padding: 5px 0px; border: 1px solid #eee; color: #eee; background-color: #555;">Login</a>
-                    <a href="{% url 'signup' %}" class="w-50 text-center" style="padding: 5px 0px; border: 1px solid #555; background-color: #eee;">Signup</a>
-                </div> 
-            {% else %}     
-                <div style="margin-top: 50px; margin-bottom: 0px;">
-                    <a href="{% url 'profile' user.id %}" class="auth-user-mb" style="display: flex; align-items: center;">
-                        <img src="/media/{{ user.myuserprofile.pp }}" width=25 height=25 alt="Profile Picture"/>
-                        {{ user.short_name }}
-                    </a>
-                </div>  
-            {% endif %}
-            <div style="margin-top: 20px;">
-                <span style="margin-left: 3px;">Catagories</span>
-                <a href="javascript:void(0);" style="margin-left: 30px;"><i class="fas fa-carrot"></i> Vegetables</a>
-                <a href="" style="margin-left: 30px;"><i class="fas fa-apple-alt"></i> Fruits</a>
+            <div class="side-bar-nav">
+                {% if not user.is_authenticated %}
+                    <div class="fl-mid">
+                        <a href="{% url 'login' %}" class="not-auth-user-mb">Login</a>
+                        <span></span>
+                        <a href="{% url 'signup' %}" class="not-auth-user-mb">Signup</a>
+                    </div> 
+                {% else %}     
+                    <div>
+                        <a href="{% url 'profile' user.id %}" class="auth-user-mb">
+                            <img src="/media/{{ user.myuserprofile.pp }}" alt="Profile Picture"/>
+                            <span>{{ user.short_name }}</span>
+                        </a>
+                    </div>  
+                {% endif %}
             </div>
-
+            <div id="side-scrollable-primary" class="side-scrollable">
+                <div class="side-cat-div">
+                    <span>Categories</span>
+                    <a href="#" class="side-cat-item" data-category="vegetables">
+                        <span>
+                            <i class="fas fa-carrot"></i> <span>Vegetables</span>
+                        </span>
+                        <span class="cat-right-ar">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                    </a>
+                    <a href="#" class="side-cat-item" data-category="fruits">
+                        <span>
+                            <i class="fas fa-apple-alt"></i> <span>Fruits</span>
+                        </span>
+                        <span class="cat-right-ar">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div id="side-scrollable-secondary" class="side-scrollable">
+                <div class="side-cat-div">
+                    <a href="#" class="sub-cat-back">
+                        <i class="fas fa-arrow-left"></i> <span>Back</span>
+                    </a>
+                    <span id="side-sub-label"></span>
+                    <div id="side-sec-main-cont">
+                        
+                    </div>
+                </div>
+            </div>
         </div>
         <div class='srch-overlay d-none'></div>
+        <div class='sidebar-overlay'>
+            <span id="side-close"><span></span></span>
+        </div>
+        
     </header>
-
-    
 
     <div style="margin-top: 80px;">
         {% if messages %}
@@ -232,9 +271,9 @@
             });
         </script>
     </div>
-    <div><script src="{% static 'js/nav_all___.js' %}?version=66"></script></div>
+    <div><script src="{% static 'js/nav_all___.js' %}?version=55"></script></div>
     <div><script src="{% static 'js/nprogress.js' %}"></script></div>
-    <div><script src="{% static 'js/notifs__.js' %}?version=22"></script></div>
+    <div><script src="{% static 'js/notifs__.js' %}?version=33"></script></div>
     <div><script src="{% static 'js/content_scroll_card.js' %}"></script></div>
     <div><script src="{% static 'js/sess_mssg_.js' %}"></script></div>
     <div><script src="{% static 'js/cookie.js' %}"></script></div>

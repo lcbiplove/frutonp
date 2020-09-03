@@ -83,6 +83,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.cookie_law_processors',
                 'home.context_processors.notif_nums',
+                'home.context_processors.veg_or_fruit_for_category',
             ],
         },
     },

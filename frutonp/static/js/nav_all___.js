@@ -1,4 +1,35 @@
-heightFromTop = $(this).scrollTop();
+/* Pop up */
+Pop = {
+    load_circle: '<span class="load-cic"><span style="background: #ddd;"></span></span>',
+    load_elips: '<span class="load-ellipsis"><span></span><span></span><span></span><span></span></span>',
+    showPop: function(){
+                $("body").css({"overflow": "hidden"});
+                $(".real-modal").css({"display": "flex"});
+                setTimeout(function(){
+                    $(".real-modal-container").show(100);
+                }, 100);
+            },
+    hidePop: function hidePop(){
+                $(".real-modal-container").hide(100, function(){
+                    $(".real-modal").css("display", "none");
+                    $("body").css("overflow", "");
+                    $(this).removeClass("back-trans fl-mid");
+                });
+            },
+    popShown: function popShown(){ 
+                var attr = $("body").attr("style")
+                if( attr === undefined || attr.length === 0)
+                    return false;
+                return true;
+            }
+};
+
+MyScreen = {
+    height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+    width:  window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+}
+var heightFromTop = $(this).scrollTop();
+var side_bar_scrollable_height = MyScreen.height-$(".side-bar-nav").innerHeight()+5
 
 $("#sort-by-select").val($("#sort-by-select").attr("value"));
 
@@ -40,13 +71,20 @@ function setClick(){
 }
 /* Nav bar functions */
 function showNav(){
+    $(".sidebar-overlay").fadeIn(400);
+    $("body").removeClass("o-hidden");
+    $("body").addClass("o-hidden");
     $(".side-bar").css({"width": "275px"});
     $("#menu-btn").css({"visibility": "hidden"});
+    $(".side-scrollable").css({"height": side_bar_scrollable_height});
     navIsOpen = true;
 }
 function hideNav(){
     $(".side-bar").css({"width": "0px"});
     $("#menu-btn").css({"visibility": "visible"});
+    $(".sidebar-overlay").fadeOut(400);
+    $("body").removeClass("o-hidden");
+    closeSecondarySidebar();
     navIsOpen = false;
 }
 /* Mobile search functions */
@@ -59,7 +97,6 @@ function openMbSearch(){
 }
 function closeMbSearch(){
     $("#mb-srch-icon").removeClass("mb-srch-open");
-    
     $(".mb-srch-n-sel").css({"display": "none"});
     $(".set-not-btn").css("display", "flex");
     $("#menu-btn").css("display", "block");
@@ -71,7 +108,37 @@ function fullButNoFocus(){
     var width = $("#mb-srch-inpt").css("width");
     $("#mb-srch-inpt").css("width", width);
 }
+function openSecondarySidebar(){
+    $("#side-scrollable-secondary").css({"width": "100%"});
+    $("#side-scrollable-primary").css({"left": "-300px"});
+}
+function closeSecondarySidebar(){
+    $("#side-scrollable-secondary").css({"width": "0"});
+    $("#side-scrollable-primary").css({"left": "0"});
+}
+function setDataToSecondarySidebar(label){
+    var data = $(`#category-of-${label}`).html();
+    $("#side-sub-label").html(label);
+    $("#side-sec-main-cont").html(data);
+}
 /* All on click.... Select actions and functions */
+$(document).on("click", "#menu-btn", function(){
+    showNav();
+});
+$(document).on("click", ".sidebar-overlay", function(){
+    hideNav();
+});
+$(document).on("click", ".side-cat-item", function(e){
+    var data_category = $(this).attr("data-category");
+    e.preventDefault();
+    openSecondarySidebar();
+    setDataToSecondarySidebar(data_category);
+});
+$(document).on("click", ".sub-cat-back", function(e){
+    e.preventDefault();
+    closeSecondarySidebar();
+});
+
 $(document).click(function(e){
     // For settings
     if($(e.target).parent("#settings-btn").length || e.target.id == "settings-btn"){
@@ -89,13 +156,6 @@ $(document).click(function(e){
         $("#settings-cont").css("display", "block");
         $("#lang-cont").css("display", "none");
     }
-    // Ham menu button
-    if(e.target.id == "menu-btn" || $(e.target).parent("#menu-btn").length){
-        showNav();
-    }
-    else if(!$(e.target).parents(".side-bar").length || $(e.target).parent("#side-close").length || e.target.id == "side-close"){
-        hideNav();
-    } 
     // Search icon on nav
     if(e.target.id == "mb-srch-icon" || $(e.target).parent("#mb-srch-icon").length){
         if(!$("#mb-srch-icon").hasClass("mb-srch-open")){
@@ -124,7 +184,7 @@ $("#sort-by-select").on("change", function(){
     active_tab = $(".srch-tab-active").html();
     active_tab = active_tab.toLowerCase();
     active_tab = active_tab.indexOf("s", active_tab.length-1) == -1 ? active_tab : active_tab.substring(0, active_tab.length-1)
-    console.log(window.location.replace(window.location.href.split('?')[0]+`?tab=${active_tab}&sort-by=${$(this).val()}`));
+    window.location.replace(window.location.href.split('?')[0]+`?tab=${active_tab}&sort-by=${$(this).val()}`)
 });
 $(window).resize(function(){
     if($(window).width() > 850){
@@ -150,28 +210,3 @@ $("#mb-srch-inpt").on("focus", function(){
     $(".srch-overlay").removeClass("d-none");
     $(".nav-bar").addClass("pad-3");
 });
-/* Pop up */
-Pop = {
-    load_circle: '<span class="load-cic"><span style="background: #ddd;"></span></span>',
-    load_elips: '<span class="load-ellipsis"><span></span><span></span><span></span><span></span></span>',
-    showPop: function(){
-                $("body").css({"overflow": "hidden"});
-                $(".real-modal").css({"display": "flex"});
-                setTimeout(function(){
-                    $(".real-modal-container").show(100);
-                }, 100);
-            },
-    hidePop: function hidePop(){
-                $(".real-modal-container").hide(100, function(){
-                    $(".real-modal").css("display", "none");
-                    $("body").css("overflow", "");
-                    $(this).removeClass("back-trans fl-mid");
-                });
-            },
-    popShown: function popShown(){ 
-                var attr = $("body").attr("style")
-                if( attr === undefined || attr.length === 0)
-                    return false;
-                return true;
-            }
-};
