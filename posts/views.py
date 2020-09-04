@@ -96,7 +96,6 @@ def editPost(request, id):
             foodType = request.POST.get('foodType')
             price = request.POST.get('price')
             quantity = request.POST.get('quantity')
-            expire = request.POST.get('expire')  
             phone2 = request.POST.get('phone2')
             location = request.POST.get('location')
             try:
@@ -117,13 +116,6 @@ def editPost(request, id):
 
             if quantity not in Post.QUANTITY:
                 err['quantity'] = "Please select from the given options only."
-
-            if expire not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']:
-                err['expire'] = "Please select from the given options only."
-            """
-            else:
-                expire = add_post_date(int(expire))
-            """
             
             if not (len(phone2)==10 and re.match('^\d+$', phone2) or len(phone2)==0):
                 err['phone2'] = "Phone should contain 10 numbers."
@@ -158,9 +150,6 @@ def editPost(request, id):
                     post.quantity = quantity
                     json_send['quantity'] = post.quantity
                     update_fields.append('quantity')
-                if post.expire != expire:
-                    post.expire = expire
-                    update_fields.append('expire')
                 if post.phone2 != phone2:
                     post.phone2 = phone2
                     json_send['phone2'] = post.phone2
@@ -266,7 +255,6 @@ def addPost(request):
         foodType = request.POST.get('foodType')
         price = request.POST.get('price')
         quantity = request.POST.get('quantity')
-        expire = request.POST.get('expire')  
         phone2 = request.POST.get('phone2')
         location = request.POST.get('location')
         try:
@@ -287,11 +275,6 @@ def addPost(request):
 
         if quantity not in Post.QUANTITY:
             err['quantity'] = "Please select from the given options only."
-
-        if expire not in Post.EXPIRE:
-            err['expire'] = "Please select from the given options only."
-        #else:
-            #expire = add_post_date(int(expire))
 
         if len(request.FILES.getlist('photos')) > 5:
             err['photos'] = "Max photo upload is 5."

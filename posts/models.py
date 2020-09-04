@@ -34,32 +34,12 @@ class Post(models.Model):
         ('50kg', '50 kg'),
         ('quintal', '1 quintal'),
     )
-    EXPIRE = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
-    EXPIRE_CHOICES = (
-        ('1', '1 day'),
-        ('2', '2 days'),
-        ('3', '3 days'),
-        ('4', '4 days'),
-        ('5', '5 days'),
-        ('6', '6 days'),
-        ('7', '7 days'),
-        ('8', '8 days'),
-        ('9', '9 days'),
-        ('10', '10 days'),
-        ('10', '10 days'),
-        ('11', '11 days'),
-        ('12', '12 days'),
-        ('13', '13 days'),
-        ('14', '14 days'),
-        ('15', '15 days'),
-    )
     myuser = models.ForeignKey(to=MyUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     desc = models.TextField(verbose_name='Description')
     foodType = models.CharField(max_length=50, verbose_name='Food Type', choices=FOOD_CHOICES)
     price = models.BigIntegerField()
     quantity = models.CharField(max_length=30, choices=QUANTITY_CHOICES)
-    expire = models.CharField(null=True, max_length=10, choices=EXPIRE_CHOICES, default='10')
     phone2 = models.CharField(max_length=10, null=True)
     location = models.CharField(max_length=150, null=True)
     thumbnail = models.CharField(max_length=255, null=True)
