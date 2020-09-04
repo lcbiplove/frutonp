@@ -1,6 +1,6 @@
 {% for post in posts %}
     <li>
-        <a class="post-ttl" href="{% url 'post' post.id %}">{{post.title}}</a>
+        <a class="post-ttl" href="{% url 'post' post.id %}">{{post.outerFood}}</a>
         <div>
             <span class="post-date">{{post.uploaded_at|date:"b d, Y"}}</span>
             {% if user == post.myuser %} 
