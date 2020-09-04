@@ -91,7 +91,6 @@ def editPost(request, id):
     post = get_object_or_404(Post, pk=id)
     if post.myuser == request.user:
         if request.is_ajax():
-            title = request.POST.get('title')
             desc = (request.POST.get('desc')).strip()
             foodType = request.POST.get('foodType')
             price = request.POST.get('price')
@@ -104,9 +103,6 @@ def editPost(request, id):
                 price = int(price)
             except:
                 err['price'] = "Price must be in numbers."
-
-            if len(title)==0:
-                err['title'] = "Title must be filled."
 
             if desc == "":
                 err['desc'] = "Description must be filled."
@@ -124,10 +120,6 @@ def editPost(request, id):
                 data = {}
                 json_send = {}
                 update_fields = []
-                if post.title != title:
-                    post.title = title
-                    json_send['title'] = title
-                    update_fields.append('title')
                 if post.desc != desc:
                     post.desc = desc
                     json_send['desc'] = desc
@@ -250,7 +242,6 @@ def selectThumbnail(request):
 def addPost(request):
     err = {}
     if request.is_ajax():
-        title = request.POST.get('title')
         desc = (request.POST.get('desc')).strip()
         foodType = request.POST.get('foodType')
         price = request.POST.get('price')
@@ -263,9 +254,6 @@ def addPost(request):
             price = int(price)
         except:
             err['price'] = "Price must be in numbers."
-
-        if len(title)==0:
-            err['title'] = "Title must be filled."
 
         if desc == "":
             err['desc'] = "Description must be filled."

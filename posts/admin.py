@@ -16,9 +16,9 @@ class PostAdmin(admin.ModelAdmin):
             return list()
         return super(PostAdmin, self).get_inline_instances(request, obj)
 
-    list_display = ['title', 'foodType', 'uploaded_at']
+    list_display = ['foodType', 'uploaded_at']
     list_filter = ['uploaded_at']
-    search_fields = ['title']
+    search_fields = ['foodType']
 
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ['id', 'photos']

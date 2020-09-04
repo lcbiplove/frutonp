@@ -8,122 +8,115 @@
     &times;
 </div>
 <div class="w-100" id="add-post-modal">
-        <div class="pd-10">
-            <div class="w-100">
-                <h2 class="text-center sticky" style="margin: 80px 0px 60px 0px;">Add Post</h2>
-                <div class="w-75 w-75-mg" style="margin: auto auto;">
-                    <form style="margin: 15px 0px;" action="{% url 'addPost' %}" method="POST" enctype="multipart/form-data" id="add-post-form">
-                        {% csrf_token %}
-                        <div class="pd-5">
-                            <label for="titleId">Title<span style="color: red;">*</span></label>
-                            <input type="text" placeholder="Post Title..." name="title" id="titleId" value="{{ post.title }}">
-                            <span class="err-mssg err-ttl">
-                                {{err.title}}
-                            </span>
-                        </div>
-                        
-                        <div class="pd-5">
+    <div class="pd-10">
+        <div class="w-100">
+            <h2 class="text-center sticky" style="margin: 80px 0px 60px 0px;">Add Post</h2>
+            <div class="w-75 w-75-mg" style="margin: auto auto;">
+                <form style="margin: 15px 0px;" action="{% url 'addPost' %}" method="POST" enctype="multipart/form-data" id="add-post-form">
+                    {% csrf_token %}                    
+
+                    <div class="pd-5">
+                        <div>
                             <div>
-                                <label for="descriptionId">Description<span style="color: red;">*</span></label>
+                                <label for="vegetableId">Fruit / Vegetable<span style="color: red;">*</span></label>
                             </div>
-                            <textarea placeholder="Post Description..." style="border: 1px solid rgb(7, 192, 68);" name="desc" id="descriptionId" cols="33" rows="10" placeholder="Description here...">{{ post.desc }}</textarea>
-                            <span class="err-mssg err-desc">
-                                {{err.desc}}
-                            </span>
-                        </div>
-                        <div class="pd-5">
-                            <div>
-                                <div>
-                                    <label for="vegetableId">Fruit / Vegetable<span style="color: red;">*</span></label>
-                                </div>
-                                <select name="foodType">
-                                    <option value="" selected disabled="disabled">Choose One</option>
-                                    <optgroup class="optgroup" label="Fruits">
-                                        {% for fruit in fruits %}
-                                            <option value="{{ fruit }}">{{ fruit|get_display_food_choice }}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                    <optgroup class="optgroup" label="Vegetables">
-                                        {% for veg in vegs %}
-                                            <option value="{{ veg }}">{{ veg|get_display_food_choice }}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                </select>
-                            </div>
-                            <span class="err-mssg">
-                                {{err.foodType}}
-                            </span>
-                        </div>
-                        <div class="pd-5">
-                            <label for="priceId">Price<span style="color: red;">*</span></label>
-                            <input type="number" placeholder="Price with respect to quantity..." name="price" id="priceId" value="{{ post.price }}" min="0">
-                            <span class="err-mssg err-prc">
-                                {{err.price}}
-                            </span>
-                        </div>
-                        <div class="pd-5">
-                            <div>
-                                <label for="quantityId">Quantity<span style="color: red;">*</span></label>
-                            </div>
-                            <select name="quantity">
+                            <select name="foodType">
                                 <option value="" selected disabled="disabled">Choose One</option>
-                                {% for q in quantity %}
-                                    <option value="{{ q }}">{{ q|get_display_quantity_choice }}</option>
-                                {% endfor %}
+                                <optgroup class="optgroup" label="Fruits">
+                                    {% for fruit in fruits %}
+                                        <option value="{{ fruit }}">{{ fruit|get_display_food_choice }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                                <optgroup class="optgroup" label="Vegetables">
+                                    {% for veg in vegs %}
+                                        <option value="{{ veg }}">{{ veg|get_display_food_choice }}</option>
+                                    {% endfor %}
+                                </optgroup>
                             </select>
-                            <span class="err-mssg">
-                                {{err.quantity}}
-                            </span>
                         </div>
-                        <div class="pd-5">
-                            <label for="photosId">Photos</label>
-                            <input type="file" name="photos" id="photosId" accept="image/jpeg, image/png" multiple>
-                            <div>
-                                <small>
-                                    <span class="err-mssg">
-                                        {{ err.photos }}
-                                    </span>
-                                    Maximum 5 photos can be uploaded. If u don't have any photo. We will provide our own photos. But, your clicks are highly recommended.
-                                </small>
-                            </div>
+                        <span class="err-mssg">
+                            {{err.foodType}}
+                        </span>
+                    </div>
+                    <div class="pd-5">
+                        <label for="priceId">Price<span style="color: red;">*</span></label>
+                        <input type="number" placeholder="Price with respect to quantity..." name="price" id="priceId" value="{{ post.price }}" min="0">
+                        <span class="err-mssg err-prc">
+                            {{err.price}}
+                        </span>
+                    </div>
+                    <div class="pd-5">
+                        <div>
+                            <label for="quantityId">Quantity<span style="color: red;">*</span></label>
                         </div>
-                        <div class="pd-5">
-                            <label for="phone2">Phone2</label>
-                            <input type="text" name="phone2" id="phone2" value="{{ post.phone2 }}">
-                            
+                        <select name="quantity">
+                            <option value="" selected disabled="disabled">Choose One</option>
+                            {% for q in quantity %}
+                                <option value="{{ q }}">{{ q|get_display_quantity_choice }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="err-mssg">
+                            {{err.quantity}}
+                        </span>
+                    </div>
+                    <div class="pd-5">
+                        <div>
+                            <label for="descriptionId">Description<span style="color: red;">*</span></label>
+                        </div>
+                        <textarea placeholder="Post Description..." style="border: 1px solid rgb(7, 192, 68);" name="desc" id="descriptionId" cols="33" rows="10" placeholder="Description here...">{{ post.desc }}</textarea>
+                        <span class="err-mssg err-desc">
+                            {{err.desc}}
+                        </span>
+                    </div>
+                    <div class="pd-5">
+                        <label for="photosId">Photos</label>
+                        <input type="file" name="photos" id="photosId" accept="image/jpeg, image/png" multiple>
+                        <div>
                             <small>
-                                <span class="err-mssg err-phn2">
-                                    {{err.phone2}}
+                                <span class="err-mssg">
+                                    {{ err.photos }}
                                 </span>
-                                Phone number from your profile will be added as secondary choice in post.
+                                Maximum 5 photos can be uploaded. If u don't have any photo. We will provide our own photos. But, your clicks are highly recommended.
                             </small>
                         </div>
-                        <div class="pd-5">
-                            <label for="locationId">Location</label>
-                            <input type="text" name="location" id="locationId" value="{{ post.location }}">
-                            <small>Location from your profile will be added by default.</small>
-                        </div>
-                        <div class="pd-5">
-                            <button name="post" class="update-btn" disabled="disabled">Post</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="pd-5">
+                        <label for="phone2">Phone2</label>
+                        <input type="text" name="phone2" id="phone2" value="{{ post.phone2 }}">
+                        
+                        <small>
+                            <span class="err-mssg err-phn2">
+                                {{err.phone2}}
+                            </span>
+                            Phone number from your profile will be added as secondary choice in post.
+                        </small>
+                    </div>
+                    <div class="pd-5">
+                        <label for="locationId">Location</label>
+                        <input type="text" name="location" id="locationId" value="{{ post.location }}">
+                        <small>Location from your profile will be added by default.</small>
+                    </div>
+                    <div class="pd-5">
+                        <button name="post" class="update-btn" disabled="disabled">Post</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <div id="load-thumb">
-        <div class="real-modal">
-            <div class="real-modal-container" tabindex="0" style="display: flex; justify-content: center; padding: 30px;">
-                <div class="load-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-            </div>
+</div>
+<div id="load-thumb">
+    <div class="real-modal">
+        <div class="real-modal-container" tabindex="0" style="display: flex; justify-content: center; padding: 30px;">
+            <div class="load-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         </div>
     </div>
-    <div>
-        <form action="/" id="post-to-sel-thum" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="hide" value="//"/>
-        </form>
-    </div>
+</div>
+<div>
+    <form action="/" id="post-to-sel-thum" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="hide" value="//"/>
+    </form>
+</div>
 {% endblock content %}
     
 {% block scripts %}
@@ -138,18 +131,9 @@
                 })                
                 $("#add-post-form").submit(function(e){
                     var err = [];
-                    var title = $("input[name=title]").val();
                     var price = $("input[name=price]").val();
                     var desc = $.trim($("textarea").val());
                     var phone2 = $("input[name=phone2]").val();
-                    
-                    if(title.length == 0){
-                        err[0] = true
-                        $(".err-desc").text("Must fill title");
-                    } else {
-                        $(".err-desc").text("");
-                    }
-
                     if(desc.length == 0){
                         err[1] = true
                         $(".err-desc").text("Must fill description");

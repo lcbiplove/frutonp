@@ -7,6 +7,7 @@ from datetime import timedelta
 from django.utils import timezone
 
 class Post(models.Model):
+    CATEGORIES = ['Vegetable', 'Fruit']
     VEG = ['bitter-gourd', 'cabbage', 'cauliflower', 'ladies-finger', 'pumpkin']
     FRUIT = ['apple', 'banana', 'litchi', 'mango', 'orange']
     FOOD_CHOICES = (
@@ -35,7 +36,6 @@ class Post(models.Model):
         ('quintal', '1 quintal'),
     )
     myuser = models.ForeignKey(to=MyUser, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
     desc = models.TextField(verbose_name='Description')
     foodType = models.CharField(max_length=50, verbose_name='Food Type', choices=FOOD_CHOICES)
     price = models.BigIntegerField()
@@ -55,6 +55,12 @@ class Post(models.Model):
         """ To use external function getUploadTimeDiff in every model, return datetime field of to be calculated
         date time """
         return self.uploaded_at
+
+    def foodCategory(self):
+        if self.foodType in Post.VEG:
+            return Post.CATEGORIES[0]
+        return Post.CATEGORIES[1]
+        
 
     def outerFood(self):
         return self.get_foodType_display()

@@ -12,7 +12,7 @@
     <title>{% if yes_no == "yes" %}({{ notif_num }}) {% endif %}{% block title %}{% endblock title %}</title>
     <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png" sizes="16x16">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?version=88">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?version=22">
     <script src="{% static 'js/jquery.min.3.4.1.js' %}"></script>
 </head>
 <body>
@@ -20,7 +20,7 @@
         <div class="nav-bar">
             <div class="w-100 flex">
                 <a class="logo black" href="{% url 'home' %}" title="Go to home">
-                    <span><img src="{% static 'images/logo.png' %}" class="logo-img" alt="Logo-frutonp"></span>
+                    <span><img src="{% static 'images/logo.png' %}" class="logo-img" alt="frutonp-logo"></span>
                     <span style="align-self: center;">Frutonp</span>
                     <input id="prfl_base_csrf" type="hidden" name="hide" value="{{ csrf_token }}"/>
                 </a>
@@ -249,28 +249,7 @@
         {% endblock cookie %}
     </div>
 
-    <div>
-        <script>
-            $(document).ready(function(){
-                /* Logout on click */
-                $("#logout").on('click', function(){
-                    $("#logout-form").submit();
-                });
-                /* Close modals of profile forms */
-                try{
-                    classFromClose = $(".modal-close").attr("class").split('')[1]; // To get the class name of which modal
-                }
-                catch {
-                    classFromClose = "";
-                }
-                $(".modal-close").on('click', function(){
-                    var modalId = "#"+classFromClose+"-modal";
-                    $(".modal-close").css("display", "none");
-                    window.history.go(-1);
-                });
-            });
-        </script>
-    </div>
+    <div><script src="{% static 'js/common_logout_modal.js' %}"></script></div>
     <div><script src="{% static 'js/nav_all___.js' %}?version=55"></script></div>
     <div><script src="{% static 'js/nprogress.js' %}"></script></div>
     <div><script src="{% static 'js/notifs__.js' %}?version=33"></script></div>

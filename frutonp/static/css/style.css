@@ -422,6 +422,9 @@ div:focus {
     max-width: 950px !important;
     margin: auto auto !important;
 }
+.m-auto {
+    margin: auto auto;
+}
 #nprogress {
     pointer-events: none;
 }
@@ -453,11 +456,10 @@ div:focus {
 .sticky {
     position: sticky;
     width: 100%;
-    top: 0px;
+    top: 0;
     left: 0px;
     padding: 0px 0px 10px 0px;
     border-bottom: 1px solid #ddd;
-    background-color: #eee;
     z-index: 111;
 }
 .real-modal {
@@ -1553,7 +1555,6 @@ input[type=checkbox] {
     z-index: 99;
     top: 0px;
     display: block;
-    background-color: #eee;
     animation-name: animationtop;
     animation-duration: 0.6s;
     -webkit-animation-name: animationtop;

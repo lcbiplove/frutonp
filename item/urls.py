@@ -6,5 +6,4 @@ urlpatterns = [
     path('vegetable/<str:veg_name>/', views.vegName, name="itemVegetableName"),
     path('fruits/', views.fruit, name="itemFruit"),
     path('fruit/<str:fruit_name>/', views.fruitName, name="itemFruitName"),
-
 ] 

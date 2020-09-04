@@ -15,23 +15,6 @@
                     <form style="margin: 15px 0px;" action="{% url 'addPost' %}" method="POST" enctype="multipart/form-data" id="add-post-form">
                         {% csrf_token %}
                         <div class="pd-5">
-                            <label for="titleId">Title<span style="color: red;">*</span></label>
-                            <input type="text" placeholder="Post Title..." name="title" id="titleId" value="{{ post.title }}">
-                            <span class="err-mssg err-ttl">
-                                {{err.title}}
-                            </span>
-                        </div>
-                        
-                        <div class="pd-5">
-                            <div>
-                                <label for="descriptionId">Description<span style="color: red;">*</span></label>
-                            </div>
-                            <textarea placeholder="Post Description..." style="border: 1px solid rgb(7, 192, 68);" name="desc" id="descriptionId" cols="33" rows="10" placeholder="Description here...">{{ post.desc }}</textarea>
-                            <span class="err-mssg err-desc">
-                                {{err.desc}}
-                            </span>
-                        </div>
-                        <div class="pd-5">
                             <div>
                                 <div>
                                     <label for="vegetableId">Fruit / Vegetable<span style="color: red;">*</span></label>
@@ -73,6 +56,15 @@
                             </select>
                             <span class="err-mssg">
                                 {{err.quantity}}
+                            </span>
+                        </div>
+                        <div class="pd-5">
+                            <div>
+                                <label for="descriptionId">Description<span style="color: red;">*</span></label>
+                            </div>
+                            <textarea placeholder="Post Description..." style="border: 1px solid rgb(7, 192, 68);" name="desc" id="descriptionId" cols="33" rows="10" placeholder="Description here...">{{ post.desc }}</textarea>
+                            <span class="err-mssg err-desc">
+                                {{err.desc}}
                             </span>
                         </div>
                         <div class="pd-5">
@@ -130,18 +122,10 @@
                 });
                 $("#add-post-form").submit(function(e){
                     var err = [];
-                    var title = $("input[name=title]").val();
                     var price = $("input[name=price]").val();
                     var desc = $.trim($("textarea").val());
                     var phone2 = $("input[name=phone2]").val();
                     
-                    if(title.length == 0){
-                        err[0] = true
-                        $(".err-desc").text("Must fill title");
-                    } else {
-                        $(".err-desc").text("");
-                    }
-
                     if(desc.length == 0){
                         err[1] = true
                         $(".err-desc").text("Must fill description");
