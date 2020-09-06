@@ -1,0 +1,64 @@
+<div class="fl-mid">
+    <div class="prfl-update-heading">Change Name</div>
+</div>
+<div class="m-auto">
+    <form action="{% url 'changeName' %}" method="POST">
+        {% csrf_token %}
+        <div class="pd-5">
+            <label for="nameId">New name</label>
+            <input type="text" name="name" id="nameId">
+            <span class="err-mssg name-err">
+                    
+            </span>
+        </div>
+        <div class="pd-5">
+            <label for="change-name-passwordId">Password</label>
+            <input type="password" name="pass" id="change-name-passwordId">
+            <span class="err-mssg pass-err">
+                    
+            </span>
+        </div>
+        <div class="fl-mid">
+            <div class="pd-5">
+                <button name="post" class="update-btn" disabled="disabled">Update</button>
+            </div>
+        </div>
+        <div class="pd-5">
+            *Note:- Name can only be changed after 45 days of last update.
+        </div>
+    </form>
+</div>
+<div>
+    <script>
+        $(document).ready(function(){
+            var name_ok = false;
+            var pass_ok = false;
+            $('input').keyup(function(){
+                var val = $('input[name=name]').val();
+                var pass_val = $('input[name=pass]').val();
+                if(/^[A-Za-z]+([-_ ][A-Za-z]+)*$/.test(val) === false || val.length <= 4 || val.length > 48){
+                    $(".name-err").text("Must be more than 4 characters.");
+                    name_ok = false;
+                } else {
+                    name_ok = true;
+                    $(".name-err").text("");
+                }
+
+                if(pass_val.length<8){
+                    $(".pass-err").text("Fill your password");
+                    pass_ok = false;
+                } else {
+                    pass_ok = true;
+                    $(".pass-err").text("");
+                }
+
+                if(name_ok && pass_ok){
+                    $(".update-btn").removeAttr("disabled");
+                } else {
+                    $(".update-btn").attr("disabled", "disabled");
+                }
+            });
+        });
+    </script>
+</div>
+    

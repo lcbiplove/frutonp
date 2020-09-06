@@ -1,0 +1,65 @@
+
+<div class="fl-mid">
+    <div class="prfl-update-heading">Change Phone</div>
+</div>
+<div class="m-auto">
+    <form action="{% url 'changePhone' %}" method="POST">
+        {% csrf_token %}
+        <div class="pd-5">
+            <label for="nameId">New phone </label>
+            <input type="number" name="phone" id="nameId">
+            <span class="err-mssg phone-err">
+                    
+            </span>
+        </div>
+
+        <div class="pd-5">
+            <label for="change-name-passwordId">Password</label>
+            <input type="password" name="pass" id="change-name-passwordId">
+            <span class="err-mssg pass-err">
+                    
+            </span>
+        </div>
+        <div class="pd-5">
+            <button name="post" class="update-btn" disabled="disabled">Change</button>
+        </div>
+        <div class="pd-5">
+            *Note:- Phone can only be changed after 45 days of last update.
+        </div>
+    </form>
+</div>
+<div>
+    <script>
+        $(document).ready(function(){
+            var phone_ok = false;
+            var pass_ok = false;
+            $('input').keyup(function(){
+                var val = $('input[name=phone]').val();
+                var pass_val = $('input[name=pass]').val();
+                
+                if(val.length == 10 && /^\d+$/.test(val)){
+                    phone_ok = true;
+                    $(".phone-err").text("");
+                } else {
+                    phone_ok = false;
+                    $(".phone-err").text("Phone should be 10 digit numbers.");
+                }
+
+                if(pass_val.length<8){
+                    $(".pass-err").text("Fill your password");
+                    pass_ok = false;
+                } else {
+                    pass_ok = true;
+                    $(".pass-err").text("");
+                }
+
+                if(phone_ok && pass_ok){
+                    $(".update-btn").removeAttr("disabled");
+                } else {
+                    $(".update-btn").attr("disabled", "disabled");
+                }
+            });
+        });
+    </script>
+</div>
+    

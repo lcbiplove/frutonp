@@ -1,16 +1,16 @@
 {% extends 'profile_base.html' %}
+{% load static %}
 {% block title %}Profile | Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
-
+        
 {% block content %}
-<div class="modal-close change-phone-loc-desc">
-    &times;
-</div>
-<!-- Form modal for change phone -->
-<div class="w-100" id="change-phone-loc-desc-modal">
-    <div class="pd-10">
-        <div class="w-100">
-            <h2 class="text-center sticky" style="margin: 80px 0px 60px 0px;">Update Profile</h2>
-            <div class="w-75 w-75-mg" style="margin: auto auto;">
+ <div id="prfl-update-overloay" style="display: flex;">
+    <div class="prfl-update-box">
+        <a href="{% url 'profile' %}" id="prfl-update-close"><span></span></a>
+        <div class="prfl-update-cont">
+            <div class="fl-mid">
+                <div class="prfl-update-heading">Update Profile</div>
+                </div>
+            <div class="m-auto">
                 <form id="profile-update" style="margin: 0px;" action="{% url 'changePhoneLocDesc' %}" method="POST">
                     {% csrf_token %}
                     <div class="pd-5">
@@ -25,28 +25,51 @@
                         <div>
                             <label for="descId">Description</label>
                         </div>
-                        <textarea name="description" id="" cols="30" rows="10" style="border: 1px solid rgb(7, 192, 68);">{{ my_profile.desc }}</textarea>
+                        <textarea name="description" id="">{{ my_profile.desc }}</textarea>
                     </div>
                     <div class="pd-5">
                         <label for="change-phone-passwordId">Password</label>
                         <input type="password" name="password" id="change-phone-passwordId">
                     </div>
+                    <div class="fl-mid">
+                        <div class="pd-5">
+                            <button name="post" class="update-btn" disabled="disabled">Update</button>
+                        </div>
+                    </div>
                     <div class="pd-5">
-                        <button style="color: #eee" name="post" class="update-btn" disabled="disabled">Update</button>
+                        *Note:- Updating your profile will give user more knowledge about you.
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <div class="prfl-update-load-box"></div>
 </div>
+   
+{% endblock %}
+
+{% block scripts %}
 <div>
     <script>
         $(document).ready(function(){
+            var pass_ok = false;
             $("input, textarea").keyup(function(){
-                $(".update-btn").removeAttr("disabled");
+                var pass_val = $('input[name=password]').val();
+                if(pass_val.length<8){
+                    $(".pass-err").text("Fill your password");
+                    pass_ok = false;
+                } else {
+                    pass_ok = true;
+                    $(".pass-err").text("");
+                }
+
+                if(pass_ok){
+                    $(".update-btn").removeAttr("disabled");
+                } else {
+                    $(".update-btn").attr("disabled", "disabled");
+                }
             });
         });
     </script>
 </div>
-{% endblock content %}
-    
+{% endblock  %}

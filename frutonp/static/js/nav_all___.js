@@ -2,8 +2,9 @@
 Pop = {
     load_circle: '<span class="load-cic"><span style="background: #ddd;"></span></span>',
     load_elips: '<span class="load-ellipsis"><span></span><span></span><span></span><span></span></span>',
+    my_load: '<span class="my-load"><span></span></span>',
     showPop: function(){
-                $("body").css({"overflow": "hidden"});
+                $("body").addClass("o-hidden");
                 $(".real-modal").css({"display": "flex"});
                 setTimeout(function(){
                     $(".real-modal-container").show(100);
@@ -12,7 +13,7 @@ Pop = {
     hidePop: function hidePop(){
                 $(".real-modal-container").hide(100, function(){
                     $(".real-modal").css("display", "none");
-                    $("body").css("overflow", "");
+                    $("body").removeClass("o-hidden");
                     $(this).removeClass("back-trans fl-mid");
                 });
             },
@@ -71,20 +72,27 @@ function setClick(){
 }
 /* Nav bar functions */
 function showNav(){
-    $(".sidebar-overlay").fadeIn(400);
-    $("body").removeClass("o-hidden");
-    $("body").addClass("o-hidden");
+    showSideBar();
     $(".side-bar").css({"width": "275px"});
     $("#menu-btn").css({"visibility": "hidden"});
     $(".side-scrollable").css({"height": side_bar_scrollable_height});
     navIsOpen = true;
 }
+function showSideBar(){
+    $(".sidebar-overlay").fadeIn(400);
+    $("body").addClass("o-hidden");
+}
+function hideSideBar(){
+    $(".sidebar-overlay").fadeOut(400);
+    $("body").removeClass("o-hidden");
+}
 function hideNav(){
     $(".side-bar").css({"width": "0px"});
     $("#menu-btn").css({"visibility": "visible"});
-    $(".sidebar-overlay").fadeOut(400);
-    $("body").removeClass("o-hidden");
     closeSecondarySidebar();
+    if(navIsOpen){
+        hideSideBar();
+    }
     navIsOpen = false;
 }
 /* Mobile search functions */
@@ -127,6 +135,7 @@ $(document).on("click", "#menu-btn", function(){
 });
 $(document).on("click", ".sidebar-overlay", function(){
     hideNav();
+    hideSideBar();
 });
 $(document).on("click", ".side-cat-item", function(e){
     var data_category = $(this).attr("data-category");
@@ -186,6 +195,7 @@ $("#sort-by-select").on("change", function(){
     active_tab = active_tab.indexOf("s", active_tab.length-1) == -1 ? active_tab : active_tab.substring(0, active_tab.length-1)
     window.location.replace(window.location.href.split('?')[0]+`?tab=${active_tab}&sort-by=${$(this).val()}`)
 });
+
 $(window).resize(function(){
     if($(window).width() > 850){
         if(navIsOpen){

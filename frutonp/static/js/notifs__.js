@@ -144,7 +144,6 @@ $("#notificaion-cont").on("scroll", function(){
         console.log('Hi');
         notif_wait_scroll = true;
         notif_page++;
-        // $("#post-content ol").after("<span class='load-cic'><span style='background-color: #888; height: 1.8rem; width: 2rem;'></span></span>");
         var req = $.ajax({
             url: `/home/show-notif/?page=${notif_page}`,
             type: 'POST',

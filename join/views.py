@@ -31,7 +31,7 @@ def signup(request):
             messages.error(request, "Recaptcha is not verified. Try again!!!")
 
         if len(name) > 4 and len(name) < 48:
-            if reMatch('^[a-zA-Z-_ ]+$', name) is None:
+            if reMatch('^[A-Za-z]+([-_ ][A-Za-z]+)*$', name) is None:
                 err['name'] = "Invalid name pattern"
         else:
             err['name'] = "Must be more than 4 characters"

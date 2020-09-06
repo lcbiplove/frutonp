@@ -1,0 +1,58 @@
+<div class="fl-mid">
+    <div class="prfl-update-heading">Update Profile</div>
+</div>
+<div class="m-auto">
+    <form id="profile-update" style="margin: 0px;" action="{% url 'changePhoneLocDesc' %}" method="POST">
+        {% csrf_token %}
+        <div class="pd-5">
+            <label for="phone2Id">Phone 2</label>
+            <input type="text" name="phone2" id="phone2Id" value="{{ my_profile.phone2 }}">
+        </div>
+        <div class="pd-5">
+            <label for="change-locationId">Location</label>
+            <input type="text" name="location" id="change-locationId" value="{{ my_profile.location }}">
+        </div>
+        <div class="pd-5">
+            <div>
+                <label for="descId">Description</label>
+            </div>
+            <textarea name="description" id="">{{ my_profile.desc }}</textarea>
+        </div>
+        <div class="pd-5">
+            <label for="change-phone-passwordId">Password</label>
+            <input type="password" name="password" id="change-phone-passwordId">
+        </div>
+        <div class="fl-mid">
+            <div class="pd-5">
+                <button name="post" class="update-btn" disabled="disabled">Update</button>
+            </div>
+        </div>
+        <div class="pd-5">
+            *Note:- Updating your profile will give user more knowledge about you.
+        </div>
+    </form>
+</div>
+<div>
+    <script>
+        $(document).ready(function(){
+            var pass_ok = false;
+            $("input, textarea").keyup(function(){
+                var pass_val = $('input[name=password]').val();
+                if(pass_val.length<8){
+                    $(".pass-err").text("Fill your password");
+                    pass_ok = false;
+                } else {
+                    pass_ok = true;
+                    $(".pass-err").text("");
+                }
+
+                if(pass_ok){
+                    $(".update-btn").removeAttr("disabled");
+                } else {
+                    $(".update-btn").attr("disabled", "disabled");
+                }
+            });
+        });
+    </script>
+</div>
+    

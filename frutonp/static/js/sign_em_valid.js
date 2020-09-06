@@ -7,7 +7,7 @@ $(document).ready(function(){
     var phoneErr = true;
     var tick_mark = '<i class="fas fa-check"></i>';
     var small_loader = '<i class="fa fa-spinner small-loader"></i>';
-    var namePattern = /^[a-zA-Z-_ ]*$/;
+    var namePattern = /^[A-Za-z]+([-_ ][A-Za-z]+)*$/;
     var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     var passPattern = /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/;
     var phonePattern = /^\d+$/;

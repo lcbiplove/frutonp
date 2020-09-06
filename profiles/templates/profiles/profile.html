@@ -13,7 +13,7 @@
                 <div class="chk">
                     <div class="profile-pp">
                         {% if is_authorized %}
-                            <a href="{% url 'addPost' %}" title="Add post">
+                            <a href="#" id="upload-pp-anc">
                                 <img src="/media/{{ my_profile.pp }}" class="profile-pp" alt="Profile pic of {{ myuser.name }}">
                                 <input id="uid" type="hidden" name="uid" value="{{ user.id }}"/>
                                 <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
@@ -46,9 +46,14 @@
                     <div class="w-100">
                         <div class="profile-detail-name">
                             <div>{{ myuser.name }}</div>
+                            <div>
                             {% if is_authorized %}
-                                <a href="{% url 'changePhoneLocDesc' %}" title="Edit profile">Edit <i class="fas fa-plus"></i></a>
+                                <a href="{% url 'changePhoneLocDesc' %}" title="Edit profile">Edit</a>
                             {% endif %}
+                            {% if is_authorized %}
+                                <a id="add-post" href="{% url 'addPost' %}" class="is_modal">Add Post <i class="fas fa-plus"></i></a>
+                            {% endif %}
+                            </div>
                         </div>
                     </div>
                     <div class="w-100">
@@ -149,9 +154,6 @@
                                         <div id="my-account-content" class="prfl-box-content">
                                             <div class="w-100">
                                                 <div>
-                                                    <a id="add-post" href="{% url 'addPost' %}" class="is_modal">Add Post</a>
-                                                </div>
-                                                <div>
                                                     <a id="change-name" href="{% url 'changeName' %}" class="is_modal">Change Name</a>
                                                 </div>
                                                 <div>
@@ -170,13 +172,22 @@
                             </div>   
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
     </div>
     
     <div id="chx0dmxd"></div>
+    <div id="prfl-update-overloay">
+        <div class="prfl-update-box">
+            <div id="prfl-update-inner-load" class="prfl-update-inner-load"></div>
+            <span id="prfl-update-close"><span></span></span>
+            <div class="prfl-update-cont">
+
+            </div>
+        </div>
+        <div class="prfl-update-load-box"></div>
+    </div>
 
     <footer class="w-100">
         <div class="text-center cprt">
@@ -197,132 +208,69 @@
 {% block scripts %}
     <div><script src="{% static 'js/profile_all.js' %}?version=33"></script></div>
     <script>
-        $(document).ready(function(){
-            const MAX_POST_LOAD = 20;
-            var showPop = Pop.showPop;
-            var hidePop = Pop.hidePop;
-            var popShown = Pop.popShown;
-            var csrf = $("[name=csrfmiddlewaretoken]").val();
-            var wait_scroll = false;
-            var post_loaded = 1;
-            $("#pp-upload").click(function(){
-                var rmv_btn = "";
-                var is_default_pp = $(this).attr("data-def-pp") == 'true';
-                if(!is_default_pp){
-                    rmv_btn = "<div><button style='color: rgb(245, 51, 51); background-color: #f0f0f0;' id='upload-rm-pp'>Remove Photo</button></div>"
-                }
-                $("#chx0dmxd").html(`<div class='real-modal'><div class='real-modal-container' tabindex='0'><div class='real-modal-header'><div>Profile Picture</div><div class='real-modal-close'>&times;</div></div><div class='real-modal-body text-center'><div><button id='upload-pp-main'>Upload Photo</button></div>${rmv_btn}<div><button class='real-modal-close rm-rl-cl-dwn'>close</button></div></div></div></div>`);
-                showPop();
-            });
-            $("#chx0dmxd").on("click", ".real-modal-close", function(){
-                hidePop();
-            });
-            $("#chx0dmxd").on("click", "#upload-pp-main", function(){
-                $("#upload-pp").trigger('click');
-            });
+    $(document).ready(function(){
+        var load_elips = Pop.load_elips;
+        var my_load = Pop.my_load;
+        function errorMessageHandler(guess, sol, extra, timeout=20000){
+            $(".act-guess").html(guess);
+            $(".act-sol").html(sol ?? "Try again or reload the page.");
+            $(".act-extra").html(extra ?? "Reload");
+            $(".act-div").css({"bottom": "0px"});
+            setTimeout(function(){
+                $(".act-div").css({"bottom": "-1000px"});
+            }, timeout); 
+        }
 
-            $(document).on("click", function(e){
-                if(e.target.id !== "pp-upload")
-                    if($(e.target).parents(".real-modal-container").length == 0)
-                        if(popShown)
-                            hidePop(); 
-            });
-            // On image is selected
-            $("#upload-pp").change(function(){
-                // if selected image is not null
-                if($(this).val().length > 0)
-                    $("#pp-form").attr("action", "upload-pp/").each(function(){
-                        $(this).submit();
-                    });
-            });
-            // Delete pp
-            $("#chx0dmxd").on("click", "#upload-rm-pp", function(){
-                $("#pp-form-2").attr("action", "delete-pp/").each(function(){
-                    $(this).submit();
-                });
-            });
-            if(!$("#post-content ol li").hasClass("dis-color") && $("#post-content ol li").length >= MAX_POST_LOAD){
-                $(window).scroll(function() {
-                    if(((window.innerHeight + window.scrollY) >= document.body.offsetHeight) && !wait_scroll) {
-                        wait_scroll = true;
-                        $("#post-content ol").append('<li class="fl-mid loading-more-post"><span class="my-small-load"><span></span></span></li>');
-                        var req = $.ajax({
-                            url: 'profile-post/',
-                            type: 'POST',
-                            headers:{
-                                "X-CSRFToken": csrf
-                            },
-                            data: {
-                                "no": post_loaded
-                            }
-                        });
-                        req.done(function(response){
-                            $(".loading-more-post").remove();
-                            if(response.full_load){
-                                wait_scroll = true;
-                            } else {
-                                if($("#post-content ol li:first-child").hasClass("dis-color")){
-                                    $("#post-content ol li:first-child").remove();
-                                }
-                                $("#post-content ol").append(response);
-                                if($("#post-content ol li:last-child").hasClass("d-none")){
-                                    wait_scroll = true;
-                                } else {
-                                    wait_scroll = false;
-                                    post_loaded++;
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-            $(".post-del").on("click", function(e){
-                e.preventDefault();
-                var post_id = $(this).attr("data-pid");
-                $("#chx0dmxd").html(`<div class="real-modal"><div class="real-modal-container" tabindex="0"><div class="real-modal-header" style="background-color: #ff4a4a;"><div>Delete</div><div class="real-modal-close">&times;</div></div><div class="real-modal-body" style="padding: 10px 10px 10px 20px;">Are you sure you want to delete the post?</div><div class="modal-del-options"><button id="del-yes">Yes</button><button class="real-modal-close" id="del-no">No</button></div></div></div>`);
-                showPop();
-                e.stopPropagation();
-                $("#del-yes").on("click", function(e){  
-                    $(".real-modal-container").addClass("back-trans fl-mid").html(Pop.load_elips);
-                    e.stopPropagation();
-                    var response = $.ajax({
-                        type: "POST",
-                        url: `/post/delete/`,
-                        data: {
-                            'csrfmiddlewaretoken': csrf,
-                            'pid': post_id
-                        },
-                        cache: false
-                    });
-                    response.done(function(result){
-                        hidePop();
-                        if(result.status){
-                            $(`a[data-pid=${post_id}]`).closest("li").animate({"opacity": "0"}, 1000, function(){
-                                $("#post span").html(parseInt($("#post span").html())-1);
-                                $(`a[data-pid=${post_id}]`).closest("li").remove();
-                                if(!$("#post-content ol").children().length){
-                                    $("#post-content ol").html('<li class="dis-color">No post</li>')
-                                }
-                            });
-                            $("#chx0dmxd").html('');
-                        } 
-                    });
-                    response.fail(function(xhr, status, error){
-                        hidePop();
-                        if(xhr.status==404){
-                            $(".act-guess").html("Post might have been deleted already.");
-                        } else {
-                            $(".act-guess").html("Could not delete post.");
-                        }
-                        $(".act-sol").html("Try again or reload the page.");
-                        $(".act-extra").html("Reload");
-                        $(".act-div").css({"bottom": "0px"});
-                        setTimeout(function(){
-                            $(".act-div").css({"bottom": "-1000px"});
-                        }, 20000); 
-                    });
-                });
+        $("#my-account-content a").on("click", function(e){
+            e.preventDefault();
+            $("#prfl-update-overloay").css("display", "flex").hide().fadeIn(400);
+            $("body").addClass("o-hidden");
+            $(".prfl-update-box").addClass("d-none");
+            $(".prfl-update-load-box").html(load_elips);
+            $.get($(this).attr('href'), function(response){
+                $(".prfl-update-load-box").html('');
+                $(".prfl-update-box").removeClass("d-none");
+                $(".prfl-update-cont").html(response);
+            })
+        });
+        $(document).on("submit", "#prfl-update-overloay form", function(e){
+            e.preventDefault();
+            $("#prfl-update-inner-load").css("display", "flex").hide().fadeIn(200);
+            $("#prfl-update-inner-load").html(my_load);
+            var req = $.post($(this).attr('action'), $(this).serialize());
+            req.done(function(response){
+                if('redirect' in response){
+                    window.location.reload(false);
+                }
+                $("#prfl-update-inner-load").fadeOut(200);
+                $("#prfl-update-inner-load").html('');
+                if('error' in response){
+                    if(!response.wait){
+                        $("#prfl-update-close").trigger('click');
+                    } 
+                    $('#prfl-update-overloay form input[type=password]').val('');
+                    $('#prfl-update-overloay form button').attr('disabled', '');
+                    errorMessageHandler('Could not make an update.', `"${response.error}"`, '');
+                } 
+                if('success' in response){
+                    $("#prfl-update-close").trigger('click');
+                    errorMessageHandler(response.success, 'To see recent update: ');
+                }
+                if('phone2' in response){
+                    $("input[name=phone2]").val(response.phone2);
+                }
+                if('desc' in response){
+                    $("textarea[name=description]").val(response.desc);
+                }
+                if('location' in response){
+                    $("input[name=location]").val(response.location);
+                }
             });
         });
+        $("#prfl-update-close").on("click", function(){
+            $("#prfl-update-overloay").fadeOut(400);
+            $("body").removeClass("o-hidden");
+        });
+    });  
     </script>
 {% endblock scripts %}

@@ -56,13 +56,20 @@ def profilePost(request, id=None):
 
 @login_required
 def changeName(request):
+    render_template = 'profiles/change-name.html'
+    status = {}
+    status['wait'] = True
+    is_ajax = False
+    if request.is_ajax():
+        is_ajax = True
+        render_template = 'profiles/change-name_ajax.html'
     if request.POST:
         name = request.POST.get('name')
         password = request.POST.get('pass')
         name_updated = request.user.name_updated
         
         if check_password(password, request.user.password):
-            if len(name) > 4 and len(name) < 48 and re.match('^[a-zA-Z-_ ]+$', name):
+            if len(name) > 4 and len(name) < 48 and re.match('^[A-Za-z]+([-_ ][A-Za-z]+)*$', name):
                 if name_updated is not None:
                     try:
                         days = int(str(timezone.localtime() - name_updated).split()[0])
@@ -70,7 +77,12 @@ def changeName(request):
                         days = 0
 
                     if days < 45:
-                        messages.error(request, f"You updated your name {days} days ago.")
+                        error = "You updated your name %s days ago." % (days)
+                        if is_ajax:
+                            status['error'] = error
+                            status['wait'] = False
+                        else:
+                            messages.error(request, error)
                         days = False
                     else:
                         days = True
@@ -82,15 +94,38 @@ def changeName(request):
                     user.name = name
                     user.name_updated = timezone.now()
                     user.save(update_fields=['name', 'name_updated'])
-                    messages.success(request, "Your name changed succesfully.")
+                    mssg = "Your name updated succesfully."
+                    if is_ajax:
+                        status['success'] = mssg
+                    else:
+                        messages.success(request, mssg)
             else:
-                messages.error(request, "Password doesn't match")
+                error = "Invalid name pattern entered."
+                if is_ajax:
+                    status['error'] = error
+                else:
+                    messages.error(request, error)
+        else:
+            error = "Password doesn't match."
+            if is_ajax:
+                status['error'] = error
+            else:
+                messages.error(request, error)
+        if is_ajax:
+            return JsonResponse(status)
         return redirect('profile')
         
-    return render(request, 'profiles/change-name.html')
+    return render(request, render_template)
 
 @login_required
 def changePhone(request):
+    render_template = 'profiles/change-phone.html'
+    status = {}
+    status['wait'] = True
+    is_ajax = False
+    if request.is_ajax():
+        render_template = 'profiles/change-phone_ajax.html'
+        is_ajax = True
     if request.POST:
         phone = request.POST.get('phone')
         password = request.POST.get('pass')
@@ -105,7 +140,12 @@ def changePhone(request):
                         days = 0
 
                     if days < 15:
-                        messages.error(request, f"You updated your phone {days} days ago.")
+                        error = "You updated your phone %s days ago." % (days)
+                        if is_ajax:
+                            status['error'] = error
+                            status['wait'] = False
+                        else:
+                            messages.error(request, error)
                         days = False
                     else:
                         days = True
@@ -117,22 +157,46 @@ def changePhone(request):
                     user.phone1 = phone
                     user.phone_updated = timezone.now()
                     user.save(update_fields=['phone1', 'phone_updated'])
-                    messages.success(request, "Your phone changed succesfully.")
+                    mssg = "Your phone changed succesfully."
+                    if is_ajax:
+                        status['success'] = mssg
+                    else:
+                        messages.success(request, mssg)
+            else:
+                error = "Invalid phone pattern entered."
+                if is_ajax:
+                    status['error'] = error
+                else:
+                    messages.error(request, error)
         else:
-            messages.error(request, "Password doesn't match")
+            error = "Password doesn't match."
+            if is_ajax:
+                status['error'] = error
+            else:
+                messages.error(request, error)
+        if is_ajax:
+            return JsonResponse(status)
+
         return redirect('profile')
-    return render(request, 'profiles/change-phone.html')
+    return render(request, render_template)
 
 
 @login_required
 def changePassword(request):
+    render_template = 'profiles/change-password.html'
+    cookie = 0
+    status = {}
+    status['wait'] = True
+    is_ajax = False
+    if request.is_ajax():
+        render_template = 'profiles/change-password_ajax.html'
+        is_ajax = True
     if request.POST:
         oldPassword = request.POST.get('oldPassword')
         newPass = request.POST.get('newPass')
         confPass = request.POST.get('confPass')
         password_updated = request.user.password_updated
         response = redirect('changePassword')
-        
         
         if password_updated is not None:
             # try because if less than 1 days, difference give integer valueerror. So
@@ -142,7 +206,11 @@ def changePassword(request):
                 cookie = int(request.COOKIES.get('__ck__ss__', 0))
                 # if cookie is greater than 4, user is restricted to change password
                 if cookie >= 4:
-                    messages.error(request, "You have changed passwords more than four times today. Please cool down for 24 hours")
+                    error = "You have changed passwords more than four times today. Please cool down for 24 hours"
+                    if is_ajax:
+                        status['redirect'] = True
+                        
+                    messages.error(request, error)
                     return redirect('profile')
                 response = redirect('profile')
                 max_age = 24*60*60    # 24 hour
@@ -158,18 +226,44 @@ def changePassword(request):
                     user.save(update_fields=['password', 'password_updated'])
                     update_session_auth_hash(request, user)
                     response.set_cookie('__ck__ss__', cookie+1, max_age, expires)
-                    messages.success(request, "Password changed succesfully.")
+                    mssg = "Password changed succesfully."
+                    if is_ajax:
+                        status['redirect'] = True
+                    messages.success(request, mssg)
                 else:
-                    messages.error(request, "Password must be at least 8 characters with lower characters and numbers")
+                    error = "Password must be at least 8 characters with lower characters and numbers."
+                    if is_ajax:
+                        status['error'] = error
+                    else:
+                        messages.error(request, error)
             else:
-                messages.error(request, "Two passwords does not match")
+                error = "Two passwords does not match."
+                if is_ajax:
+                    status['error'] = error
+                else:
+                    messages.error(request, error)
         else:
-            messages.error(request, "Wrong password entered")
+            error = "Wrong password entered."
+            if is_ajax:
+                status['error'] = error
+            else:
+                messages.error(request, error)
+        if is_ajax:
+            return JsonResponse(status)
+            
         return response
-    return render(request, 'profiles/change-password.html')
+    return render(request, render_template)
     
 @login_required(login_url='login')
 def changePhoneLocDesc(request):
+    render_template = 'profiles/change-phone-loc-desc.html'
+    status = {}
+    status['wait'] = True
+    is_ajax = False
+    if request.is_ajax():
+        render_template = 'profiles/change-phone-loc-desc_ajax.html'
+        is_ajax = True
+
     if request.POST:
         is_pure_number = False
         phone2 = request.POST.get('phone2')
@@ -185,19 +279,33 @@ def changePhoneLocDesc(request):
             if is_pure_number:
                 profile = MyUserProfile(id=user.myuserprofile.id, myuser=user, phone2=phone2, location=location, desc=desc, pp=user.myuserprofile.pp,)
                 profile.save()
-                messages.success(request, "Profile updated successfully!!!")
-                return redirect('profile')      
+                mssg = "Profile updated successfully!!!"
+                if is_ajax:
+                    status['success'] = mssg
+                else:
+                    messages.success(request, mssg)
+                    return redirect('profile')      
             else:
-                messages.error(request, "Phone should contain 10 numbers")          
+                error = "Phone should contain 10 numbers"
+                if is_ajax:
+                    status['error'] = error
+                else:
+                    messages.error(request, error)          
         else:
-            messages.error(request, "Wrong password!!!")
+            error = "Wrong password entered."
+            if is_ajax:
+                status['error'] = error
+            else:
+                messages.error(request, error)
         
         my_profile = {
             'phone2': phone2,
             'desc': desc,
             'location': location,
         } 
-        return render(request, 'profiles/change-phone-loc-desc.html', {
+        if is_ajax:
+            return JsonResponse(dict(my_profile, **status))
+        return render(request, render_template, {
             'my_profile': my_profile,            
         })
     
@@ -205,7 +313,7 @@ def changePhoneLocDesc(request):
     user_id = request.user.id
     user_from_id = get_object_or_404(MyUser, pk=id)
     profile_from_id = get_object_or_404(MyUserProfile, myuser_id=id)
-    return render(request, 'profiles/change-phone-loc-desc.html', {
+    return render(request, render_template, {
         'my_profile': profile_from_id,
     })
 

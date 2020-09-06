@@ -274,7 +274,7 @@ def addPost(request):
         if len(err)==0:
             if photoform.is_valid():
                 data = {}
-                post = Post(myuser=request.user, title=title, desc=desc, foodType=foodType, price=price, quantity=quantity, expire=expire, phone2=phone2, location=location)
+                post = Post(myuser=request.user, desc=desc, foodType=foodType, price=price, quantity=quantity, expire=expire, phone2=phone2, location=location)
                 post.save()
                 # if no file is uploaded us custom null_save() to save default photo
                 if request.FILES.get('photos') is None:
