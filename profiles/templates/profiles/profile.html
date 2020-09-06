@@ -48,7 +48,7 @@
                             <div>{{ myuser.name }}</div>
                             <div>
                             {% if is_authorized %}
-                                <a href="{% url 'changePhoneLocDesc' %}" title="Edit profile">Edit</a>
+                                <a href="{% url 'changePhoneLocDesc' %}" title="Edit profile" class="update-profile-anchor">Edit</a>
                             {% endif %}
                             {% if is_authorized %}
                                 <a id="add-post" href="{% url 'addPost' %}" class="is_modal">Add Post <i class="fas fa-plus"></i></a>
@@ -73,7 +73,7 @@
                         <div class="mb-10">
                         {% if my_profile.location == "" %}
                             {% if is_authorized %}
-                                <a href="{% url 'changePhoneLocDesc' %}">Location not added yet</a>
+                                <a href="{% url 'changePhoneLocDesc' %}" class="update-profile-anchor">Location not added yet</a>
                             {% else %}
                                 <span class="dis-color">Location not added yet</span>
                             {% endif %}
@@ -95,7 +95,7 @@
                         <div>
                             <span style="padding: 0px 20px;">
                                 {% if is_authorized %}
-                                    <a href="{% url 'changePhoneLocDesc' %}">No Description</a>
+                                    <a href="{% url 'changePhoneLocDesc' %}" class="update-profile-anchor">No Description</a>
                                 {% else %}
                                     <span class="dis-color">No Description</span>
                                 {% endif %}
@@ -154,16 +154,16 @@
                                         <div id="my-account-content" class="prfl-box-content">
                                             <div class="w-100">
                                                 <div>
-                                                    <a id="change-name" href="{% url 'changeName' %}" class="is_modal">Change Name</a>
+                                                    <a id="change-name" href="{% url 'changeName' %}" class="is_modal update-profile-anchor">Change Name</a>
                                                 </div>
                                                 <div>
-                                                    <a id="change-phone" href="{% url 'changePhone' %}" class="is_modal">Change Phone</a>
+                                                    <a id="change-phone" href="{% url 'changePhone' %}" class="is_modal update-profile-anchor">Change Phone</a>
                                                 </div>
                                                 <div>
-                                                    <a id="change-password" href="{% url 'changePassword' %}" class="is_modal">Change Password</a>
+                                                    <a id="change-password" href="{% url 'changePassword' %}" class="is_modal update-profile-anchor">Change Password</a>
                                                 </div>
                                                 <div>
-                                                    <a id="change-phone" href="{% url 'changePhoneLocDesc' %}" class="is_modal">Update More</a>
+                                                    <a id="change-phone" href="{% url 'changePhoneLocDesc' %}" class="is_modal update-profile-anchor">Update More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -221,7 +221,7 @@
             }, timeout); 
         }
 
-        $("#my-account-content a").on("click", function(e){
+        $(".update-profile-anchor").on("click", function(e){
             e.preventDefault();
             $("#prfl-update-overloay").css("display", "flex").hide().fadeIn(400);
             $("body").addClass("o-hidden");
