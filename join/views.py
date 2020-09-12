@@ -1,5 +1,6 @@
 from re import match as reMatch
 from django.shortcuts import render, redirect
+from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse, JsonResponse, Http404
 from django.contrib import auth, messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -7,12 +8,67 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from join.models import MyUser, MyUserProfile
 from django.conf import settings
 from frutonp.utils import getCaptcha
+from django.core.mail import  EmailMultiAlternatives
+from django.template.loader import render_to_string
+from frutonp.utils import account_activation_token
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+
+def send_verify_email(user, request):
+    if not user.is_activated:
+        mail_subject = 'Verify your account'
+        template_vars = {
+            'name': user.name,
+            'host_name': (request.is_secure() and "https" or "http") + "://" + get_current_site(request).domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+        }
+        plain_mssg = render_to_string('join/emails/verify_email.txt', template_vars)
+        html_mssg = render_to_string('join/emails/verify_email.html', template_vars)
+        email = EmailMultiAlternatives(subject=mail_subject, body=plain_mssg, from_email='noreply@frutonp.com', to=[user.email])
+        email.attach_alternative(html_mssg, "text/html")
+        email.send()
+        messages.info(request, 'Please check your email to verify your account')
+    else:
+        messages.info(request, 'Your account is already verified.')
+
+@login_required
+def sendActivationEmail(request):
+    if request.POST:
+        user = request.user
+        send_verify_email(user, request)
+    return redirect('home')
+
+@login_required
+def activate(request, uid, token):
+    mssg = {}
+    mssg['success'] = False
+    mssg['message'] = 'Invalid Link. Could not verify your email.'
+    try:
+        uid = force_text(urlsafe_base64_decode(uid))
+        user = MyUser.objects.get(pk=uid)
+        acc = account_activation_token
+        print(user.is_activated)
+    except(TypeError, ValueError, OverflowError, MyUser.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_activated = True
+        user.save()
+        if user.is_activated:
+            mssg['message'] = 'Your email is already verified.'
+        else:
+            mssg['message'] = 'Congratulations, your email is now verified.'
+
+        mssg['success'] = True
+    
+    return render(request, 'join/email_activation.html', mssg)
 
 def not_logged_in(request):
     return not request.is_authenticated
 
 def check(request):
     return HttpResponse()
+
 
 @user_passes_test(not_logged_in, 'home')
 def signup(request):
@@ -58,9 +114,8 @@ def signup(request):
             user = MyUser.objects.create_user(email=email, name=name, password=password, phone1=phone)
             auth_login(request, user)
             messages.success(request, 'Your account is created successfully.')
-            messages.info(request, 'Please check your email to verify your account')
-            return redirect('home')
-        
+            send_verify_email(user, request)
+            return redirect(request.GET.get('next', 'home'))
         return render(request, 'join/signup.html', {'err': err})
         
     else:
@@ -84,7 +139,7 @@ def login(request):
 
         auth_login(request, user)
         messages.success(request, "Logged in successfully")
-        return redirect('home')
+        return redirect(request.GET.get('next', 'home'))
     else:
         return render(request, 'join/login.html')
 
@@ -107,4 +162,6 @@ def ajax_email(request):
         except MyUser.DoesNotExist:
             return JsonResponse({"status": "false"})
     raise Http404()
+
+
 

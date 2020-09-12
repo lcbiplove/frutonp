@@ -1,0 +1,23 @@
+------------------------
+|       Frutonp        |     
+------------------------
+
+{{ name }}, 
+
+Confirm your email address to help us ensure your account is always protected, and get all Frutonp features.
+
+If this was you, please follow the link below to verify your email:
+
+
+{{ host_name }}{% url 'activate' uid=uid token=token %}             
+
+
+If this wasn't you, please reset your password by going to the link below to secure your account.
+
+https://link.com/resent-password/
+
+If the above link is not clickable, please copy the whole link and
+paste it in your browser.
+
+Frutonp Nepal
+                    

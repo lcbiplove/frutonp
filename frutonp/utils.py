@@ -9,6 +9,8 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from PIL import Image, ExifTags
 from django.utils import timezone
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from six import text_type
 
 SLICE_MESSAGE_FOR_NOTIFICATION = 70
 
@@ -179,3 +181,13 @@ def getWeightNumForCalc(weight):
 
 def getSlicedNotificationMessages(text):
     return len(text)<=SLICE_MESSAGE_FOR_NOTIFICATION and text or f"{text[:SLICE_MESSAGE_FOR_NOTIFICATION]}..."
+
+
+class TokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        return (
+            text_type(user.pk) + text_type(timestamp) +
+            text_type(user.is_active)
+        )
+
+account_activation_token = TokenGenerator()

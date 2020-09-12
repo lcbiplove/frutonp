@@ -9,4 +9,5 @@ local_settings.py
 /media
 /static
 /env
+/frutonp/.env
 runserver.sh

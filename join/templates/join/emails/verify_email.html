@@ -1,0 +1,68 @@
+<div>
+    <table style="font-family: roboto, helvetica neue, helvetica, arial, sans-serif;" width="350" cellspacing="0" cellpadding="0" border="0" align="center">
+        <thead>
+            <tr>
+                <td style="text-align: center;" height="41"></td>
+            </tr>
+            <tr>
+                <td style="text-align: center; color: #444;">
+                    <img
+                src="{{ host_name }}/static/images/logo.png" width=34 alt="Frutonp"
+                    />
+                  <span style="font-size: 18px; margin-left: 5px; vertical-align: super;">Frutonp</span>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: center;" height="24"></td>
+            </tr>
+            <tr>
+                <td style="color: #505050;">
+                   <span style="font-family: roboto, helvetica neue, helvetica, arial, sans-serif; font-size: 16px; font-weight: 600; line-height: 21px;">{{ name }}, </span>
+                </td>
+            </tr>
+          <tr>
+                <td style="text-align: center;" height="12"></td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="font-family: roboto, helvetica neue, helvetica, arial, sans-serif; font-size: 16px; color: #505050; line-height: 21px;">
+                        Confirm your email address to help us ensure your account is always protected, and get all Frutonp features.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;" height="40"></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; color: #505050;">
+                <a href="{{ host_name }}{% url 'activate' uid=uid token=token %}" style="display: block; color: #fff; background-color: #07c044; text-decoration: none; padding: 12px 0; border-radius: 50px;">Verify your account</a>
+              </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;" height="40"></td>
+            </tr>
+          <tr>
+            <td style="color: #505050;">
+              If this wasn't you, please <a style="color: #07C044" href="">reset your password</a> to secure your account.
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td style="text-align: center;" height="30"></td>
+            </tr>
+            <tr>
+                <td style="border-top: 1px solid #aaa; text-align: center;" height="5"></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">
+                    <span style="font-size: 11px; font-family: roboto, helvetica neue, helvetica, arial, sans-serif; color: #505050; line-height: 12px;">
+                       &copy; Frutonp Nepal
+                    </span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

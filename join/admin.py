@@ -59,7 +59,7 @@ class UserChangeForm(forms.ModelForm):
 
 
 class UserAdmin(BaseUserAdmin):
-    #exclude = ('phone1', 'phone2', 'location', 'desc', 'pp', 'token', 'is_activated', 'is_active', 'is_admin', 'last_login', 'signed_up',)
+    #exclude = ('phone1', 'phone2', 'location', 'desc', 'pp', 'is_activated', 'is_active', 'is_admin', 'last_login', 'signed_up',)
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
@@ -78,7 +78,7 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('is_admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password', 'name', 'phone1')}),
-        ('Extra', {'fields': ('token', 'is_activated', 'is_active',)}),
+        ('Extra', {'fields': ('is_activated', 'is_active',)}),
         ('Permissions', {'fields': ('is_admin',)}),
         ('Dates', {'fields': ('last_login', 'signed_up', 'name_updated', 'phone_updated', 'password_updated', )}),
     )

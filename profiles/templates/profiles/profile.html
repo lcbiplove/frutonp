@@ -46,12 +46,12 @@
                     <div class="w-100">
                         <div class="profile-detail-name">
                             <div>{{ myuser.name }}</div>
-                            <div>
+                            <div class="flex">
                             {% if is_authorized %}
                                 <a href="{% url 'changePhoneLocDesc' %}" title="Edit profile" class="update-profile-anchor">Edit</a>
                             {% endif %}
                             {% if is_authorized %}
-                                <a id="add-post" href="{% url 'addPost' %}" class="is_modal">Add Post <i class="fas fa-plus"></i></a>
+                                <a id="add-post" href="{% url 'addPost' %}" class="is_modal">Add Post</a>
                             {% endif %}
                             </div>
                         </div>

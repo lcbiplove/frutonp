@@ -1540,15 +1540,22 @@ input[type=checkbox] {
 }
 .profile-detail-name {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     font-weight: 600;
     margin: 0px 20px 10px 0px;
     font-size: 1.2em;
 }
+.profile-detail-name>div:first-child {
+    margin-right: 5px;
+}
 .profile-detail-name a{
     font-size: 0.75em;
     border: 1px solid #0099FF;
     padding: 4px 10px;
+}
+.profile-detail-name a:first-child{
+    margin-right: 5px;
 }
 .profile-detail-name a:hover{
     border: 1px solid rgb(7, 101, 163);

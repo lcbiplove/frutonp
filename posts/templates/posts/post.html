@@ -165,7 +165,14 @@
                                 </div> 
                                 <textarea name="reply" id="reply-txtarea" class="reply-txtarea" rows="1" placeholder="Add a reply..."></textarea>
                                 <div>
+                                {% if user.is_authenticated %}
                                     <button id="reply-btn" disabled="disabled">Reply</button>
+                                {% else %}
+                                    <form action="{% url 'login' %}?next=/post/{{ post.id }}/" method="GET">
+                                        <input name="next" value="/post/{{ post.id }}/" type="hidden"/>
+                                        <button id="reply-btn" type="submit">Reply</button>
+                                    </form>
+                                {% endif %}
                                 </div>
                             </div>
                             <div id="write-comments">
@@ -173,7 +180,14 @@
                                     <img src="/media/{{ user.myuserprofile.pp }}" style="border-radius: 50%;" width="35px" height="35px" alt="Profile Pic">
                                 </div>   
                                 <textarea id="write-comment-txtarea" name="comment" class="write-comment" placeholder="Add a comment.." rows="1" ></textarea>
-                                <button id="comment-btn" disabled="disabled" data-disabled="{% if post.comment.all.count >= max_comment %}true{% else %}false{% endif %}">Comment</button>
+                                {% if user.is_authenticated %}
+                                    <button id="comment-btn" disabled="disabled" data-disabled="{% if post.comment.all.count >= max_comment %}true{% else %}false{% endif %}">Comment</button>
+                                {% else %}
+                                    <form action="{% url 'login' %}?next=/post/{{ post.id }}/" method="GET">
+                                        <input name="next" value="/post/{{ post.id }}/" type="hidden"/>
+                                        <button id="comment-btn" type="submit">Comment</button>
+                                    </form>
+                                {% endif %}
                                 <button id="cancel-edit" class="d-none">Cancel</button>
                             </div>
                        </div>    

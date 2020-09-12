@@ -11,7 +11,7 @@
         </div>
         <div class="sign-cont">
             <div class="w-100">
-                <form action="{% url 'login' %}" method="POST">
+                <form action="{% url 'login' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" method="POST">
                 {% csrf_token %}
                     <div class="f-in-div">
                         <label for="emailId">Email</label>

@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,20 +22,18 @@ SESSION_COOKIE_AGE = 60*60*24*365
 
 SESSION_SAVE_EVERY_REQUEST = True
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@&v-!=25*s)-%pgx*l6ra2$!m*&ea11c+(dvd^wav)cw3obq_z'
+SECRET_KEY = os.getenv('PRODUCTION_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-RECAPTCHA_PUBLIC_KEY = '6Ld2V9kUAAAAAJtGC_niS0G1sxpPNhQg4PcQ40tn'
-#RECAPTCHA_SECRET_KEY = '6Ld2V9kUAAAAABv0hfFVUL2FdrvwRLqrPzsltPC5'
+RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_SECRET_KEY = '6LdmTakZAAAAAFhorQ5gqYLccEzByj00Q_nE9KPu'
 
 AUTH_USER_MODEL = 'join.MyUser'
@@ -96,9 +96,9 @@ WSGI_APPLICATION = 'frutonp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'frutonp',
-        'USER': 'biplove',
-        'PASSWORD': 'biplove',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -166,3 +166,13 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+# Email settings
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

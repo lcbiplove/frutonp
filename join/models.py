@@ -5,11 +5,11 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 from django.core.validators import FileExtensionValidator
-from frutonp.utils import randomToken, file_size, image_crop, validate_phone, validate_name
+from frutonp.utils import file_size, image_crop, validate_phone, validate_name
 from home.models import NotifClick
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, name, phone1, password=None, signed_up=timezone.localtime(), token=randomToken(),):
+    def create_user(self, email, name, phone1, password=None, signed_up=timezone.localtime(),):
         """
         Creates and saves a User with the given email, name
         and password.
@@ -22,7 +22,6 @@ class MyUserManager(BaseUserManager):
             name=name,
             phone1=phone1,
             signed_up=signed_up,
-            token=token,
         )
 
         user.set_password(password)
@@ -32,7 +31,7 @@ class MyUserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email, name, phone1, password=None, signed_up=timezone.localtime(), token=randomToken(),):
+    def create_superuser(self, email, name, phone1, password=None, signed_up=timezone.localtime(),):
         """
         Creates and saves a superuser with the given email, name and password.
         """
@@ -42,7 +41,6 @@ class MyUserManager(BaseUserManager):
             name=name,
             phone1=phone1,
             signed_up=signed_up,
-            token=token,
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -57,7 +55,6 @@ class MyUser(AbstractBaseUser):
     )
     name = models.CharField(max_length=48, validators=[validate_name])
     phone1 = models.BigIntegerField(validators=[validate_phone])
-    token = models.CharField(max_length=65, null=True)
     is_activated = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
