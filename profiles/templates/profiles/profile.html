@@ -59,6 +59,12 @@
                     <div class="w-100">
                         <div class="mb-10">
                             <a href="mailto:{{ myuser }}">{{ myuser }}</a>
+                            {% if is_authorized and not myuser.is_activated %}
+                            <form action="{% url 'sendActivationEmail' %}?next=/profile/{{ myuser.id }}/" method="POST" class="d-in-block">
+                                {% csrf_token %}
+                                <button type="submit" class="not-activated-dot" title="Your email is not verified, click to send verification"></button>
+                            </form>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="w-100">
@@ -235,10 +241,12 @@
         });
         $(document).on("submit", "#prfl-update-overloay form", function(e){
             e.preventDefault();
+            var id_of_form = $(this).attr('id');
             $("#prfl-update-inner-load").css("display", "flex").hide().fadeIn(200);
             $("#prfl-update-inner-load").html(my_load);
             var req = $.post($(this).attr('action'), $(this).serialize());
             req.done(function(response){
+                console.log(response);
                 if('redirect' in response){
                     window.location.reload(false);
                 }
@@ -264,6 +272,10 @@
                 }
                 if('location' in response){
                     $("input[name=location]").val(response.location);
+                }
+                if('email_sent_for_verification' in response) {
+                    $("#prfl-update-close").trigger('click');
+                    errorMessageHandler('Please check your email to verify your account', '', '');
                 }
             });
         });

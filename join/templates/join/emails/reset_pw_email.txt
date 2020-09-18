@@ -2,19 +2,19 @@
 |       Frutonp        |     
 ------------------------
 
-Biplove Lamichhane,  
+{{ name }},  
 
 We received a request to reset password of your Frutonp account.
                 
 Use the link below to reset your password. 
  
  
-http://reset_pw.com
+{{ host_name }}{% url 'passwordResetConfirm' uidb64=uidb64 token=token %}
                 
 
 If the above link is not clickable, please copy the whole link and paste it in your browser.
 
 
-The link will not work after 1 hour. If link is not working try reseting password. Here, http://reset_pw.com
+The link will not work after 1 hour. If link is not working try reseting password again. Here, {{ host_name }}{% url 'passwordReset' %}
 
 Frutonp Nepal

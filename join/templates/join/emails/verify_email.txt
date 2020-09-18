@@ -9,12 +9,12 @@ Confirm your email address to help us ensure your account is always protected, a
 If this was you, please follow the link below to verify your email:
 
 
-{{ host_name }}{% url 'activate' uid=uid token=token %}             
+{{ host_name }}{% url 'activate' uidb64=uidb64 token=token %}             
 
 
-If this wasn't you, please reset your password by going to the link below to secure your account.
+If this wasn't you, please change your password by going to the link below to secure your account.
 
-https://link.com/resent-password/
+{{ host_name }}{% url 'changePassword' %}
 
 If the above link is not clickable, please copy the whole link and
 paste it in your browser.

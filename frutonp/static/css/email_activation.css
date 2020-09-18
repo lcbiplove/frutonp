@@ -1,0 +1,52 @@
+body {
+    color: #555; 
+    font-family: sans-serif;
+    background-color: #eee;
+}
+img {
+    width: 40px;
+}
+.fl-mid {
+    display: flex;
+    justify-content: center;
+}
+.main-content {
+    width: 100%;
+    max-width: 480px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.card {
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #aaa;
+    text-align: center;
+}
+.title {
+    padding: 10px;
+    font-size: 1.2em;
+}
+.icon {
+    font-size: 4em;
+    padding: 10px;
+    color: #07c044;
+}
+.mssg {
+    padding: 10px;
+}
+.fail {
+    color: #ff4a4a !important;
+}
+button {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    border: 0;
+    color: #fff;
+    background: #ff4a4a;
+    text-decoration: none;
+    padding: 12px 0;
+}

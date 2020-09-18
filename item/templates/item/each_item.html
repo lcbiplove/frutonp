@@ -56,12 +56,23 @@
                             </div>
                         </div>
                     {% endfor %}
-                    {% if not is_finished %}
-                        <div>
-                            <a href="?page={{ page }}" class="see-more-veg bg-green f-right">Next</a>
-                        </div>
-                    {% endif %}
                 </div>
+                {% if not is_finished %}
+                    <div>
+                        <a href="?page={{ page|add:"1" }}" class="see-more-{{ foodType }} f-right">
+                            Next 
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                    {% if page > 1 %}
+                    <div>
+                        <a href="?page={{ page|add:"-1" }}" class="see-more-{{ foodType }} f-right">
+                            <i class="fas fa-chevron-left"></i>
+                            Prev
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

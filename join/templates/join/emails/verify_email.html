@@ -37,7 +37,7 @@
             </tr>
             <tr>
               <td style="text-align: center; color: #505050;">
-                <a href="{{ host_name }}{% url 'activate' uid=uid token=token %}" style="display: block; color: #fff; background-color: #07c044; text-decoration: none; padding: 12px 0; border-radius: 50px;">Verify your account</a>
+                <a href="{{ host_name }}{% url 'activate' uidb64=uidb64 token=token %}" style="display: block; color: #fff; background-color: #07c044; text-decoration: none; padding: 12px 0; border-radius: 50px;">Verify your account</a>
               </td>
             </tr>
             <tr>
@@ -45,7 +45,7 @@
             </tr>
           <tr>
             <td style="color: #505050;">
-              If this wasn't you, please <a style="color: #07C044" href="">reset your password</a> to secure your account.
+              If this wasn't you, please <a style="color: #07C044" href="{{ host_name }}{% url 'changePassword' %}">change your password</a> to secure your account.
             </td>
           </tr>
         </tbody>

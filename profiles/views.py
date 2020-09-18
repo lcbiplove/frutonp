@@ -184,7 +184,6 @@ def changePhone(request):
 @login_required
 def changePassword(request):
     render_template = 'profiles/change-password.html'
-    cookie = 0
     status = {}
     status['wait'] = True
     is_ajax = False
@@ -197,35 +196,24 @@ def changePassword(request):
         confPass = request.POST.get('confPass')
         password_updated = request.user.password_updated
         response = redirect('changePassword')
-        
-        if password_updated is not None:
-            # try because if less than 1 days, difference give integer valueerror. So
-            try:
-                days = int(str(timezone.localtime() - password_updated).split()[0])
-            except:
-                cookie = int(request.COOKIES.get('__ck__ss__', 0))
-                # if cookie is greater than 4, user is restricted to change password
-                if cookie >= 4:
-                    error = "You have changed passwords more than four times today. Please cool down for 24 hours"
-                    if is_ajax:
-                        status['redirect'] = True
-                        
-                    messages.error(request, error)
-                    return redirect('profile')
-                response = redirect('profile')
-                max_age = 24*60*60    # 24 hour
-                expires = datetime.datetime.strftime(timezone.localtime() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
 
+        if not request.user.is_activated:
+            error = "You have to verify email to change your password."
+            if is_ajax:
+                status['redirect'] = True
+            else:
+                messages.error(request, error)
+                return redirect('profile')
+        
         if check_password(oldPassword, request.user.password):
             if newPass == confPass:
-                if re.match('^(?=.*[a-z])(?=.*[0-9])(?=.{8,})', newPass) or request.user.is_staff:
+                if re.match('^(?=.*[a-z])(?=.*[0-9])(?=.{8,})', newPass):
                     response = redirect('profile')
                     user = get_object_or_404(MyUser, pk=request.user.id)
                     user.set_password(newPass)
                     user.password_updated = timezone.now()
                     user.save(update_fields=['password', 'password_updated'])
                     update_session_auth_hash(request, user)
-                    response.set_cookie('__ck__ss__', cookie+1, max_age, expires)
                     mssg = "Password changed succesfully."
                     if is_ajax:
                         status['redirect'] = True

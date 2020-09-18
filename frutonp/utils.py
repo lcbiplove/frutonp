@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from PIL import Image, ExifTags
 from django.utils import timezone
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth.tokens import PasswordResetTokenGenerator, default_token_generator
 from six import text_type
 
 SLICE_MESSAGE_FOR_NOTIFICATION = 70
@@ -185,9 +185,11 @@ def getSlicedNotificationMessages(text):
 
 class TokenGenerator(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):
+        
         return (
             text_type(user.pk) + text_type(timestamp) +
             text_type(user.is_active)
         )
 
 account_activation_token = TokenGenerator()
+password_reset_token = default_token_generator

@@ -241,6 +241,10 @@ $(".post-edit-del").on("click", ".post-edited", function(){
                 $(`#${key}`).attr("src", `/media/${value}`).addClass("la-cm-of-pst");
                 $('.photo').attr("src", `/media/${value}`).addClass("la-cm-of-pst");
             }
+            else if(key == "foodType"){
+                $(`#title`).html(value).addClass("la-cm-of-pst");
+                $(`#${key}`).html(value).addClass("la-cm-of-pst");
+            }
             else {
                 $(`#${key}`).html(value).addClass("la-cm-of-pst");
             }

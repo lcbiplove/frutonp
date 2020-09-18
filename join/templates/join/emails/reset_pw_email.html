@@ -7,7 +7,7 @@
             <tr>
                 <td style="text-align: center; color: #444;">
                     <img
-                        src="http://127.0.0.1:8000/static/images/logo.png" width=34
+                        src="{{ host_name }}/static/images/logo.png" width=34
                         alt="Frutonp"
                     />
                     <span style="font-size: 18px; margin-left: 5px; vertical-align: super;">Frutonp</span>
@@ -20,7 +20,7 @@
             </tr>
             <tr>
                 <td style="color: #505050;">
-                    <span style="font-family: roboto, helvetica neue, helvetica, arial, sans-serif; font-size: 16px; font-weight: 600; line-height: 21px;">Biplove Lamichhane, </span>
+                    <span style="font-family: roboto, helvetica neue, helvetica, arial, sans-serif; font-size: 16px; font-weight: 600; line-height: 21px;">{{ name }}, </span>
                 </td>
             </tr>
             <tr>
@@ -38,7 +38,7 @@
             </tr>
             <tr>
                 <td style="color: #505050;">
-                Use the link below to reset your password. 
+                    Use the link below to reset your password. 
                 </td>
             </tr>
             <tr>
@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <td style="text-align: center; color: #505050;">
-                <a href="#" style="display: block; color: #fff; background-color: #07c044; text-decoration: none; padding: 15px 0; border-radius: 50px;">Reset Password</a>
+                <a href="{{ host_name }}{% url 'passwordResetConfirm' uidb64=uidb64 token=token %}" style="display: block; color: #fff; background-color: #07c044; text-decoration: none; padding: 15px 0; border-radius: 50px;">Reset Password</a>
                 </td>
             </tr>
             <tr>
@@ -54,7 +54,7 @@
             </tr>
             <tr>
             <td style="color: #505050;">
-                The link will not work after 1 hour. If link is not working try this <a style="color: #07C044" href="">again</a> .
+                If link is not working try this <a style="color: #07C044" href="{{ host_name }}{% url 'passwordReset' %}">again</a> .
             </td>
             </tr>
         </tbody>

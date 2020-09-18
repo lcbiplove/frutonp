@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, Http404
 from posts.models import Post
 
-PAGE_SIZE = 24
+PAGE_SIZE = 2
 
 def get_display_food_choice(value):
     return dict(Post.FOOD_CHOICES).get(value)
@@ -27,7 +27,7 @@ def getPostData(page, paramToCompare, isForEachItem=False, foodType='veg'):
     if total_count <= page*PAGE_SIZE:
         is_finished = True
 
-    data['page'] = page+1
+    data['page'] = page
     data['is_finished'] = is_finished
     data['posts'] = posts
     

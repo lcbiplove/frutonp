@@ -192,7 +192,6 @@ def editedPost(request, id):
         if int(request.POST.get('pid')) is id:
             data = {}
             post = get_object_or_404(Post, pk=id)
-            data['title']=post.title
             return JsonResponse(data) 
 
     raise Http404()
@@ -274,7 +273,7 @@ def addPost(request):
         if len(err)==0:
             if photoform.is_valid():
                 data = {}
-                post = Post(myuser=request.user, desc=desc, foodType=foodType, price=price, quantity=quantity, expire=expire, phone2=phone2, location=location)
+                post = Post(myuser=request.user, desc=desc, foodType=foodType, price=price, quantity=quantity, phone2=phone2, location=location)
                 post.save()
                 # if no file is uploaded us custom null_save() to save default photo
                 if request.FILES.get('photos') is None:
