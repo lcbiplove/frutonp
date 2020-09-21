@@ -39,7 +39,7 @@ RECAPTCHA_SECRET_KEY = '6LdmTakZAAAAAFhorQ5gqYLccEzByj00Q_nE9KPu'
 AUTH_USER_MODEL = 'join.MyUser'
 
 # My login url
-LOGIN_URL = '/join/login'
+LOGIN_URL = '/join/login/'
 
 # Application definition
 
