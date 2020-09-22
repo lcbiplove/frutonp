@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.utils.translation import ugettext_lazy as _
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -33,8 +34,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY')
-RECAPTCHA_SECRET_KEY = '6LdmTakZAAAAAFhorQ5gqYLccEzByj00Q_nE9KPu'
+RECAPTCHA_PUBLIC_KEY = '6Ld2V9kUAAAAAJtGC_niS0G1sxpPNhQg4PcQ40tn'
+RECAPTCHA_SECRET_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY')
 
 AUTH_USER_MODEL = 'join.MyUser'
 
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -140,6 +142,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+LANGUAGES = (
+    ('en-us', _('English')),
+    ('ne', _('Nepali')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+    os.path.join(BASE_DIR, 'frutonp', 'locale'),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
