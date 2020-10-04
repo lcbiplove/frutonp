@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-30 21:42+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/home/home.html:4 templates/home/search.html:5
+msgid "Frutonp - Nepal's Online fruits and vegetables sharing center"
+msgstr ""
+
+#: templates/home/home.html:13 templates/home/home.html:75
+msgid "Latest"
+msgstr "ताजा"
+
+#: templates/home/home.html:13
+msgid "vegetables"
+msgstr "तरकारीहरू"
+
+#: templates/home/home.html:28 templates/home/home.html:33
+#: templates/home/home.html:90 templates/home/home.html:95
+#: templates/home/search.html:76 templates/home/search.html:81
+msgid "Rs."
+msgstr "रू."
+
+#: templates/home/home.html:58 templates/home/home.html:114
+msgid "Oops"
+msgstr "ओहो"
+
+#: templates/home/home.html:59 templates/home/home.html:115
+msgid "No post added yet"
+msgstr "कुनै पोष्ट थपिएको छैन"
+
+#: templates/home/home.html:67 templates/home/home.html:123
+msgid "See More"
+msgstr "थप हेर्न"
+
+#: templates/home/home.html:75
+msgid "fruits"
+msgstr "फलफुलहरू"
+
+#: templates/home/search.html:20
+msgid "results found for"
+msgstr "परिणामहरू भेटिए: "
+
+#: templates/home/search.html:25 templates/home/search.html:27
+msgid "Sort By"
+msgstr "क्रमबद्ध"
+
+#: templates/home/search.html:28
+msgid "Newest"
+msgstr "नयाँ"
+
+#: templates/home/search.html:29
+msgid "Most Viewed"
+msgstr "धेरै हेरिएको"
+
+#: templates/home/search.html:30
+msgid "Cheapest"
+msgstr "सस्तो"
+
+#: templates/home/search.html:37
+msgid "Vegetables"
+msgstr "तरकारीहरू"
+
+#: templates/home/search.html:38
+msgid "Fruits"
+msgstr "फलफुलहरू"
+
+#: templates/home/search.html:39
+msgid "Location"
+msgstr "ठेगाना"
+
+#: templates/home/search.html:40
+msgid "Users"
+msgstr "किसानहरु"
+
+#: templates/home/search.html:48
+msgid "No results"
+msgstr "परिणम भेटिएन"
+
+#: templates/home/search.html:49
+msgid "Try similar search terms"
+msgstr "arko ustai khoj shabda pryaas garnuhos"
+
+#: templates/home/search.html:58
+msgid "post"
+msgstr "पोष्ट"
+
+#: templates/home/search.html:58
+msgid "posts"
+msgstr "पोष्टहरू"
+
+#: templates/home/show-notif.html:9 templates/home/show-notif.html:29
+msgid "User profile picture"
+msgstr "प्रयोगकर्ता फोटो"
+
+#: templates/home/show-notif.html:23 templates/home/show-notif.html:44
+msgid "Post picture"
+msgstr "पोष्टको फोटो"
+
+#: templates/home/show-notif.html:51
+msgid "No notification"
+msgstr "अहिलेकोलागि कुनै सुचना छैन ।"
+

@@ -370,67 +370,69 @@ $("#chx0dmxd").on("click", "#upload-rm-pp", function(e){
 });
 
 $("#comment-btn").on("click", function(){
-    var comment = comment_area.val();
-    comment = comment.trim();
-    var is_edit = $("#cancel-edit").hasClass("d-none") ? false : true;
-    try{
-        cm_id = $("#edit-cm").data("cm-id");
-    } catch{
-        cm_id = null;
-    }
-    if(comment.length !== 0){
-        var data = {
-            'comment': comment,
-            'csrfmiddlewaretoken': csrf
+    if($(this).attr("type") !== "submit"){
+        var comment = comment_area.val();
+        comment = comment.trim();
+        var is_edit = $("#cancel-edit").hasClass("d-none") ? false : true;
+        try{
+            cm_id = $("#edit-cm").data("cm-id");
+        } catch{
+            cm_id = null;
         }
-        if(commentEditOpen() && cm_id !== null){
-            data['cm_id'] = cm_id;
-        }
-        var response = $.ajax({
-            type: "POST",
-            url: `${root_url}/add-comment/`,
-            data: data
-        });
-        $("#cancel-edit").trigger("click");
-        $("#comment-btn").attr("disabled");
-        response.done(function(result){
-            if(result.status == true){
-                comment_id = result.id;
-                /* If edit */
-                if(result.edit == true){
-                    socket.send(JSON.stringify({"desc": "comment_edit", "cm_id": comment_id, "editted_text": result.text}));
-
-                    var edit_div = $(`.comment-menu[data-cm-id='${cm_id}']`).closest(".comment-of");
-                    $('html, body').animate({scrollTop: (edit_div.offset().top-55)}, 1000, function(){
-                        edit_div.load('added-comment/'+comment_id+'/');
-                        $.get('added-comment/'+comment_id+'/', function(data){ 
-                            edit_div.replaceWith(data);
-                        });
-                    });
-                } else {
-                    socket.send(JSON.stringify({"desc": "comment_added", "cm_id": comment_id}));
-                    manageTotalComments("+");
-
-                    $.get(`${root_url}/added-comment/${comment_id}/`, function(data){ 
-                        $("#comments").append(data);
-                        if($(".comment-of").hasClass('no-comment')){
-                            $($(".comment-of.no-comment")).remove();
-                        }
-                    });
-                }                    
-            } 
-            else if(result.status == 'MAX_COMMENT'){
-                disableNewComment();
-                errorMessageHandler(guess="Maximum comment reached on the post!!!", sol="So, you cannot comment on this post.", extra="");
-            }            
-            else {
-                addCmmntMssgErrHandler(data.comment, cm_id);
+        if(comment.length !== 0){
+            var data = {
+                'comment': comment,
+                'csrfmiddlewaretoken': csrf
             }
-        });
-        response.fail(function(xhr, status, error){
-            addCmmntMssgErrHandler(data.comment, cm_id);
-        });
-    }
+            if(commentEditOpen() && cm_id !== null){
+                data['cm_id'] = cm_id;
+            }
+            var response = $.ajax({
+                type: "POST",
+                url: `${root_url}/add-comment/`,
+                data: data
+            });
+            $("#cancel-edit").trigger("click");
+            $("#comment-btn").attr("disabled");
+            response.done(function(result){
+                if(result.status == true){
+                    comment_id = result.id;
+                    /* If edit */
+                    if(result.edit == true){
+                        socket.send(JSON.stringify({"desc": "comment_edit", "cm_id": comment_id, "editted_text": result.text}));
+
+                        var edit_div = $(`.comment-menu[data-cm-id='${cm_id}']`).closest(".comment-of");
+                        $('html, body').animate({scrollTop: (edit_div.offset().top-55)}, 1000, function(){
+                            edit_div.load('added-comment/'+comment_id+'/');
+                            $.get('added-comment/'+comment_id+'/', function(data){ 
+                                edit_div.replaceWith(data);
+                            });
+                        });
+                    } else {
+                        socket.send(JSON.stringify({"desc": "comment_added", "cm_id": comment_id}));
+                        manageTotalComments("+");
+
+                        $.get(`${root_url}/added-comment/${comment_id}/`, function(data){ 
+                            $("#comments").append(data);
+                            if($(".comment-of").hasClass('no-comment')){
+                                $($(".comment-of.no-comment")).remove();
+                            }
+                        });
+                    }                    
+                } 
+                else if(result.status == 'MAX_COMMENT'){
+                    disableNewComment();
+                    errorMessageHandler(guess="Maximum comment reached on the post!!!", sol="So, you cannot comment on this post.", extra="");
+                }            
+                else {
+                    addCmmntMssgErrHandler(data.comment, cm_id);
+                }
+            });
+            response.fail(function(xhr, status, error){
+                addCmmntMssgErrHandler(data.comment, cm_id);
+            });
+        }
+    } 
 });
 
 $(document).on("click", function(e){
@@ -497,48 +499,50 @@ reply_area.keyup(function(){
 });
 /* Reply clicked */
 $("#reply-btn").click(function(){
-    reply_btn = $(this);
-    cm_id = $(this).attr("data-cm-id");
-    var data = {
-        'csrfmiddlewaretoken': csrf,
-        'cm_id': cm_id,
-        'reply': reply_area.val()
-    }
-    var response = $.ajax({
-                    type: "POST",
-                    url: `${root_url}/comment/${cm_id}/add-reply/`,
-                    data: data
-                });
-    $(this).attr("disabled", "disabled");
-    response.done(function(result){
-        rp_id = result.id;
-        if(rp_id == 'MAX_REPLY'){
-            errorMessageHandler(guess="Maximum reply reached on the comment!!!", sol="So, you cannot reply on this comment.", extra="");
+    if($(this).attr("type") !== "submit"){
+        reply_btn = $(this);
+        cm_id = $(this).attr("data-cm-id");
+        var data = {
+            'csrfmiddlewaretoken': csrf,
+            'cm_id': cm_id,
+            'reply': reply_area.val()
         }
-        else {
-            if(typeof cm_id === "undefined"){
-                cm_id=99;
+        var response = $.ajax({
+                        type: "POST",
+                        url: `${root_url}/comment/${cm_id}/add-reply/`,
+                        data: data
+                    });
+        $(this).attr("disabled", "disabled");
+        response.done(function(result){
+            rp_id = result.id;
+            if(rp_id == 'MAX_REPLY'){
+                errorMessageHandler(guess="Maximum reply reached on the comment!!!", sol="So, you cannot reply on this comment.", extra="");
             }
-            socket.send(JSON.stringify({"desc": "reply_added", "cm_id": cm_id, "rp_id": rp_id}));
-    
-            $.get(`${root_url}/comment/${cm_id}/added-reply/${rp_id}/`, function(data){
-                var reply_div_of_new = reply_btn.parents("div.reply-inpt-box").prev("div.replies-in");
-                if(reply_div_of_new.html().trim().length == 0){
-                    reply_div_of_new.html(data);
-                } else {
-                    reply_div_of_new.children("div.reply-of").last().after(data);
+            else {
+                if(typeof cm_id === "undefined"){
+                    cm_id=99;
                 }
-                reply_div_of_new.animate({scrollTop: reply_div_of_new.prop("scrollHeight")}, 500);
-            });
-        }
-        reply_area.val("");
-        reply_box.hide("fast");
-        $(".show-reply").html("Reply");
-    });
-    response.fail(function(xhr, status, error){
-        reply_btn.removeAttr("disabled");
-        errorMessageHandler(guess="Could not add reply.", sol="Try again!!!", extra='');
-    });
+                socket.send(JSON.stringify({"desc": "reply_added", "cm_id": cm_id, "rp_id": rp_id}));
+        
+                $.get(`${root_url}/comment/${cm_id}/added-reply/${rp_id}/`, function(data){
+                    var reply_div_of_new = reply_btn.parents("div.reply-inpt-box").prev("div.replies-in");
+                    if(reply_div_of_new.html().trim().length == 0){
+                        reply_div_of_new.html(data);
+                    } else {
+                        reply_div_of_new.children("div.reply-of").last().after(data);
+                    }
+                    reply_div_of_new.animate({scrollTop: reply_div_of_new.prop("scrollHeight")}, 500);
+                });
+            }
+            reply_area.val("");
+            reply_box.hide("fast");
+            $(".show-reply").html("Reply");
+        });
+        response.fail(function(xhr, status, error){
+            reply_btn.removeAttr("disabled");
+            errorMessageHandler(guess="Could not add reply.", sol="Try again!!!", extra='');
+        });
+    }
 });
 
 /* View replies on click, New repliess */

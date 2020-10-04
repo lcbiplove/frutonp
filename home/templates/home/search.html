@@ -1,40 +1,43 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
+{% load i18n %}
+{% load number_translator %}
+{% block title %}{% trans "Frutonp - Nepal's Online fruits and vegetables sharing center" %}{% endblock title %}
 
 {% block content %}
+    {% get_current_language as LANG_CODE %}
     <div class="search-content">
         <div class="no-of-srch-res max-950">
             {% if not posts %}
-            0 
+            {{ "0"|number_translator:LANG_CODE }}
             {% else %}
                 {% if sort_by == sort_by_const.cheapest %}
-                    {{ posts|length }}
+                    {{ posts|length|number_translator:LANG_CODE }}
                 {% else %}
-                    {{ posts.count }}
+                    {{ posts.count|number_translator:LANG_CODE }}
                 {% endif %}
             {% endif %} 
-            results found for <q>{{ query }}</q>
+            {% trans "results found for" %} <q>{{ query }}</q>
         </div>
         {% if tab != tab_const.users %}
         <div class="max-950 sort-by">
             <div class="sort-by-div">
-                <label for="sort-by-select">Sort By: </label>
+                <label for="sort-by-select">{% trans "Sort By" %}: </label>
                 <select name="sort-by" id="sort-by-select" value="{% if not sort_by %}{{ sort_by_const.newest }}{% else %}{{sort_by}}{% endif %}">
-                    <optgroup label="Sort By:">
-                        <option value="{{ sort_by_const.newest }}">Newest</option>
-                        <option value="{{ sort_by_const.most_viewed }}">Most Viewed</option>
-                        <option value="{{ sort_by_const.cheapest }}">Cheapest</option>
+                    <optgroup label="{% trans "Sort By" %}:">
+                        <option value="{{ sort_by_const.newest }}">{% trans "Newest" %}</option>
+                        <option value="{{ sort_by_const.most_viewed }}">{% trans "Most Viewed" %}</option>
+                        <option value="{{ sort_by_const.cheapest }}">{% trans "Cheapest" %}</option>
                     </optgroup>
                 </select>
             </div>
         </div>
         {% endif %}
         <div class="srch-tabs">
-            <a href="{% url 'searchQuery' query %}?tab=vegetable" class="veg {% if tab != tab_const.fruit and tab != tab_const.loc and tab != tab_const.users %}srch-tab-active{% endif %}">Vegetables</a>
-            <a href="{% url 'searchQuery' query %}?tab=fruit" class="{% if tab == tab_const.fruit %}srch-tab-active{% endif %}">Fruits</a>
-            <a href="{% url 'searchQuery' query %}?tab=location" class="{% if tab == tab_const.loc %}srch-tab-active{% endif %}">Location</a>
-            <a href="{% url 'searchQuery' query %}?tab=name" class="{% if tab == tab_const.users %}srch-tab-active{% endif %}">Users</a>
+            <a href="{% url 'searchQuery' query %}?tab=vegetable" class="veg {% if tab != tab_const.fruit and tab != tab_const.loc and tab != tab_const.users %}srch-tab-active{% endif %}">{% trans "Vegetables" %}</a>
+            <a href="{% url 'searchQuery' query %}?tab=fruit" class="{% if tab == tab_const.fruit %}srch-tab-active{% endif %}">{% trans "Fruits" %}</a>
+            <a href="{% url 'searchQuery' query %}?tab=location" class="{% if tab == tab_const.loc %}srch-tab-active{% endif %}">{% trans "Location" %}</a>
+            <a href="{% url 'searchQuery' query %}?tab=name" class="{% if tab == tab_const.users %}srch-tab-active{% endif %}">{% trans "Users" %}</a>
         </div>
 
         <div class="srch-result-cont{% if tab == tab_const.users %} max-950{% endif %}">
@@ -42,8 +45,8 @@
                 {% if not posts %}
                     <div class="no-post-intial">
                         <div class="text-center">
-                            <div>No results</div>
-                            <div>Try similar search terms</div>
+                            <div>{% trans "No results" %}</div>
+                            <div>{% trans "Try similar search terms" %}</div>
                         </div>
                     </div>
                 {% endif %}
@@ -52,7 +55,7 @@
                     <a href="{% url 'profile' user.id %}" class="srch-tab-users">
                         <img src="/media/{{ user.myuserprofile.pp }}" alt="Profile Pic">
                         <div class="cont">
-                            <div>{{ user.name }} | {{ user.post_set.all.count }}{% if user.post_set.all.count < 2 %} post {% else %} posts{% endif %}</div>
+                            <div>{{ user.name }} | {{ user.post_set.all.count }}{% if user.post_set.all.count < 2 %} {% trans "post" %} {% else %} {% trans "posts" %}{% endif %}</div>
                             <div>{{ user.location }}</div>
                             <div>{{ user.phone1 }}</div>
                         </div>
@@ -70,12 +73,12 @@
                                             </div>
                                             <div class="veg-name-price-desk w-100">
                                                 <div class="veg-name-of-card">{{ post.outerFood }}</div>
-                                                <div class="veg-name-of-card">Rs. {{ post.price }}/{{ post.quantity }}</div>
+                                                <div class="veg-name-of-card">{% trans "Rs." %} {{ post.price }}/{{ post.quantity }}</div>
                                             </div>
                                         </div>
                                     </a>
                                     <div class="w-100">
-                                        <div class="veg-name-price-mb green" class="text-center hidden">{{ post.outerFood }} | Rs. {{ post.price }}/{{ post.quantity }}</div>
+                                        <div class="veg-name-price-mb green" class="text-center hidden">{{ post.outerFood }} | {% trans "Rs." %} {{ post.price }}/{{ post.quantity }}</div>
                                         <div class="up-phone up-desc" style="color: #0099FF;"><i class="fas fa-mobile-alt"></i>
                                             <a href="tel:{{ post.myuser.phone1 }}">{{ post.myuser.phone1 }}</a>
                                             {% if post.phone2  %}

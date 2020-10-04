@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,20 +12,19 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <title>Frutonp - Nepal's Online fruits and vegetables sharing center</title>
     <link rel="stylesheet" href="{% static 'css/email_activation.css' %}">
-
 </head>
 <body>
-    <img src="/static/images/logo.png" class="logo-img" alt="frutonp-logo">
+    <a href="{% url 'home' %}"><img src="/static/images/logo.png" class="logo-img" alt="frutonp-logo"></a>
     <div class="main-content">
         <div style="padding: 0 20px;">
             <div class="card fl-mid">
-                <div class="title">Email Verification</div>
+                <div class="title">{% trans "Email Verification" %}</div>
                 <div class="icon {% if not success %}fail{% endif %}"><i class="far fa-{% if success %}check{% else %}times{% endif %}-circle "></i></div>
                 <div class="mssg">{{ message }}  </div>
                 {% if not success%}
                 <form action="{% url 'sendActivationEmail' %}" method="POST" class="d-in-block">
                     {% csrf_token %}
-                    <button type="submit">Send activation email</button>
+                    <button type="submit">{% trans "Send activation email" %}</button>
                 </form>
                 {% endif %}
             </div>

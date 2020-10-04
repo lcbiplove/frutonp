@@ -1,3 +1,4 @@
+{% load i18n %}
 {% for comment in comments %}
     <div class="comment-of w-100 flex">
         <div style="padding: 10px 10px 5px 0px;">
@@ -12,10 +13,10 @@
             </div> 
             <div>
                 <span style="color: #777; font-size: 14px;">{{ comment.uploaded_time }}</span>
-                <span style="padding: 0px 10px; margin-left: 10px;"><a class="show-reply" href="javascript:void(0);" data-cm-id="{{ comment.id }}">Reply</a></span>
+                <span style="padding: 0px 10px; margin-left: 10px;"><a class="show-reply" href="javascript:void(0);" data-cm-id="{{ comment.id }}">{% trans "Reply" %}</a></span>
                 {% if user.id == comment.myuser.id or user.id == comment.post.myuser.id %}
                     <span style="padding: 0px 10px;">
-                        <a class="comment-menu" href="javascript:void(0);" data-cm-id="{{ comment.id }}" title="Options">
+                        <a class="comment-menu" href="javascript:void(0);" data-cm-id="{{ comment.id }}" title="{% trans "Options" %}">
                             <span></span>
                             <span></span>
                             <span></span>
@@ -26,16 +27,16 @@
             <div class="replies-cont">
                 {% if comment.reply.count > 2 %}
                     {% if comment.reply.count|add:-2 != 1 %}
-                        <p class="more-replies" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}"><span>{{ comment.reply.count|add:-2 }}</span> More Replies</p>
+                        <p class="more-replies" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}"><span>{{ comment.reply.count|add:-2 }}</span> {% trans "More Replies" %}</p>
                     {% else %}
-                        <p class="more-replies" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}"><span>{{ comment.reply.count|add:-2 }}</span> More Reply</p>                                                   
+                        <p class="more-replies" data-cm-id="{{ comment.id }}&_{{ comment.reply.count|add:-2 }}"><span>{{ comment.reply.count|add:-2 }}</span> trans</p>                                                   
                     {% endif %}
                 {% endif %}
                 <div class="replies-in">
                 {% for reply in comment.reply.all|dictsortreversed:"replied_at"|slice:":2"|dictsort:"replied_at" %}
                     <div class="w-100 flex reply-of" style="font-size: 14px;" >
                         <div style="padding: 10px 10px 5px 0px;">
-                            <img src="/media/{{ reply.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="Profile Picture"/>
+                            <img src="/media/{{ reply.myuser.myuserprofile.pp }}" style="border-radius: 50%;" width="30px" height="30px" alt="{% trans "Profile Picture" %}"/>
                         </div>       
                         <div class="w-100">
                             <div style="margin: 10px 0px 0px 0px;">
@@ -45,7 +46,7 @@
                             <div>
                                 <span style="color: #777; font-size: 14px;" class="time-diff" data-rp-id="{{ reply.id }}">{{ reply.uploaded_time }}</span>
                                 {% if user == reply.myuser or user == reply.comment.post.myuser %}
-                                    <button class="rpl-del" data-rp-id="{{ reply.id }}">Delete</button>
+                                    <button class="rpl-del" data-rp-id="{{ reply.id }}">{% trans "Delete" %}</button>
                                 {% endif %}
                             </div>
                         </div>

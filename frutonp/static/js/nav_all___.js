@@ -220,3 +220,11 @@ $("#mb-srch-inpt").on("focus", function(){
     $(".srch-overlay").removeClass("d-none");
     $(".nav-bar").addClass("pad-3");
 });
+
+/*Language */
+$(".lang").on("click", function(e){
+    e.preventDefault();
+    var lang_code = $(this).attr('data-lang-code');
+    $("#language-inpt").val(lang_code);
+    $("#lang-submit-form").submit();
+});

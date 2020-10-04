@@ -21,7 +21,7 @@ SORT_BY_CONST = {
     'most_viewed': 'views',
     'cheapest': 'value',
 }
-NUM_OF_POST_AT_BEGINING = 10
+NUM_OF_POST_AT_BEGINING = 6
 
 def home(request):
     veg_posts = Post.objects.filter(foodType__in=Post.VEG)[:NUM_OF_POST_AT_BEGINING]

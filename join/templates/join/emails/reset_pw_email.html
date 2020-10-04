@@ -1,3 +1,4 @@
+{% load i18n %}
 <div>
     <table style="font-family: roboto, helvetica neue, helvetica, arial, sans-serif;" width="350" cellspacing="0" cellpadding="0" border="0" align="center">
         <thead>
@@ -29,7 +30,7 @@
             <tr>
                 <td>
                     <span style="font-family: roboto, helvetica neue, helvetica, arial, sans-serif; font-size: 16px; color: #505050; line-height: 21px;">
-                        We received a request to reset password of your Frutonp account.
+                        {% trans "We received a request to reset password of your Frutonp account." %}
                     </span>
                 </td>
             </tr>
@@ -38,7 +39,7 @@
             </tr>
             <tr>
                 <td style="color: #505050;">
-                    Use the link below to reset your password. 
+                    {% trans "Use the link below to reset your password." %} 
                 </td>
             </tr>
             <tr>
@@ -46,7 +47,7 @@
             </tr>
             <tr>
                 <td style="text-align: center; color: #505050;">
-                <a href="{{ host_name }}{% url 'passwordResetConfirm' uidb64=uidb64 token=token %}" style="display: block; color: #fff; background-color: #07c044; text-decoration: none; padding: 15px 0; border-radius: 50px;">Reset Password</a>
+                <a href="{{ host_name }}{% url 'passwordResetConfirm' uidb64=uidb64 token=token %}" style="display: block; color: #fff; background-color: #07c044; text-decoration: none; padding: 15px 0; border-radius: 50px;">{% trans "Reset Password" %}</a>
                 </td>
             </tr>
             <tr>
@@ -54,7 +55,7 @@
             </tr>
             <tr>
             <td style="color: #505050;">
-                If link is not working try this <a style="color: #07C044" href="{{ host_name }}{% url 'passwordReset' %}">again</a> .
+                {% trans "If link is not working try this" %} <a style="color: #07C044" href="{{ host_name }}{% url 'passwordReset' %}">{% trans "again" %}</a> {% trans "." %}
             </td>
             </tr>
         </tbody>
@@ -68,7 +69,7 @@
             <tr>
                 <td style="text-align: center;">
                     <span style="font-size: 11px; font-family: roboto, helvetica neue, helvetica, arial, sans-serif; color: #505050; line-height: 12px;">
-                        &copy; Frutonp Nepal
+                        &copy; Frutonp {% trans "Nepal" %}
                     </span>
                 </td>
             </tr>

@@ -1,42 +1,53 @@
+{% load i18n %}
+{% get_current_language as LANG_CODE %}
 {% for notif in notifs %}
 <li>
     {% if notif.reply %}
         <a href="{% url 'replyFromNotification' notif.post.id notif.comment.id notif.reply.id %}" data-notif-id="{{ notif.id }}">
             <span class="notif-pp-n-indic">
                 <span class="notif-indic{% if not notif.is_seen %} notif-not-seen{% endif %}"></span>
-                <img width=25 height=25 class="notif-sender" src="/media/{{ notif.sender.myuserprofile.pp }}" alt="User profile picture">
+                <img width=25 height=25 class="notif-sender" src="/media/{{ notif.sender.myuserprofile.pp }}" alt="{% trans "User profile picture" %}">
             </span>
             <span>
                 <span class="notif-main-mssg" style="display: block;">
-                {{ notif.sender.name }} has <span class="font-w-6">replied</span> to your comment. <q class="font-w-6">{{ notif.reply.reply_for_notif }}</q>
-                </span>
+                    {% if LANG_CODE == "ne" %}
+                        {{ notif.sender.name }}ले तपाईंको टिप्पणीको <span class="font-w-6">जवाफ</span> दिनुभयो ।
+                    {% else %}
+                        {{ notif.sender.name }} has <span class="font-w-6">replied</span> to your comment.
+                    {% endif %}
+                    <q class="font-w-6">{{ notif.reply.reply_for_notif }}</q>
                 <span style="color: #888;">
                     {{ notif.uploaded_time_for_notif }}
                 </span>
             </span>
-            <img width=50 height=50 class="notif-post" src="/media/{{ notif.post.thumbnail }}" alt="Post picture">
+            <img width=50 height=50 class="notif-post" src="/media/{{ notif.post.thumbnail }}" alt="{% trans "Post picture" %}">
         </a>
     {% else %}
         <a href="{% url 'commentFromNotification' notif.post.id notif.comment.id %}" data-notif-id="{{ notif.id }}">
             <span class="notif-pp-n-indic">
                 <span class="notif-indic{% if not notif.is_seen %} notif-not-seen{% endif %}"></span>
-                <img width=25 height=25 class="notif-sender" src="/media/{{ notif.sender.myuserprofile.pp }}" alt="User profile picture">
+                <img width=25 height=25 class="notif-sender" src="/media/{{ notif.sender.myuserprofile.pp }}" alt="{% trans "User profile picture" %}">
             </span>
             <span>
                 <span class="notif-main-mssg" style="display: block;">
-                {{ notif.sender.name }} has <span class="font-w-6">commented</span> on your post. <q class="font-w-6">{{ notif.comment.comment_for_notif }}</q>
+                {% if LANG_CODE == "ne" %}
+                    {{ notif.sender.name }} ले तपाईंको पोष्टमा <span class="font-w-6">टिप्पणी</span> दिनुभयो ।
+                {% else %}
+                    {{ notif.sender.name }} has <span class="font-w-6">commented</span> on your post.
+                {% endif %}
+                <q class="font-w-6">{{ notif.comment.comment_for_notif }}</q>
                 </span>
                 <span style="color: #888;">
                     {{ notif.uploaded_time_for_notif }}
                 </span>
             </span>
-            <img width=50 height=50 class="notif-post" src="/media/{{ notif.post.thumbnail }}" alt="Post picture">
+            <img width=50 height=50 class="notif-post" src="/media/{{ notif.post.thumbnail }}" alt="{% trans "Post picture" %}">
         </a>
     {% endif %}
 </li>
 {% empty %}
     <li class="fl-mid fl-column h-100 font-12 no-notif">
         <span class="big-bell-slash"><i class="fas fa-bell-slash"></i></span>
-        <span>No notification</span>
+        <span>{% trans "No notification" %}</span>
     </li>
 {% endfor %}

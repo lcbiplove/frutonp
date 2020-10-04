@@ -1,23 +1,23 @@
+{% load i18n %}
 ------------------------
 |       Frutonp        |     
 ------------------------
 
 {{ name }}, 
 
-Confirm your email address to help us ensure your account is always protected, and get all Frutonp features.
+{% trans "Confirm your email address to help us ensure your account is always protected, and get all Frutonp features." %}
 
-If this was you, please follow the link below to verify your email:
+{% trans "If this was you, please follow the link below to verify your email:" %}
 
 
 {{ host_name }}{% url 'activate' uidb64=uidb64 token=token %}             
 
 
-If this wasn't you, please change your password by going to the link below to secure your account.
+{% trans "If this wasn't you, please change your password by going to the link below to secure your account." %}
 
 {{ host_name }}{% url 'changePassword' %}
 
-If the above link is not clickable, please copy the whole link and
-paste it in your browser.
+{% trans "If the above link is not clickable, please copy the whole link and paste it in your browser." %}
 
-Frutonp Nepal
+Frutonp {% trans "Nepal" %}
                     

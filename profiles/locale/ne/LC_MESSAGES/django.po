@@ -1,0 +1,223 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-04 14:52+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/profiles/change-name.html:12
+#: templates/profiles/change-name_ajax.html:3
+#: templates/profiles/profile.html:166
+msgid "Change Name"
+msgstr "नाम परिवर्तन"
+
+#: templates/profiles/change-name.html:18
+#: templates/profiles/change-name_ajax.html:9
+msgid "New name"
+msgstr "नयाँ नाम"
+
+#: templates/profiles/change-name.html:25
+#: templates/profiles/change-name_ajax.html:16
+#: templates/profiles/change-phone-loc-desc.html:34
+#: templates/profiles/change-phone-loc-desc_ajax.html:25
+#: templates/profiles/change-phone.html:26
+#: templates/profiles/change-phone_ajax.html:17
+msgid "Password"
+msgstr "पासवर्ड"
+
+#: templates/profiles/change-name.html:33
+#: templates/profiles/change-name_ajax.html:24
+#: templates/profiles/change-password.html:49
+#: templates/profiles/change-password_ajax.html:40
+#: templates/profiles/change-phone-loc-desc.html:39
+#: templates/profiles/change-phone-loc-desc_ajax.html:30
+msgid "Update"
+msgstr "परिवर्तन गर्नुहोस्"
+
+#: templates/profiles/change-name.html:37
+#: templates/profiles/change-name_ajax.html:28
+msgid "*Note:- Name can only be changed after 45 days of last update."
+msgstr "*नोट:- नाम पहिले परिवर्तन गरिएको समय देखी ४५ दिन पछी मात्र गर्न सम्भव छ । "
+
+#: templates/profiles/change-password.html:12
+#: templates/profiles/change-password_ajax.html:3
+#: templates/profiles/profile.html:172
+msgid "Change Password"
+msgstr "पासवर्ड परिवर्तन"
+
+#: templates/profiles/change-password.html:16
+#: templates/profiles/change-password_ajax.html:7
+msgid "Sorry, you cannnot change password until you verify your email."
+msgstr "माफ गर्नुहोस्, पासवर्ड परिवर्तन गर्न तपाईंको एमेल प्रमाणित हुनु पर्छ ।"
+
+#: templates/profiles/change-password.html:19
+#: templates/profiles/profile.html:68
+msgid "Your email is not verified, click to send verification"
+msgstr "तपाईंको पासवर्ड प्रमणित भएको छैन, प्रमाणित गर्ने एमेल प्रप्त गर्न"
+
+#: templates/profiles/change-password.html:19
+msgid "Send verification"
+msgstr "यहाँ थिच्नुहोस्"
+
+#: templates/profiles/change-password.html:27
+#: templates/profiles/change-password_ajax.html:18
+msgid "Old Password"
+msgstr "पुरानो पासवर्ड"
+
+#: templates/profiles/change-password.html:34
+#: templates/profiles/change-password_ajax.html:25
+msgid "New Password"
+msgstr "नयाँ पासवर्ड"
+
+#: templates/profiles/change-password.html:41
+#: templates/profiles/change-password_ajax.html:32
+msgid "Confirm Password"
+msgstr "पासवर्ड निश्चित गर्नुहोस् "
+
+#: templates/profiles/change-password.html:53
+#: templates/profiles/change-password_ajax.html:44
+msgid ""
+"*Note:- Use passwords with lettercase, uppercase, numbers and at least 8 "
+"characters."
+msgstr ""
+
+#: templates/profiles/change-password.html:56
+#: templates/profiles/change-password_ajax.html:47
+msgid "Forgot Password?"
+msgstr "पासवर्ड बिर्सिनु भयो ?"
+
+#: templates/profiles/change-phone-loc-desc.html:14
+#: templates/profiles/change-phone-loc-desc_ajax.html:5
+msgid "Update Profile"
+msgstr "प्रोफाईल अपडेट "
+
+#: templates/profiles/change-phone-loc-desc.html:20
+#: templates/profiles/change-phone-loc-desc_ajax.html:11
+msgid "Phone"
+msgstr "मोबाईल नम्बर"
+
+#: templates/profiles/change-phone-loc-desc.html:24
+#: templates/profiles/change-phone-loc-desc_ajax.html:15
+msgid "Location"
+msgstr "ठेगाना"
+
+#: templates/profiles/change-phone-loc-desc.html:29
+#: templates/profiles/change-phone-loc-desc_ajax.html:20
+#: templates/profiles/profile.html:102
+msgid "Description"
+msgstr "वर्णन"
+
+#: templates/profiles/change-phone-loc-desc.html:43
+#: templates/profiles/change-phone-loc-desc_ajax.html:34
+msgid "*Note:- Updating your profile will give user more knowledge about you."
+msgstr "*नोट:- तपाईले प्रोफाइल अपडेट गरेर आफ्नोबारेमा थप जानकारी दिनुहुने छ ।"
+
+#: templates/profiles/change-phone.html:12
+#: templates/profiles/change-phone_ajax.html:3
+#: templates/profiles/profile.html:169
+msgid "Change Phone"
+msgstr "मोबाईल नम्बर परिवर्तन"
+
+#: templates/profiles/change-phone.html:18
+#: templates/profiles/change-phone_ajax.html:9
+msgid "New phone"
+msgstr "नयाँ मोबाईल नम्बर"
+
+#: templates/profiles/change-phone.html:33
+#: templates/profiles/change-phone_ajax.html:24
+msgid "Change"
+msgstr "परिवर्तन गर्नुहोस्"
+
+#: templates/profiles/change-phone.html:36
+msgid "*Note:- Phone can only be changed after 15 days of last update."
+msgstr "*नोट:- मोबाईल नम्बर पहिले परिवर्तन गरेको १५ दिन पछि मात्र सम्भव छ । "
+
+#: templates/profiles/profile-post.html:8 templates/profiles/profile.html:54
+#: templates/profiles/profile.html:150
+msgid "Edit"
+msgstr "सच्याउनुहोस्"
+
+#: templates/profiles/profile-post.html:9 templates/profiles/profile.html:151
+msgid "Del"
+msgstr "मेटाउनुहोस्"
+
+#: templates/profiles/profile.html:11
+msgid "Profile"
+msgstr "प्रोफाइल"
+
+#: templates/profiles/profile.html:25
+msgid "Upload"
+msgstr "अपलोड गर्नुहोस्"
+
+#: templates/profiles/profile.html:44
+#, python-format
+msgid "Profile pic of %(myuser.name)s"
+msgstr "%(myuser.name)sको प्रोफाइल फोटो"
+
+#: templates/profiles/profile.html:57
+msgid "Add Post"
+msgstr "पोष्ट थप्नुहोस्"
+
+#: templates/profiles/profile.html:85 templates/profiles/profile.html:87
+msgid "Location not added yet"
+msgstr "ठेगाना राखिएको छैन"
+
+#: templates/profiles/profile.html:107 templates/profiles/profile.html:109
+msgid "No Description"
+msgstr "वर्णन गरिएको छैन "
+
+#: templates/profiles/profile.html:129
+msgid "Posts"
+msgstr "पोष्टहरु"
+
+#: templates/profiles/profile.html:133
+msgid "My account"
+msgstr "मेरो खाता"
+
+#: templates/profiles/profile.html:136
+msgid "Records"
+msgstr "रेपोर्टहरु"
+
+#: templates/profiles/profile.html:156
+msgid "No post"
+msgstr "पोष्ट छैन"
+
+#: templates/profiles/profile.html:175
+msgid "Update More"
+msgstr "थप परिवर्तन"
+
+#: templates/profiles/profile.html:203
+msgid "Copyright 2020 Frutonp.com. All rights are reserved."
+msgstr ""
+
+#: templates/profiles/profile.html:211
+msgid ""
+"We use cookies to ensure you have the best browsing experience on our "
+"website. By using our site, you acknowledge that you have read and "
+"understood our"
+msgstr ""
+
+#: templates/profiles/profile.html:211
+msgid "Cookie Policy"
+msgstr ""
+
+#: templates/profiles/profile.html:211
+msgid "Privacy Policy"
+msgstr ""
+
+#: templates/profiles/profile.html:212
+msgid "Accept"
+msgstr ""

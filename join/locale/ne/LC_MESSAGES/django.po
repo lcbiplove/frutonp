@@ -1,0 +1,223 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-04 10:59+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/join/email_activation.html:21
+msgid "Email Verification"
+msgstr "ई-मेल प्रमाणिकरण"
+
+#: templates/join/email_activation.html:27
+msgid "Send activation email"
+msgstr "सक्रियता ईमेल पठाउनुहोस्"
+
+#: templates/join/emails/reset_pw_email.html:33
+#: templates/join/emails/reset_pw_email.txt:8
+msgid "We received a request to reset password of your Frutonp account."
+msgstr ""
+"हामीले तपाईंको किसान खाताको पासवर्ड बिर्सिएकोले नयाँ पासवर्ड रख्न अनुरोध प्राप्त गर्‍यौं ।"
+
+#: templates/join/emails/reset_pw_email.html:42
+#: templates/join/emails/reset_pw_email.txt:10
+msgid "Use the link below to reset your password."
+msgstr "तपाईको खातको पासवर्ड नयाँ राख्न तलको लिंक प्रयोग गर्नुहोस् ।"
+
+#: templates/join/emails/reset_pw_email.html:50
+#: templates/join/password_reset_confirm.html:42
+msgid "Reset Password"
+msgstr "पासवर्ड पुनस्थापना गर्न"
+
+#: templates/join/emails/reset_pw_email.html:58
+msgid "If link is not working try this"
+msgstr "यदि लिंकले काम गरिरहेको छैन भने यो प्रयास गर्नुहोस्: "
+
+#: templates/join/emails/reset_pw_email.html:58
+msgid "again"
+msgstr "फेरी"
+
+#: templates/join/emails/reset_pw_email.html:58 templates/join/signup.html:94
+msgid "."
+msgstr ""
+
+#: templates/join/emails/reset_pw_email.html:72
+#: templates/join/emails/reset_pw_email.txt:22
+#: templates/join/emails/verify_email.html:63
+#: templates/join/emails/verify_email.txt:22
+msgid "Nepal"
+msgstr ""
+
+#: templates/join/emails/reset_pw_email.txt:16
+#: templates/join/emails/verify_email.txt:20
+msgid ""
+"If the above link is not clickable, please copy the whole link and paste it "
+"in your browser."
+msgstr ""
+"यदि माथिको लिंक क्लिक योग्य छैन भने, कृपया सम्पूर्ण लिंक कपि(प्रतिलिपि) गर्नुहोस् र आफ्नो "
+"ब्राउजरमा(जस्तै: chrome) पेस्ट गर्नुहोस् ।"
+
+#: templates/join/emails/reset_pw_email.txt:18
+#, python-format
+msgid ""
+"\n"
+"    If link is not working try reseting password again. Here, %(host_name)s"
+"%(passwor_reset_url)s\n"
+msgstr ""
+"\n"
+"यदि लिंकले काम गरिरहेको छैन भने पुनः पासवर्ड राख्न प्रायस गर्नुहोस्: %(host_name)s"
+"%(passwor_reset_url)s\n"
+
+#: templates/join/emails/verify_email.html:32
+#: templates/join/emails/verify_email.txt:8
+msgid ""
+"Confirm your email address to help us ensure your account is always "
+"protected, and get all Frutonp features."
+msgstr ""
+"सुरक्षित रख्न र हाम्रो सबै सुविधाहरू प्राप्त गर्न, तपाईको ईमेल ठेगाना निश्चित गर्नुहोस् ।"
+
+#: templates/join/emails/verify_email.html:41
+msgid "Verify your account"
+msgstr "तपाईको खाता प्रमाणित गर्नुहोस् ।"
+
+#: templates/join/emails/verify_email.html:49
+msgid "If this wasn't you, please"
+msgstr "यदि यो तपाई होइन भने सुरक्षित गर्न"
+
+#: templates/join/emails/verify_email.html:49
+msgid "change your password"
+msgstr "नयाँ पासवर्ड रख्नुहोस् ।"
+
+#: templates/join/emails/verify_email.html:49
+msgid "to secure your account."
+msgstr " "
+
+#: templates/join/emails/verify_email.txt:10
+msgid "If this was you, please follow the link below to verify your email:"
+msgstr ""
+"यदि यो तपाईं हो भने, तपाईंको ईमेल प्रमाणित गर्न तलको लिंक थिच्नुहोस् अथवा "
+"कपि(प्रतिलिपि) गर्नुहोस् र आफ्नो ब्राउजरमा(जस्तै: chrome) पेस्ट गर्नुहोस् ।"
+
+#: templates/join/emails/verify_email.txt:16
+msgid ""
+"If this wasn't you, please change your password by going to the link below "
+"to secure your account."
+msgstr ""
+"यदि यो तपाईं हुनुहुन्न भने, तपाइँको खाता सुरक्षित गर्न कृपया तलको लिंकमा गई आफ्नो पासवर्ड "
+"परिवर्तन गर्नुहोस् । "
+
+#: templates/join/login.html:10 templates/join/login.html:38
+#: templates/join/password_reset.html:37
+#: templates/join/password_reset_confirm.html:46
+msgid "Login"
+msgstr ""
+
+#: templates/join/login.html:18 templates/join/signup.html:33
+msgid "Email"
+msgstr ""
+
+#: templates/join/login.html:27 templates/join/signup.html:64
+msgid "Password"
+msgstr ""
+
+#: templates/join/login.html:32
+msgid "Remember Me"
+msgstr "मलाई याद गर्दिनुभए हुन्थ्यो"
+
+#: templates/join/login.html:41
+msgid "No account"
+msgstr "खाता छैन"
+
+#: templates/join/login.html:41
+msgid "Create"
+msgstr "बनाउनुहोस्"
+
+#: templates/join/login.html:42
+msgid "Forgot Password"
+msgstr "पासवर्ड भुल्नु भयो"
+
+#: templates/join/password_reset.html:24
+#: templates/join/password_reset_confirm.html:27
+msgid "Password Reset"
+msgstr "पासवर्ड पुनः राख्न"
+
+#: templates/join/password_reset.html:27
+msgid "Enter your email to get the link to reset your password."
+msgstr "तपाईंको पासवर्ड पुनः रख्ने लिंक प्राप्त गर्न तपाईंको ईमेल प्रविष्ट गर्नुहोस् ।"
+
+#: templates/join/password_reset.html:33
+msgid "Send reset link"
+msgstr "लिंक पठाउनुहोस्"
+
+#: templates/join/password_reset.html:38
+#: templates/join/password_reset_confirm.html:47
+msgid "Signup"
+msgstr ""
+
+#: templates/join/password_reset_confirm.html:22
+msgid "Invalid Link."
+msgstr "अवैध लिंक"
+
+#: templates/join/password_reset_confirm.html:30
+msgid "Enter a new password you remember as well as not that obvious."
+msgstr ""
+"tapailaai yaad hune tara arulaai thaahaa nabhayeko नयाँ पासवर्ड प्रविष्ट गर्नुहोस् ।"
+
+#: templates/join/password_reset_confirm.html:34
+msgid "New Password"
+msgstr "नयाँ पासवर्ड"
+
+#: templates/join/password_reset_confirm.html:39 templates/join/signup.html:75
+msgid "Confirm Password"
+msgstr "पासवर्ड सुनिश्चित गर्नुहोस"
+
+#: templates/join/signup.html:11
+msgid "Join"
+msgstr "जोडिनुहोस्"
+
+#: templates/join/signup.html:20
+msgid "Name"
+msgstr "नाम"
+
+#: templates/join/signup.html:50
+msgid "Phone"
+msgstr "मोबाईल नम्बर"
+
+#: templates/join/signup.html:91
+msgid "I am ready"
+msgstr "म तयार छु"
+
+#: templates/join/signup.html:94
+msgid "By creating an account, you agree to the"
+msgstr "खाता सिर्जना गरेर, तपाईं यी कुरामा सहमत हुनुहुन्छ"
+
+#: templates/join/signup.html:94
+msgid "Terms of Service"
+msgstr "सेवाका सर्तहरु"
+
+#: templates/join/signup.html:94
+msgid "For more information about"
+msgstr ""
+
+#: templates/join/signup.html:94
+msgid "privacy practices"
+msgstr ""
+
+#: templates/join/signup.html:94
+msgid ""
+", see the Frutonp Privacy Statement. We'll occasionally send you account-"
+"related emails."
+msgstr ""

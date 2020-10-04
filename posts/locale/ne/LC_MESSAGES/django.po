@@ -1,0 +1,199 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-04 14:11+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/posts/add-post.html:19 templates/posts/edit-post.html:19
+msgid "Fruit"
+msgstr "फलफुल"
+
+#: templates/posts/add-post.html:19 templates/posts/edit-post.html:19
+msgid "Vegetable"
+msgstr "तरकारी"
+
+#: templates/posts/add-post.html:22 templates/posts/add-post.html:51
+#: templates/posts/edit-post.html:22 templates/posts/edit-post.html:51
+msgid "Choose One"
+msgstr "एउटा रोज्नुहोस्"
+
+#: templates/posts/add-post.html:28 templates/posts/edit-post.html:28
+msgid "Vegetables"
+msgstr "तरकारीहरु"
+
+#: templates/posts/add-post.html:40 templates/posts/edit-post.html:40
+msgid "Price"
+msgstr "मूल्य"
+
+#: templates/posts/add-post.html:41 templates/posts/edit-post.html:41
+msgid "Price with respect to quantity..."
+msgstr "मात्रा अनुसारको मुल्य..."
+
+#: templates/posts/add-post.html:48 templates/posts/edit-post.html:48
+msgid "Quantity"
+msgstr "मात्रा"
+
+#: templates/posts/add-post.html:62 templates/posts/edit-post.html:62
+#: templates/posts/post.html:60
+msgid "Description"
+msgstr "वर्णन"
+
+#: templates/posts/add-post.html:64 templates/posts/edit-post.html:64
+msgid "Description here..."
+msgstr "यहाँ वर्णन गर्नुहोस्..."
+
+#: templates/posts/add-post.html:70 templates/posts/post.html:203
+msgid "Photos"
+msgstr "फोटोहरु"
+
+#: templates/posts/add-post.html:77
+msgid ""
+"Maximum 5 photos can be uploaded. If u don't have any photo. We will provide "
+"our own photos. But, your clicks are highly recommended."
+msgstr ""
+"अधिकतम 5 फोटोहरू maatra अपलोड गर्न सकिन्छ। यदि तपाईंसँग कुनै फोटो छैन bhane हामी प्रदान गर्नेछौं । तर, तपाइँको aafnai photoharu rakhna protsaahan garchhau ।"
+
+#: templates/posts/add-post.html:82 templates/posts/edit-post.html:70
+msgid "Phone2"
+msgstr "मोबाईल नम्बर २"
+
+#: templates/posts/add-post.html:89 templates/posts/edit-post.html:77
+msgid ""
+"Phone number from your profile will be added as secondary choice in post."
+msgstr "तपाईंको प्रोफाईलको फोन नम्बर पनि देखिने छ । "
+
+#: templates/posts/add-post.html:93 templates/posts/edit-post.html:81
+msgid "Location"
+msgstr "ठेगाना"
+
+#: templates/posts/add-post.html:95 templates/posts/edit-post.html:83
+msgid "Location from your profile will be added by default."
+msgstr "कुनै ठेगाना रख्नुभएन भने, तपाईंको प्रोफाईलबाट राखिने छ । "
+
+#: templates/posts/add-post.html:98 templates/posts/edit-post.html:86
+msgid "Post"
+msgstr "पोष्ट"
+
+#: templates/posts/added-comment.html:15 templates/posts/new-comments.html:16
+#: templates/posts/post-comment.html:16 templates/posts/post.html:92
+#: templates/posts/post.html:172 templates/posts/post.html:176
+msgid "Reply"
+msgstr "जवाफ दिनुहोस्"
+
+#: templates/posts/added-comment.html:18 templates/posts/new-comments.html:19
+#: templates/posts/post-comment.html:19 templates/posts/post.html:95
+msgid "Options"
+msgstr "विकल्पहरू"
+
+#: templates/posts/added-reply.html:4 templates/posts/new-comments.html:39
+#: templates/posts/post-comment.html:39 templates/posts/post.html:118
+#: templates/posts/post.html:138 templates/posts/view-replies.html:5
+msgid "Profile Picture"
+msgstr "प्रोफाइल फोटो"
+
+#: templates/posts/added-reply.html:14 templates/posts/new-comments.html:49
+#: templates/posts/post-comment.html:49 templates/posts/post.html:20
+#: templates/posts/post.html:128 templates/posts/post.html:148
+#: templates/posts/view-replies.html:15
+msgid "Delete"
+msgstr "मेटाउनुहोस्"
+
+#: templates/posts/comment-option.html:5 templates/posts/post.html:187
+#: templates/posts/post.html:191
+msgid "Comment"
+msgstr "टिप्पणी"
+
+#: templates/posts/comment-option.html:11
+msgid "Edit Comment"
+msgstr "टिप्पणी सच्याउनुहोस्"
+
+#: templates/posts/comment-option.html:16
+msgid "Delete Comment"
+msgstr "टिप्पणी मेटाउनुहोस्"
+
+#: templates/posts/comment-option.html:21 templates/posts/post.html:194
+msgid "Cancel"
+msgstr "रद्द गर्नुहोस्"
+
+#: templates/posts/edit-post.html:9
+msgid "Edit Post"
+msgstr "पोष्ट सच्याउनुहोस्"
+
+#: templates/posts/edit-post.html:23
+msgid "Fruits"
+msgstr "फलफुलहरु"
+
+#: templates/posts/new-comments.html:30 templates/posts/post-comment.html:30
+#: templates/posts/post.html:108
+msgid "More Replies"
+msgstr "थप जवाफहरु"
+
+#: templates/posts/new-comments.html:32 templates/posts/post.html:110
+msgid "More Reply"
+msgstr "थप जवाफ"
+
+#: templates/posts/new-comments.html:60
+msgid "Comment has been deleted..."
+msgstr "टिप्पणी मेटाइसकेको छ..."
+
+#: templates/posts/post.html:19
+msgid "Edit"
+msgstr "सच्याउनुहोस्"
+
+#: templates/posts/post.html:32
+msgid "Rs."
+msgstr "रु."
+
+#: templates/posts/post.html:32
+msgid "per"
+msgstr "प्रति"
+
+#: templates/posts/post.html:75
+msgid "Comments"
+msgstr "टिप्पणीहरु"
+
+#: templates/posts/post.html:106
+msgid "Hide replies"
+msgstr "जवाफ्हरु लुकाउनुहोस्"
+
+#: templates/posts/post.html:160
+msgid "No Comment"
+msgstr "टिप्पणी छैन"
+
+#: templates/posts/post.html:167 templates/posts/post.html:183
+msgid "Profile Pic"
+msgstr "प्रोफाइल फोटो"
+
+#: templates/posts/post.html:169
+msgid "Add a reply..."
+msgstr "जवाफ दिनुहोस्..."
+
+#: templates/posts/post.html:185
+msgid "Add a comment.."
+msgstr "टिप्पणी दिनुहोस्..."
+
+#: templates/posts/post.html:210
+msgid "Photo"
+msgstr "फोटो"
+
+#: templates/posts/select_thumbnail.html:5
+msgid "Select Thumbnail"
+msgstr "पोष्टको अगाडी देखिने फोटो रोज्नुहोस्"
+
+#: templates/posts/select_thumbnail.html:19
+msgid "Okay"
+msgstr "हुन्छ"

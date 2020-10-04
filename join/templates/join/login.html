@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block title %}Login | Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
         
 {% block content %}
     <div style="margin-top: 40px;" class="actual-content">
         <div class="w-50" style="margin: auto auto;">
             <div class="signup-title text-center">
-                <div class="sign-create-sub">Login</div>
+                <div class="sign-create-sub">{% trans "Login" %}</div>
             </div>
         </div>
         <div class="sign-cont">
@@ -14,7 +15,7 @@
                 <form action="{% url 'login' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" method="POST">
                 {% csrf_token %}
                     <div class="f-in-div">
-                        <label for="emailId">Email</label>
+                        <label for="emailId">{% trans "Email" %}</label>
                         <span class="em-dom-sug">@gmail.com</span>
                         <span class="em-dom-sug">@hotmail.com</span>
                         <span class="em-dom-sug">@outlook.com</span>
@@ -23,22 +24,22 @@
                         <input type="email" name="email" id="emailId" class="form-inpt" value="{{ email }}" autofocus/>
                     </div>
                     <div class="f-in-div">
-                        <label for="passId">Password</label>
+                        <label for="passId">{% trans "Password" %}</label>
                         <br>
                         <input type="password" name="pass" id="passId" class="form-inpt"/>
                     </div>
                     <label class="checkbox-label"> 
-                        Remember Me
+                        {% trans "Remember Me" %}
                         <input type="checkbox" name="remember_me" id="rememberMeId" class="form-inpt"/>
                         <span class="check-span"></span>
                     </label>
                     
                     <div>
-                        <button>Login</button>
+                        <button>{% trans "Login" %}</button>
                     </div>
                     <div class="w-100">
-                        <p style="font-size: 14px; width: auto; float: left;">No account? <a href="{% url 'signup'%}">Create</a></p>
-                        <p style="font-size: 14px; width: auto; float: right;"><a href="{% url 'passwordReset' %}">Forgot Password?</a></p>
+                        <p style="font-size: 14px; width: auto; float: left;">{% trans "No account" %}? <a href="{% url 'signup'%}">{% trans "Create" %}</a></p>
+                        <p style="font-size: 14px; width: auto; float: right;"><a href="{% url 'passwordReset' %}">{% trans "Forgot Password" %}?</a></p>
                     </div>
                 </form>
             </div>

@@ -1,18 +1,19 @@
+{% load i18n %}
 <div class="fl-mid">
-    <div class="prfl-update-heading">Change Name</div>
+    <div class="prfl-update-heading">{% trans "Change Name" %}</div>
 </div>
 <div class="m-auto">
     <form action="{% url 'changeName' %}" method="POST">
         {% csrf_token %}
         <div class="pd-5">
-            <label for="nameId">New name</label>
+            <label for="nameId">{% trans "New name" %}</label>
             <input type="text" name="name" id="nameId">
             <span class="err-mssg name-err">
                     
             </span>
         </div>
         <div class="pd-5">
-            <label for="change-name-passwordId">Password</label>
+            <label for="change-name-passwordId">{% trans "Password" %}</label>
             <input type="password" name="pass" id="change-name-passwordId">
             <span class="err-mssg pass-err">
                     
@@ -20,11 +21,11 @@
         </div>
         <div class="fl-mid">
             <div class="pd-5">
-                <button name="post" class="update-btn" disabled="disabled">Update</button>
+                <button name="post" class="update-btn" disabled="disabled">{% trans "Update" %}</button>
             </div>
         </div>
         <div class="pd-5">
-            *Note:- Name can only be changed after 45 days of last update.
+            {% trans "*Note:- Name can only be changed after 45 days of last update." %}
         </div>
     </form>
 </div>

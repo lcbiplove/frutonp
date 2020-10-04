@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="comment-of w-100 flex la-cm-of-pst">
     <div style="padding: 10px 10px 5px 0px;">
         <a href="{% url 'profile' comment.myuser.id %}">
@@ -11,10 +12,10 @@
         </div> 
         <div>
             <span style="color: #777; font-size: 14px;">{{ comment.uploaded_time }}</span>
-            <span style="padding: 0px 10px; margin-left: 10px;"><a class="show-reply" href="javascript:void(0);" data-cm-id="{{ comment.id }}">Reply</a></span>
+            <span style="padding: 0px 10px; margin-left: 10px;"><a class="show-reply" href="javascript:void(0);" data-cm-id="{{ comment.id }}">{% trans "Reply" %}</a></span>
             {% if user.id == comment.myuser.id or user.id == comment.post.myuser.id %}
                 <span style="padding: 0px 10px;">
-                    <a class="comment-menu" href="javascript:void(0);" data-cm-id="{{ comment.id }}" title="Options">
+                    <a class="comment-menu" href="javascript:void(0);" data-cm-id="{{ comment.id }}" title="{% trans "Options" %}">
                         <span></span>
                         <span></span>
                         <span></span>

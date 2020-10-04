@@ -1,23 +1,24 @@
+{% load i18n %}
 <div class="real-modal">
     <div class="real-modal-container" tabindex="0">
         <div class="real-modal-header">
-            <div>Comment</div>
+            <div>{% trans "Comment" %}</div>
             <div class="real-modal-close">&times;</div>
         </div>
         <div class="real-modal-body text-center">
             {% if user.id == comment.myuser.id %}
                 <div>
-                    <button id="edit-cm" data-cm-id="{{ comment.id }}">Edit Comment</button>
+                    <button id="edit-cm" data-cm-id="{{ comment.id }}">{% trans "Edit Comment" %}</button>
                 </div>
             {% endif %}
             {% if user.id == comment.post.myuser.id or user.id == comment.myuser.id %}
                 <div>
-                    <button style="color: rgb(245, 51, 51); background-color: #f0f0f0;" id="upload-rm-pp" data-cm-id="{{ comment.id }}">Delete Comment</button>
+                    <button style="color: rgb(245, 51, 51); background-color: #f0f0f0;" id="upload-rm-pp" data-cm-id="{{ comment.id }}">{% trans "Delete Comment" %}</button>
                 </div>
             {% endif %}
             
             <div>
-                <button class="real-modal-close rm-rl-cl-dwn">Cancel</button>
+                <button class="real-modal-close rm-rl-cl-dwn">{% trans "Cancel" %}</button>
             </div>
         </div> 
         <div class="real-modal-footer-fm">

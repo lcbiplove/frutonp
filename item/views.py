@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, Http404
 from posts.models import Post
 
-PAGE_SIZE = 2
+PAGE_SIZE = 15
 
 def get_display_food_choice(value):
     return dict(Post.FOOD_CHOICES).get(value)

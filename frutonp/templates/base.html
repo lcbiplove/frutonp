@@ -1,28 +1,33 @@
 {% extends 'profile_base.html' %}
 {% load static %}
-    {% block content %}
-    {% endblock content %}
-    
+{% load number_translator %}
+{% load i18n %}
 
-    {% block footer %}
-    <footer class="w-100">
-        <div class="text-center cprt">
-            &copy;Copyright 2020 Frutonp.com. All rights are reserved.
+
+{% block content %}
+{% endblock content %}
+
+
+{% block footer %}
+<footer class="w-100">
+    <div class="text-center cprt">
+        {% get_current_language as LANG_CODE %}
+        &copy;{% trans "Copyright" %} {{ "2010"|number_translator:LANG_CODE }} Frutonp.com {% trans "." %} {% trans "All rights are reserved" %} {% trans "." %}
+    </div>
+</footer>
+{% endblock footer %}
+
+{% block cookie %}
+    {% if not cookie_law %}
+        <div class="cookie-alert-all flex">
+            <div class="cookie-alert-content w-90" style="color: white;">{% trans "We use cookies to ensure you have the best browsing experience on our website. By using our site, you acknowledge that you have read and understood our" %} <a href="" style="border-bottom: 1px solid white; color: white;">{% trans "Cookie Policy" %}</a> {% trans "&" %} <a href="" style="border-bottom: 1px solid white; color: white;">{% trans "Privacy Policy" %}</a></div>
+            <div style="width: 75px; padding: 0px 10px; margin-top: 10px;"> <a class="cookie-accept" href="javascript:void(0);">{% trans "Accept" %}</a></div>
         </div>
-    </footer>
-    {% endblock footer %}
+    {% endif %}
+{% endblock cookie %}
 
-    {% block cookie %}
-        {% if not cookie_law %}
-            <div class="cookie-alert-all flex">
-                <div class="cookie-alert-content w-90" style="color: white;">We use cookies to ensure you have the best browsing experience on our website. By using our site, you acknowledge that you have read and understood our <a href="" style="border-bottom: 1px solid white; color: white;">Cookie Policy</a> & <a href="" style="border-bottom: 1px solid white; color: white;">Privacy Policy</a></div>
-                <div style="width: 75px; padding: 0px 10px; margin-top: 10px;"> <a class="cookie-accept" href="javascript:void(0);">Accept</a></div>
-            </div>
-        {% endif %}
-    {% endblock cookie %}
-
-    {% block scripts %}
-    {% endblock scripts %}
+{% block scripts %}
+{% endblock scripts %}
 
 
 

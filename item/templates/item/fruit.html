@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block title %}Frutonp - Nepal's Online fruits and vegetables sharing center{% endblock title %}
+{% load number_translator %}
 
 {% block content %}
+    {% get_current_language as LANG_CODE %}
     <div class="actual-content">
         <div class="w-100">
             <div class="veg-main">
                 <div class="veg-ttl">
-                    <span class="fruit-bor-left"></span> Latest fruits
+                    <span class="fruit-bor-left"></span> {% trans "Latest" %} {% trans "fruits" %}
                 </div>
                 <div class="veg-cont">
                     <div class="w-100 flex fl-wrp">
@@ -22,20 +25,26 @@
                                                 </div>
                                                 <div class="veg-name-price-desk w-100">
                                                     <div class="veg-name-of-card">{{ post.outerFood }}</div>
-                                                    <div class="veg-name-of-card">Rs. {{ post.price }}/{{ post.quantity }}</div>
+                                                    <div class="veg-name-of-card">{% trans "Rs." %} {{ post.price|number_translator:LANG_CODE }}/{{ post.quantity }}</div>
                                                 </div>
                                             </div>
                                         </a>
                                         <div class="w-100">
-                                            <div class="veg-name-price-mb green" class="text-center hidden">{{ post.outerFood }} | Rs. {{ post.price }}/{{ post.quantity }}</div>
+                                            <div class="veg-name-price-mb green" class="text-center hidden">{{ post.outerFood }} | {% trans "Rs." %} {{ post.price|number_translator:LANG_CODE }}/{{ post.quantity }}</div>
                                             <div class="up-phone up-desc" style="color: #0099FF;"><i class="fas fa-mobile-alt"></i>
-                                                <a href="tel: {{ post.myuser.phone1 }}">{{ post.myuser.phone1 }}</a>
+                                                <a href="tel: {{ post.myuser.phone1|number_translator:LANG_CODE }}">{{ post.myuser.phone1|number_translator:LANG_CODE }}</a>
                                                 {% if post.phone2  %}
-                                                    | {{ post.phone2 }}
+                                                    | {{ post.phone2|number_translator:LANG_CODE }}
                                                 {% endif %}
                                             </div>
                                             {% if post.location %}
-                                                <div class="up-location up-desc"><i class="fas fa-map-marker-alt"></i> {{ post.myuser.myuserprofile.location }}</div>
+                                                <div class="up-location up-desc"><i class="fas fa-map-marker-alt"></i>
+                                                    {% if post.location %}
+                                                        {{ post.location }}
+                                                    {% else %}
+                                                        {{ post.myuser.myuserprofile.location  }}
+                                                    {% endif%}
+                                                </div>
                                             {% endif %}
                                             <div class="up-name up-desc"><a href="{% url 'profile' post.myuser.id %}"><i class="fas fa-user-secret"></i> {{ post.myuser.name }}</a></div>
                                             <div class="up-time up-desc"><i class="far fa-clock"></i> {{ post.uploaded_time }}</div>
@@ -46,8 +55,8 @@
                         {% empty %}
                             <div class="no-post-intial">
                                 <div class="text-center">
-                                    <div>Oops </div>
-                                    <div>No post added yet</div>
+                                    <div>{% trans "Oops" %} </div>
+                                    <div>{% trans "No post added yet" %}</div>
                                 </div>
                             </div>
                         {% endfor %}
@@ -57,7 +66,7 @@
             {% if not is_finished %}
             <div>
                 <a href="{% url 'itemFruit' %}?page={{ page|add:"1" }}" class="see-more-fruit bg-orange f-right">
-                    Next
+                    {% trans "Next" %}
                     <i class="fas fa-chevron-right"></i>
                 </a>
             </div>
@@ -66,7 +75,7 @@
             <div>
                 <a href="{% url 'itemFruit' %}?page={{ page|add:"1" }}" class="see-more-fruit bg-orange f-right">
                     <i class="fas fa-chevron-left"></i>
-                    Prev
+                    {% trans "Prev" %}
                 </a>
             </div>
             {% endif %}

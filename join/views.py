@@ -45,7 +45,6 @@ def sendActivationEmail(request):
             send_verify_email(user, request)
     return redirect(request.GET.get('next', 'home'))
 
-@login_required
 def activate(request, uidb64, token):
     mssg = {}
     mssg['success'] = False
@@ -59,6 +58,7 @@ def activate(request, uidb64, token):
         if user.is_activated:
             mssg['message'] = 'Your email is already verified.'
         else:
+            auth_login(request, user)
             mssg['message'] = 'Congratulations, your email is now verified.'
         user.is_activated = True
         user.save()

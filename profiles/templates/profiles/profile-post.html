@@ -1,11 +1,12 @@
+{% load i18n %}
 {% for post in posts %}
     <li>
         <a class="post-ttl" href="{% url 'post' post.id %}">{{post.outerFood}}</a>
         <div>
             <span class="post-date">{{post.uploaded_at|date:"b d, Y"}}</span>
             {% if user == post.myuser %} 
-                <a href="{% url 'editPost' post.id %}" class="post-edit">Edit</a>
-                <a href="" class="post-del">Del</a>
+                <a href="{% url 'editPost' post.id %}" class="post-edit">{% trans "Edit" %}</a>
+                <a href="" class="post-del">{% trans "Del" %}</a>
             {% endif %}
         </div>
     </li>

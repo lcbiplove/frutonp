@@ -1,34 +1,37 @@
+{% load i18n %}
+{% load number_translator %}
+{% get_current_language as LANG_CODE %}
 <div class="fl-mid">
-    <div class="prfl-update-heading">Update Profile</div>
+    <div class="prfl-update-heading">{% trans "Update Profile" %}</div>
 </div>
 <div class="m-auto">
     <form id="profile-update" style="margin: 0px;" action="{% url 'changePhoneLocDesc' %}" method="POST">
         {% csrf_token %}
         <div class="pd-5">
-            <label for="phone2Id">Phone 2</label>
+            <label for="phone2Id">{% trans "Phone" %} {{ "2"|number_translator:LANG_CODE }}</label>
             <input type="text" name="phone2" id="phone2Id" value="{{ my_profile.phone2 }}">
         </div>
         <div class="pd-5">
-            <label for="change-locationId">Location</label>
+            <label for="change-locationId">{% trans "Location" %}</label>
             <input type="text" name="location" id="change-locationId" value="{{ my_profile.location }}">
         </div>
         <div class="pd-5">
             <div>
-                <label for="descId">Description</label>
+                <label for="descId">{% trans "Description" %}</label>
             </div>
             <textarea name="description" id="">{{ my_profile.desc }}</textarea>
         </div>
         <div class="pd-5">
-            <label for="change-phone-passwordId">Password</label>
+            <label for="change-phone-passwordId">{% trans "Password" %}</label>
             <input type="password" name="password" id="change-phone-passwordId">
         </div>
         <div class="fl-mid">
             <div class="pd-5">
-                <button name="post" class="update-btn" disabled="disabled">Update</button>
+                <button name="post" class="update-btn" disabled="disabled">{% trans "Update" %}</button>
             </div>
         </div>
         <div class="pd-5">
-            *Note:- Updating your profile will give user more knowledge about you.
+            {% trans "*Note:- Updating your profile will give user more knowledge about you." %}
         </div>
     </form>
 </div>

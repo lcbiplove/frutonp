@@ -1,34 +1,39 @@
 {% load static %}
 {% load home_extras %}
+{% load number_translator %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="author" content="Biplove Lamichhane">
-    <meta name="keywords" content="nepal, free, online, sale, vegetables, tarkari, falful, fruits, kathmandu, chitwan, nepali">
+    <meta name="keywords" content="{% trans "nepal" %}, {% trans "free" %}, {% trans "online" %}, {% trans "vegetables" %}, tran, falful, fruits, {% trans "kathmandu" %}, {% trans "chitwan" %}, {% trans "nepali" %}">
     <title>{% if yes_no == "yes" %}({{ notif_num }}) {% endif %}{% block title %}{% endblock title %}</title>
     <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png" sizes="16x16">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}?version=88">
     <script src="{% static 'js/jquery.min.3.4.1.js' %}"></script>
 </head>
+
 <body>
     <header>
         <div class="nav-bar">
             <div class="w-100 flex">
-                <a class="logo black" href="{% url 'home' %}" title="Go to home">
+                <a class="logo black" href="{% url 'home' %}" title="{% trans "Go to home" %}">
                     <span><img src="{% static 'images/logo.png' %}" class="logo-img" alt="frutonp-logo"></span>
-                    <span style="align-self: center;">Frutonp</span>
-                    <input id="prfl_base_csrf" type="hidden" name="hide" value="{{ csrf_token }}"/>
+                    <span style="align-self: center;">{% trans "Frutonp" %}</span>
+                    <input id="prfl_base_csrf" type="hidden" name="hide" value="{{ csrf_token }}" />
                 </a>
-                
+
                 <div style="position: relative; width: 74%;">
                     <div class="search-w">
                         <form class="srch-form" action="{% url 'search' %}">
-                            <input type="search" name="q" id="search" class="search-inpt" title="Search for your choice" />
+                            <input type="search" name="q" id="search" class="search-inpt"
+                                title="{% trans "Search for your choice" %}" />
                             <button class="srch-icon"><i class="fas fa-search"></i></button>
                         </form>
                     </div>
@@ -37,7 +42,7 @@
                     <div class="mb-srch-n-sel">
                         <form action="{% url 'search' %}" id="mb-srch-form" class="srch-form">
                             <input type="search" name="q" id="mb-srch-inpt">
-                        </form>  
+                        </form>
                     </div>
                     <span id="mb-srch-icon" class="mb-srch-icon"><i class="fas fa-search"></i></span>
                 </div>
@@ -45,20 +50,21 @@
                     <div class="pos-rel top-cat">
                         <a href="javascript:void(0);" style="padding: 8px 0px; color: #555" class="black flex">
                             <span><i class="fas fa-th-large"></i></span>
-                            <span style="margin-left: 5px;">Catagories</span>
+                            <span style="margin-left: 5px;">{% trans "Categories" %}</span>
                         </a>
-                        <div class="cat-drp-mn" >
+                        <div class="cat-drp-mn">
                             <ul>
                                 <li>
                                     <div class="desk-cat-each">
                                         <span>
-                                            <span><i class="fas fa-carrot"></i></span> 
-                                            <span>Vegetables</span>
+                                            <span><i class="fas fa-carrot"></i></span>
+                                            <span>{% trans "Vegetables" %}</span>
                                         </span>
                                         <div id="category-of-vegetables" class="cat-each-item">
-                                            <a href="{% url 'itemVegetable' %}">All</a>
+                                            <a href="{% url 'itemVegetable' %}">{% trans "All" %}</a>
                                             {% for veg in cat_vegs %}
-                                                <a href="{% url 'itemVegetableName' veg %}">{{ veg|get_display_food_choice }}</a>
+                                            <a
+                                                href="{% url 'itemVegetableName' veg %}">{{ veg|get_display_food_choice }}</a>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -67,12 +73,13 @@
                                     <div class="desk-cat-each">
                                         <span>
                                             <span><i class="fas fa-apple-alt"></i></span>
-                                            <span>Fruits</span>
+                                            <span>{% trans "Fruits" %}</span>
                                         </span>
                                         <div id="category-of-fruits" class="cat-each-item cat-each-fruit">
-                                            <a href="{% url 'itemFruit' %}">All</a>
+                                            <a href="{% url 'itemFruit' %}">{% trans "All" %}</a>
                                             {% for fruit in cat_fruits %}
-                                                <a href="{% url 'itemFruitName' fruit %}">{{ fruit|get_display_food_choice }}</a>
+                                            <a
+                                                href="{% url 'itemFruitName' fruit %}">{{ fruit|get_display_food_choice }}</a>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -92,97 +99,122 @@
                         </span>
                         <ul id="settings-cont">
                             {% if user.is_authenticated %}
-                                <li><a href="{% url 'addPost' %}" title="Add Post"><i class="fas fa-plus-circle"></i> Add post</a></li>
+                            <li><a href="{% url 'addPost' %}" title="{% trans "Add post" %}"><i
+                                        class="fas fa-plus-circle"></i> {% trans "Add post" %}</a></li>
                             {% endif %}
                             <li>
-                                <a id="lang" href="javascript:void(0);" title="Change language"><img src="{% static 'images/np-flag.png' %}" style="width: 10px;" alt=""> Lang: NP</a>
+                                <a id="lang" href="javascript:void(0);" title="{% trans "Change language" %}">
+                                    {% get_current_language as lang_code %}
+                                    {% if lang_code == "ne" %}
+                                    <img src="{% static 'images/np-flag.png' %}" width=10 alt="">
+                                    {% else %}
+                                    <img src="{% static 'images/uk-flag.png' %}" width=16 height=12 alt="">
+                                    {% endif %}
+                                    {% trans "Lang" %}:
+                                    {% if lang_code == "ne" %}{% trans "NP" %}{% else %}EN{% endif %}
+                                </a>
                             </li>
                             {% if user.is_authenticated %}
-                                <li><a id="logout" href="javascript:void(0);" title="Logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                                <form action="{% url 'logout' %}" method="POST" id="logout-form">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="logout"/>
-                                </form>
+                            <li><a id="logout" href="javascript:void(0);" title="{% trans "Logout" %}"><i
+                                        class="fas fa-sign-out-alt"></i> {% trans "Logout" %}</a></li>
+                            <form action="{% url 'logout' %}" method="POST" id="logout-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="logout" />
+                            </form>
                             {% endif %}
-                            <li><a href="javascript:void(0);" title="Help"><i class="fas fa-question-circle"></i> Help</a></li>
+                            <li><a href="javascript:void(0);" title="{% trans "Help" %}"><i
+                                        class="fas fa-question-circle"></i> {% trans "Help" %}</a></li>
                         </ul>
                         <ul id="lang-cont">
                             <li>
-                                <a href="javascript:void(0);" id="lang-back-set"><i style="color: rgb(7, 192, 68);" class="fas fa-arrow-left"></i> Back</a>
+                                <a href="javascript:void(0);" id="lang-back-set"><i style="color: rgb(7, 192, 68);"
+                                        class="fas fa-arrow-left"></i> {% trans "Back" %}</a>
                             </li>
                             <li>
-                                <a id="lang" href="javascript:void(0);"><img src="{% static 'images/uk-flag.png' %}" style="width: 16px;" height="12px" alt=""> English</a>
+                                <a class="lang" data-lang-code="en" href=""><img src="{% static 'images/uk-flag.png' %}"
+                                        width=16 height=12 alt=""> {% trans "English" %}</a>
                             </li>
                             <li>
-                                <a id="lang" href="javascript:void(0);"><img src="{% static 'images/np-flag.png' %}" style="width: 10px;" alt=""> Nepal</a>
+                                <a class="lang" data-lang-code="ne" href=""><img src="{% static 'images/np-flag.png' %}"
+                                        width=10 alt=""> {% trans "Nepali" %}</a>
+                            </li>
+                            <li class="d-none">
+                                <form id="lang-submit-form" action="{% url 'set_language' %}" method="post">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                                    <input id="language-inpt" name="language" type="hidden">
+                                </form>
                             </li>
                         </ul>
                     </div>
                 </div>
                 {% if user.is_authenticated %}
-                    <div class="pos-rel" style="margin-right: 10px;">
-                        <!-- Notifications -->
-                        <a id="notif-btn" href="javascript:void(0);" class="set-not-btn pos-rel" title="Notifications">
-                            <i class="fas fa-bell"></i><i id="t-up-notif" class="fas fa-sort-down t-side-ar"></i>
-                            <span id="notif-num" class="notif-num-{{ yes_no }}">{{ notif_num }}</span>
-                        </a>
-                        <div class="notif-cont" tabindex="0">
-                            <span>
-                                <i id="ar-o-notif" class="fas fa-caret-up"></i>
-                            </span>
-                            <ul id="notificaion-cont">
-                                
-                            </ul>
-                        </div>
+                <div class="pos-rel" style="margin-right: 10px;">
+                    <!-- Notifications -->
+                    <a id="notif-btn" href="javascript:void(0);" class="set-not-btn pos-rel" title="Notifications">
+                        <i class="fas fa-bell"></i><i id="t-up-notif" class="fas fa-sort-down t-side-ar"></i>
+                        {% get_current_language as LANG_CODE %}
+                        <span id="notif-num"
+                            class="notif-num-{{ yes_no }}">{{ notif_num|number_translator:LANG_CODE }}</span>
+                    </a>
+                    <div class="notif-cont" tabindex="0">
+                        <span>
+                            <i id="ar-o-notif" class="fas fa-caret-up"></i>
+                        </span>
+                        <ul id="notificaion-cont">
+
+                        </ul>
                     </div>
+                </div>
                 {% endif %}
                 <div class="log-b-sign">
                     {% if not user.is_authenticated %}
-                        <div style="margin-right: 5px;">
-                            <a href="{% url 'login' %}" class="nav-a-other log-link">Login</a>
-                        </div>
-                        <div style="margin-right: 10px;">
-                            <a href="{% url 'signup' %}" class="nav-a-other sign-link">Signup</a>
-                        </div>
+                    <div style="margin-right: 5px;">
+                        <a href="{% url 'login' %}" class="nav-a-other log-link">{% trans "Login" %}</a>
+                    </div>
+                    <div style="margin-right: 10px;">
+                        <a href="{% url 'signup' %}" class="nav-a-other sign-link">{% trans "Signup" %}</a>
+                    </div>
                     {% else %}
-                        <div>
-                            <a href="{% url 'profile' user.id %}" class="auth-user">
-                                <img src="/media/{{ user.myuserprofile.pp }}" width=25 height=25/>
-                                {{ user.short_name }}
-                            </a>
-                        </div>
+                    <div>
+                        <a href="{% url 'profile' user.id %}" class="auth-user">
+                            <img src="/media/{{ user.myuserprofile.pp }}" alt="{{ user.short_name }}" width=25
+                                height=25 />
+                            {{ user.short_name }}
+                        </a>
+                    </div>
                     {% endif %}
-                </div>         
+                </div>
                 <div class="men-850">
                     <span id="menu-btn">
                         <i class="fas fa-hamburger"></i>
                     </span>
-                </div>           
-            </div> 
-        </div>          
+                </div>
+            </div>
+        </div>
         <div class="side-bar">
             <div class="side-bar-nav">
                 {% if not user.is_authenticated %}
-                    <div class="fl-mid">
-                        <a href="{% url 'login' %}" class="not-auth-user-mb">Login</a>
-                        <span></span>
-                        <a href="{% url 'signup' %}" class="not-auth-user-mb">Signup</a>
-                    </div> 
-                {% else %}     
-                    <div>
-                        <a href="{% url 'profile' user.id %}" class="auth-user-mb">
-                            <img src="/media/{{ user.myuserprofile.pp }}" alt="Profile Picture"/>
-                            <span>{{ user.short_name }}</span>
-                        </a>
-                    </div>  
+                <div class="fl-mid">
+                    <a href="{% url 'login' %}" class="not-auth-user-mb">{% trans "Login" %}</a>
+                    <span></span>
+                    <a href="{% url 'signup' %}" class="not-auth-user-mb">{% trans "Signup" %}</a>
+                </div>
+                {% else %}
+                <div>
+                    <a href="{% url 'profile' user.id %}" class="auth-user-mb">
+                        <img src="/media/{{ user.myuserprofile.pp }}" alt="{% trans "Profile Picture" %}" />
+                        <span>{{ user.short_name }}</span>
+                    </a>
+                </div>
                 {% endif %}
             </div>
             <div id="side-scrollable-primary" class="side-scrollable">
                 <div class="side-cat-div">
-                    <span>Categories</span>
+                    <span>{% trans "Categories" %}</span>
                     <a href="#" class="side-cat-item" data-category="vegetables">
                         <span>
-                            <i class="fas fa-carrot"></i> <span>Vegetables</span>
+                            <i class="fas fa-carrot"></i> <span>{% trans "Vegetables" %}</span>
                         </span>
                         <span class="cat-right-ar">
                             <i class="fas fa-chevron-right"></i>
@@ -190,7 +222,7 @@
                     </a>
                     <a href="#" class="side-cat-item" data-category="fruits">
                         <span>
-                            <i class="fas fa-apple-alt"></i> <span>Fruits</span>
+                            <i class="fas fa-apple-alt"></i> <span>{% trans "Fruits" %}</span>
                         </span>
                         <span class="cat-right-ar">
                             <i class="fas fa-chevron-right"></i>
@@ -201,11 +233,11 @@
             <div id="side-scrollable-secondary" class="side-scrollable">
                 <div class="side-cat-div">
                     <a href="#" class="sub-cat-back">
-                        <i class="fas fa-arrow-left"></i> <span>Back</span>
+                        <i class="fas fa-arrow-left"></i> <span>{% trans "Back" %}</span>
                     </a>
                     <span id="side-sub-label"></span>
                     <div id="side-sec-main-cont">
-                        
+
                     </div>
                 </div>
             </div>
@@ -213,19 +245,19 @@
         <div class='srch-overlay d-none'></div>
         <div class='sidebar-overlay'>
             <span id="side-close"><span></span></span>
-        </div>        
+        </div>
     </header>
 
     <div style="margin-top: 80px;">
         {% if messages %}
-            <div id="sess-mssg-div">
+        <div id="sess-mssg-div">
             {% for message in messages %}
-                <div class="sess-{{ message.tags }} in-sess-mssg">
+            <div class="sess-{{ message.tags }} in-sess-mssg">
                 <span>{{ message }}</span>
                 <span class="sess-close"><i class="fas fa-times"></i></span>
-            </div>            
-            {% endfor %}
             </div>
+            {% endfor %}
+        </div>
         {% endif %}
 
         <div class="act-div">
@@ -244,21 +276,35 @@
         {% block footer %}
         {% endblock footer %}
 
-        {% block cookie %}    
+        {% block cookie %}
         {% endblock cookie %}
     </div>
 
-    <div><script src="{% static 'js/common_logout_modal.js' %}"></script></div>
-    <div><script src="{% static 'js/nav_all___.js' %}?version=66"></script></div>
-    <div><script src="{% static 'js/nprogress.js' %}"></script></div>
-    <div><script src="{% static 'js/notifs__.js' %}?version=33"></script></div>
-    <div><script src="{% static 'js/content_scroll_card.js' %}"></script></div>
-    <div><script src="{% static 'js/sess_mssg_.js' %}"></script></div>
-    <div><script src="{% static 'js/cookie.js' %}"></script></div>
-    
+    <div>
+        <script src="{% static 'js/common_logout_modal.js' %}"></script>
+    </div>
+    <div>
+        <script src="{% static 'js/nav_all___.js' %}?version=66"></script>
+    </div>
+    <div>
+        <script src="{% static 'js/nprogress.js' %}"></script>
+    </div>
+    <div>
+        <script src="{% static 'js/notifs__.js' %}?version=33"></script>
+    </div>
+    <div>
+        <script src="{% static 'js/content_scroll_card.js' %}"></script>
+    </div>
+    <div>
+        <script src="{% static 'js/sess_mssg_.js' %}"></script>
+    </div>
+    <div>
+        <script src="{% static 'js/cookie.js' %}"></script>
+    </div>
+
 
     {% block scripts %}
     {% endblock scripts %}
 </body>
-</html>
 
+</html>

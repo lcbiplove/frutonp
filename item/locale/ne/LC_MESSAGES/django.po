@@ -1,0 +1,60 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-01 15:42+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/item/each_item.html:12 templates/item/fruit.html:12
+#: templates/item/veg.html:12
+msgid "Latest"
+msgstr "ताजा"
+
+#: templates/item/each_item.html:26 templates/item/each_item.html:31
+#: templates/item/fruit.html:27 templates/item/fruit.html:32
+#: templates/item/veg.html:27 templates/item/veg.html:32
+msgid "Rs."
+msgstr "रू."
+
+#: templates/item/each_item.html:56 templates/item/fruit.html:52
+msgid "No post added yet"
+msgstr "कुनै पोष्ट थपिएको छैन"
+
+#: templates/item/each_item.html:64 templates/item/fruit.html:62
+#: templates/item/veg.html:68
+msgid "Next"
+msgstr "अर्को पृष्ठ"
+
+#: templates/item/each_item.html:73 templates/item/fruit.html:71
+#: templates/item/veg.html:77
+msgid "Prev"
+msgstr "अघिको पृष्ठ"
+
+#: templates/item/fruit.html:12
+msgid "fruits"
+msgstr "फलफुलहरू"
+
+#: templates/item/fruit.html:51 templates/item/veg.html:57
+msgid "Oops"
+msgstr "ओहो"
+
+#: templates/item/veg.html:12
+msgid "vegetables"
+msgstr "तरकारीहरू"
+
+#: templates/item/veg.html:58
+msgid "No post found"
+msgstr "अहिलेकोलागि कुनै पोष्ट भेटिएन ।"
