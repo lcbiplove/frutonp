@@ -6,24 +6,40 @@ from frutonp.utils import file_size, image_crop, getUploadTimeDiff, getWeightNum
 from datetime import timedelta
 from django.utils import timezone
 from django.utils.translation import gettext as __
+import gettext
+
+def getFoodChoice(food_code, food):
+    return food_code+'_NE_'+gettext.translation('django', 'posts/locale', ['ne'], fallback=True).gettext(food)
 
 class Post(models.Model):
     NUM_OF_FRUIT = 5
     NUM_OF_VEG = 5
     CATEGORIES = ['Vegetable', 'Fruit']
-    VEG =  ['bitter-gourd', 'cabbage', 'cauliflower', 'ladies-finger', 'pumpkin']
-    FRUIT = ['apple', 'banana', 'litchi', 'mango', 'orange']
+    VEG =  [
+        getFoodChoice('bitter-gourd', 'Bitter Gourd'),
+        getFoodChoice('cabbage', 'Cabbage'),
+        getFoodChoice('cauliflower', 'Cauliflower'),
+        getFoodChoice('ladies-finger', 'Ladies Finger'),
+        getFoodChoice('pumpkin', 'Pumpkin')
+    ]
+    FRUIT = [
+        getFoodChoice('apple', 'Apple'), 
+        getFoodChoice('banana', 'Banana'), 
+        getFoodChoice('litchi', 'Litchi'), 
+        getFoodChoice('mango', 'Mango'), 
+        getFoodChoice('orange', 'Orange')
+    ]
     FOOD_CHOICES = (
-        ('bitter-gourd', __('Bitter Gourd')),
-        ('cabbage', __('Cabbage')),
-        ('cauliflower', __('Cauliflower')),
-        ('ladies-finger', __('Ladies Finger')),
-        ('pumpkin', __('Pumpkin')),
-        ('apple', __('Apple')),
-        ('banana', __('Banana')),
-        ('litchi', __('Litchi')),
-        ('mango', __('Mango')),
-        ('orange', __('Orange')),
+        (getFoodChoice('bitter-gourd', 'Bitter Gourd'), __('Bitter Gourd')),
+        (getFoodChoice('cabbage', 'Cabbage'), __('Cabbage')),
+        (getFoodChoice('cauliflower', 'Cauliflower'), __('Cauliflower')),
+        (getFoodChoice('ladies-finger', 'Ladies Finger'), __('Ladies Finger')),
+        (getFoodChoice('pumpkin', 'Pumpkin'), __('Pumpkin')),
+        (getFoodChoice('apple', 'Apple'), __('Apple')),
+        (getFoodChoice('banana', 'Banana'), __('Banana')),
+        (getFoodChoice('litchi', 'Litchi'), __('Litchi')),
+        (getFoodChoice('mango', 'Mango'), __('Mango')),
+        (getFoodChoice('orange', 'Orange'), __('Orange')),
     )
     QUANTITY = ['kg', '250gm', '200gm', '500gm', '2kg', '5kg', '10kg', '25kg', '50kg', 'quintal']
     QUANTITY_CHOICES = (
@@ -58,6 +74,9 @@ class Post(models.Model):
         """ To use external function getUploadTimeDiff in every model, return datetime field of to be calculated
         date time """
         return self.uploaded_at
+    
+    def getEnglishOnlyFoodChoice(self):
+        return self.foodType.split('_NE_')[0]
 
     def foodCategory(self):
         if self.foodType in Post.VEG:
@@ -78,7 +97,7 @@ class Photo(models.Model):
     photos = models.ImageField(verbose_name='Photos', upload_to='post/', validators=[file_size, FileExtensionValidator(['jpg', 'jpeg', 'png',])], null=True, blank=True)
 
     def default_path(self):
-        return f"post/default/{self.post.foodType}.jpg"
+        return f"post/default/{self.post.foodType.split('_NE_')[0]}.jpg"
 
     def null_save(self, *args, **kwargs):
         default_img = self.default_path()

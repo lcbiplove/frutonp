@@ -48,7 +48,7 @@ msgstr "बन्दागोभी"
 
 #: models.py:22
 msgid "Cauliflower"
-msgstr "गोभी/काउली"
+msgstr "गोभी, काउली"
 
 #: models.py:23
 msgid "Ladies Finger"

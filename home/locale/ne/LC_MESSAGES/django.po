@@ -94,7 +94,7 @@ msgstr "परिणम भेटिएन"
 
 #: templates/home/search.html:49
 msgid "Try similar search terms"
-msgstr "arko ustai khoj shabda pryaas garnuhos"
+msgstr "अर्को उस्तै खोज शब्द प्र्यास गर्नुहोस"
 
 #: templates/home/search.html:58
 msgid "post"
