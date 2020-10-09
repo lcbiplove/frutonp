@@ -21,16 +21,16 @@
                                         <a href="{% url 'post' post.id %}" style="color: #333;">
                                             <div class="w-100 flex">
                                                 <div class="w-100 veg-thumb-up">
-                                                    <img src="/media/{{ post.thumbnail }}" class="veg-card-thumb" alt="{{ post.outerFood }}">
+                                                    <img src="/media/{{ post.thumbnail }}" class="veg-card-thumb" alt="{% trans post.outerFood %}">
                                                 </div>
                                                 <div class="veg-name-price-desk w-100">
-                                                    <div class="veg-name-of-card">{{ post.outerFood }}</div>
-                                                    <div class="veg-name-of-card">{% trans "Rs." %} {{ post.price|number_translator:LANG_CODE }}/{{ post.quantity }}</div>
+                                                    <div class="veg-name-of-card">{% trans post.outerFood %}</div>
+                                                    <div class="veg-name-of-card">{% trans "Rs." %} {{ post.price|number_translator:LANG_CODE }}/{% trans post.outerQuantity %}</div>
                                                 </div>
                                             </div>
                                         </a>
                                         <div class="w-100">
-                                            <div class="veg-name-price-mb green" class="text-center hidden">{{ post.outerFood }} | {% trans "Rs." %} {{ post.price }}/{{ post.quantity }}</div>
+                                            <div class="veg-name-price-mb green" class="text-center hidden">{% trans post.outerFood %} | {% trans "Rs." %} {{ post.price|number_translator:LANG_CODE }}/{% trans post.outerQuantity %}</div>
                                             <div class="up-phone up-desc" style="color: #0099FF;"><i class="fas fa-mobile-alt"></i>
                                                 <a href="tel: {{ post.myuser.phone1|number_translator:LANG_CODE }}">{{ post.myuser.phone1|number_translator:LANG_CODE  }}</a>
                                                 {% if post.phone2  %}
@@ -83,16 +83,16 @@
                                         <a href="{% url 'post' post.id %}" style="color: #333;">
                                             <div class="w-100 flex">
                                                 <div class="w-100 veg-thumb-up">
-                                                    <img src="/media/{{ post.thumbnail }}" class="veg-card-thumb" alt="{{ post.outerFood }}">
+                                                    <img src="/media/{{ post.thumbnail }}" class="veg-card-thumb" alt="{% trans post.outerFood %}">
                                                 </div>
                                                 <div class="veg-name-price-desk w-100">
-                                                    <div class="veg-name-of-card">{{ post.outerFood }}</div>
-                                                    <div class="veg-name-of-card">{% trans "Rs." %} {{ post.price|number_translator:LANG_CODE  }}/{{ post.quantity }}</div>
+                                                    <div class="veg-name-of-card">{% trans post.outerFood %}</div>
+                                                    <div class="veg-name-of-card">{% trans "Rs." %} {{ post.price|number_translator:LANG_CODE  }}/{% trans post.outerQuantity %}</div>
                                                 </div>
                                             </div>
                                         </a>
                                         <div class="w-100">
-                                            <div class="veg-name-price-mb green" class="text-center hidden">{{ post.outerFood }} | {% trans "Rs." %} {{ post.price }}/{{ post.quantity }}</div>
+                                            <div class="veg-name-price-mb green" class="text-center hidden">{% trans post.outerFood %} | {% trans "Rs." %} {{ post.price|number_translator:LANG_CODE }}/{% trans post.outerQuantity %}</div>
                                             <div class="up-phone up-desc" style="color: #0099FF;"><i class="fas fa-mobile-alt"></i>
                                                 <a href="tel: {{ post.myuser.phone1|number_translator:LANG_CODE }}">{{ post.myuser.phone1|number_translator:LANG_CODE }}</a>
                                                 {% if post.phone2  %}

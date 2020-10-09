@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="fl-mid">
-    <div class="add-post-heading">Add Post</div>
+    <div class="add-post-heading">{% trans "Add Post" %}</div>
 </div>
 <div id="add-post-modal" class="add-post-cont">
     <div class="w-100">
@@ -20,14 +20,18 @@
                         </div>
                         <select name="foodType">
                             <option value="" selected disabled="disabled">{% trans "Choose One" %}</option>
-                            <optgroup class="optgroup" label="Fruits">
+                            <optgroup class="optgroup" label="{% trans "Fruits" %}">
                                 {% for fruit in fruits %}
-                                    <option value="{{ fruit }}">{{ fruit|get_display_food_choice }}</option>
+                                    {% with fruit_choice=fruit|get_display_food_choice %}
+                                    <option value="{{ fruit }}">{% trans fruit_choice %}</option>
+                                    {% endwith %}
                                 {% endfor %}
                             </optgroup>
                             <optgroup class="optgroup" label="{% trans "Vegetables" %}">
                                 {% for veg in vegs %}
-                                    <option value="{{ veg }}">{{ veg|get_display_food_choice }}</option>
+                                    {% with veg_choice=veg|get_display_food_choice %}
+                                    <option value="{{ veg }}">{% trans veg_choice %}</option>
+                                    {% endwith %}
                                 {% endfor %}
                             </optgroup>
                         </select>
@@ -50,7 +54,9 @@
                     <select name="quantity">
                         <option value="" selected disabled="disabled">{% trans "Choose One" %}</option>
                         {% for q in quantity %}
-                            <option value="{{ q }}">{{ q|get_display_quantity_choice }}</option>
+                            {% with quant_choice=q|get_display_quantity_choice %}
+                                <option value="{{ q }}">{% trans quant_choice %}</option>
+                            {% endwith %}
                         {% endfor %}
                     </select>
                     <span class="err-mssg">

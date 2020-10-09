@@ -1802,7 +1802,7 @@ input[type=checkbox] {
 /* Posts */
 .post-edit-del a{
     display: inline-block;
-    width: 60px;
+    width: 80px;
     padding: 5px 0;
     border: 1px solid #777;
     color: #555;

@@ -63,8 +63,9 @@
                                         <div id="category-of-vegetables" class="cat-each-item">
                                             <a href="{% url 'itemVegetable' %}">{% trans "All" %}</a>
                                             {% for veg in cat_vegs %}
-                                            <a
-                                                href="{% url 'itemVegetableName' veg %}">{{ veg|get_display_food_choice }}</a>
+                                                {% with veg_choice=veg|get_display_food_choice %}
+                                                    <a href="{% url 'itemVegetableName' veg %}">{% trans veg_choice %}</a>
+                                                {% endwith %}
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -78,8 +79,9 @@
                                         <div id="category-of-fruits" class="cat-each-item cat-each-fruit">
                                             <a href="{% url 'itemFruit' %}">{% trans "All" %}</a>
                                             {% for fruit in cat_fruits %}
-                                            <a
-                                                href="{% url 'itemFruitName' fruit %}">{{ fruit|get_display_food_choice }}</a>
+                                                {% with fruit_choice=fruit|get_display_food_choice %}
+                                                    <a href="{% url 'itemFruitName' fruit %}">{% trans fruit_choice %}</a>
+                                                {% endwith %}
                                             {% endfor %}
                                         </div>
                                     </div>

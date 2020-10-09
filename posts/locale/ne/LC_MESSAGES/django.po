@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-04 14:11+0545\n"
+"POT-Creation-Date: 2020-10-06 18:51+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,86 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: models.py:15
+msgid "Apple"
+msgstr "स्याऊ"
+
+#: models.py:16
+msgid "Banana"
+msgstr "केरा"
+
+#: models.py:17
+msgid "Litchi"
+msgstr "लिची"
+
+#: models.py:18
+msgid "Mango"
+msgstr "आँप"
+
+#: models.py:19
+msgid "Orange"
+msgstr "सुन्तला"
+
+#: models.py:20
+msgid "Bitter Gourd"
+msgstr "करेला"
+
+#: models.py:21
+msgid "Cabbage"
+msgstr "बन्दागोभी"
+
+#: models.py:22
+msgid "Cauliflower"
+msgstr "गोभी/काउली"
+
+#: models.py:23
+msgid "Ladies Finger"
+msgstr "चिप्लिभिन्डी"
+
+#: models.py:24
+msgid "Pumpkin"
+msgstr "फर्सी"
+
+#: models.py:28
+msgid "1 kg"
+msgstr "१ किलो"
+
+#: models.py:29
+msgid "250 gm"
+msgstr "२५० ग्राम"
+
+#: models.py:30
+msgid "200 gm"
+msgstr "२०० ग्राम"
+
+#: models.py:31
+msgid "500 gm"
+msgstr "५०० ग्राम"
+
+#: models.py:32
+msgid "2 kg"
+msgstr "२ किलो"
+
+#: models.py:33
+msgid "5 kg"
+msgstr "५ किलो"
+
+#: models.py:34
+msgid "10 kg"
+msgstr "१० किलो"
+
+#: models.py:35
+msgid "25 kg"
+msgstr "२५ किलो"
+
+#: models.py:36
+msgid "50 kg"
+msgstr "५० किलो"
+
+#: models.py:37
+msgid "1 quintal"
+msgstr "१ क्विन्टल"
 
 #: templates/posts/add-post.html:19 templates/posts/edit-post.html:19
 msgid "Fruit"
@@ -65,7 +145,8 @@ msgid ""
 "Maximum 5 photos can be uploaded. If u don't have any photo. We will provide "
 "our own photos. But, your clicks are highly recommended."
 msgstr ""
-"अधिकतम 5 फोटोहरू maatra अपलोड गर्न सकिन्छ। यदि तपाईंसँग कुनै फोटो छैन bhane हामी प्रदान गर्नेछौं । तर, तपाइँको aafnai photoharu rakhna protsaahan garchhau ।"
+"अधिकतम ५ फोटोहरू मात्र अपलोड गर्न सकिन्छ। यदि तपाईंसँग कुनै फोटो छैन bhane हामी प्रदान "
+"गर्नेछौं । तर, तपाइँको आफ्नै फोटोहरु रख्न प्रोत्साहन गर्छौ ।"
 
 #: templates/posts/add-post.html:82 templates/posts/edit-post.html:70
 msgid "Phone2"

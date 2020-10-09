@@ -5,35 +5,38 @@ from django.core.validators import FileExtensionValidator
 from frutonp.utils import file_size, image_crop, getUploadTimeDiff, getWeightNumForCalc, getSlicedNotificationMessages
 from datetime import timedelta
 from django.utils import timezone
+from django.utils.translation import gettext as __
 
 class Post(models.Model):
+    NUM_OF_FRUIT = 5
+    NUM_OF_VEG = 5
     CATEGORIES = ['Vegetable', 'Fruit']
-    VEG = ['bitter-gourd', 'cabbage', 'cauliflower', 'ladies-finger', 'pumpkin']
+    VEG =  ['bitter-gourd', 'cabbage', 'cauliflower', 'ladies-finger', 'pumpkin']
     FRUIT = ['apple', 'banana', 'litchi', 'mango', 'orange']
     FOOD_CHOICES = (
-        ('apple', 'Apple'),
-        ('banana', 'Banana'),
-        ('litchi', 'Litchi'),
-        ('mango', 'Mango'),
-        ('orange', 'Orange'),
-        ('bitter-gourd', 'Bitter Gourd'),
-        ('cabbage', 'Cabbage'),
-        ('cauliflower', 'Cauliflower'),
-        ('ladies-finger', 'Ladies Finger'),
-        ('pumpkin', 'Pumpkin'),
+        ('bitter-gourd', __('Bitter Gourd')),
+        ('cabbage', __('Cabbage')),
+        ('cauliflower', __('Cauliflower')),
+        ('ladies-finger', __('Ladies Finger')),
+        ('pumpkin', __('Pumpkin')),
+        ('apple', __('Apple')),
+        ('banana', __('Banana')),
+        ('litchi', __('Litchi')),
+        ('mango', __('Mango')),
+        ('orange', __('Orange')),
     )
     QUANTITY = ['kg', '250gm', '200gm', '500gm', '2kg', '5kg', '10kg', '25kg', '50kg', 'quintal']
     QUANTITY_CHOICES = (
-        ('kg', '1 kg'),
-        ('250gm', '250 gm'),
-        ('200gm', '200 gm'),
-        ('500gm', '500 gm'),
-        ('2kg', '2 kg'),
-        ('5kg', '5 kg'),
-        ('10kg', '10 kg'),
-        ('25kg', '25 kg'),
-        ('50kg', '50 kg'),
-        ('quintal', '1 quintal'),
+        ('kg', __('1 kg')),
+        ('250gm', __('250 gm')),
+        ('200gm', __('200 gm')),
+        ('500gm', __('500 gm')),
+        ('2kg', __('2 kg')),
+        ('5kg', __('5 kg')),
+        ('10kg', __('10 kg')),
+        ('25kg', __('25 kg')),
+        ('50kg', __('50 kg')),
+        ('quintal', __('1 quintal')),
     )
     myuser = models.ForeignKey(to=MyUser, on_delete=models.CASCADE)
     desc = models.TextField(verbose_name='Description')
@@ -61,9 +64,11 @@ class Post(models.Model):
             return Post.CATEGORIES[0]
         return Post.CATEGORIES[1]
         
-
     def outerFood(self):
         return self.get_foodType_display()
+
+    def outerQuantity(self):
+        return self.get_quantity_display()
         
     def priceToWeightRatio(self):
         return self.price/getWeightNumForCalc(self.quantity)

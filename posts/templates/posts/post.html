@@ -9,7 +9,7 @@
 {% get_current_language as LANG_CODE %}
 <div class="actual-content">
         <div class="w-100 text-center">
-            <div id="title" class="heading-slim">{{ post.outerFood }}</div>
+            <div id="title" class="heading-slim">{% trans post.outerFood %}</div>
         </div>
         <div class="w-100 flex fl-wrp">
              <div class="w-40 text-center">
@@ -26,10 +26,10 @@
                     <div class="w-100">
                         <div class="pd-10">
                             <div class="w-100" style="margin: 0px 0px 8px 0px;">
-                                <span id="foodType" style="padding: 0px 15px 0px 0px;">{{ post.foodCategory }}</span> <span style="padding: 0px 5px 0px 15px; border-left: 1px solid #222;">{{ views }}</span> <i class="fas fa-eye"></i>
+                                <span id="foodType" style="padding: 0px 15px 0px 0px;">{% trans post.foodCategory %}</span> <span style="padding: 0px 5px 0px 15px; border-left: 1px solid #222;">{{ views|number_translator:LANG_CODE }}</span> <i class="fas fa-eye"></i>
                             </div>
                             <div class="w-100" style="margin: 0px 0px 8px 0px;">
-                                {% trans "Rs." %} <span id="price">{{ post.price|number_translator:LANG_CODE }}</span> {% trans "per" %} <span id="quantity">{{ post.quantity }}</span>
+                                {% trans "Rs." %} <span id="price">{{ post.price|number_translator:LANG_CODE }}</span> {% trans "per" %} <span id="quantity">{% trans post.outerQuantity %}</span>
                             </div>
                             <div class="w-100" style="margin: 0px 0px 8px 0px;">
                                 <a href="tel:{{ post.myuser.phone1 }}">{{ post.myuser.phone1|number_translator:LANG_CODE }}</a>
