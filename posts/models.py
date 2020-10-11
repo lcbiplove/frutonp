@@ -7,6 +7,10 @@ from datetime import timedelta
 from django.utils import timezone
 from django.utils.translation import gettext as __
 import gettext
+from bikram import samwat
+from django.utils.translation import get_language as current_language
+from django.utils import timezone
+from home.templatetags.number_translator import translate_num_eng_to_nep
 
 def getFoodChoice(food_code, food):
     return food_code+'_NE_'+gettext.translation('django', 'posts/locale', ['ne'], fallback=True).gettext(food)
@@ -91,6 +95,19 @@ class Post(models.Model):
         
     def priceToWeightRatio(self):
         return self.price/getWeightNumForCalc(self.quantity)
+
+    def upload_date_nepali(self):
+        upload_date = self.uploaded_at
+        if current_language() == "ne":
+            return samwat.from_ad(upload_date.date()).strftime("%dne %Bne, %Yne") 
+        return upload_date.strftime("%b %d, %Y")
+
+    def uploaded_datetime_nepali(self):
+        upload_date = self.uploaded_at
+        if current_language() == "ne":
+            localdatetime = timezone.localtime(upload_date)
+            upload_date = samwat.from_ad(upload_date.date()).strftime("%dne %Bne, %Yne") + f", {translate_num_eng_to_nep(str(localdatetime.time())[0:5])}"
+        return upload_date
     
 class Photo(models.Model):
     post = models.ForeignKey(to=Post, on_delete=models.CASCADE, related_name='photos')

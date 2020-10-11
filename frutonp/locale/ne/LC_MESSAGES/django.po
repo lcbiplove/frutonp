@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-29 19:43+0545\n"
+"POT-Creation-Date: 2020-10-11 11:47+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: frutonp/settings.py:146 frutonp/templates/profile_base.html:135
+#: settings.py:146 templates/profile_base.html:137
 msgid "English"
 msgstr "अंग्रेजी"
 
-#: frutonp/settings.py:147 frutonp/templates/profile_base.html:139
+#: settings.py:147 templates/profile_base.html:141
 msgid "Nepali"
 msgstr "नेपाली"
 
-#: frutonp/templates/base.html:15
+#: templates/base.html:15
 msgid "Copyright"
 msgstr "प्रतिलिपि अधिकार"
 
-#: frutonp/templates/base.html:15
+#: templates/base.html:15
 msgid "."
 msgstr "।"
 
-#: frutonp/templates/base.html:15
+#: templates/base.html:15
 msgid "All rights are reserved"
 msgstr "सबै अधिकारहरु आरक्षित छन्"
 
-#: frutonp/templates/base.html:23
+#: templates/base.html:23
 msgid ""
 "We use cookies to ensure you have the best browsing experience on our "
 "website. By using our site, you acknowledge that you have read and "
@@ -47,127 +47,158 @@ msgstr ""
 "हामी तपाईंको वेबसाइट भ्रमणमा सफल अनुभ को सुनिश्चित गर्न कुकीहरु प्रयोग गर्छौ । हाम्रो "
 "साइट प्रयोग गर्दा तपाईं हाम्रा यी नीतिहरु बुझ्नुभयो: "
 
-#: frutonp/templates/base.html:23
+#: templates/base.html:23
 msgid "Cookie Policy"
 msgstr "कुकी नीति"
 
-#: frutonp/templates/base.html:23
+#: templates/base.html:23
 msgid "&"
 msgstr ""
 
-#: frutonp/templates/base.html:23
+#: templates/base.html:23
 msgid "Privacy Policy"
 msgstr "गोपनीयता नीति"
 
-#: frutonp/templates/base.html:24
+#: templates/base.html:24
 msgid "Accept"
 msgstr "स्वीकार्नुहोस्"
 
-#: frutonp/templates/profile_base.html:14
+#: templates/profile_base.html:14
 msgid "nepal"
 msgstr "नेपाल"
 
-#: frutonp/templates/profile_base.html:14
+#: templates/profile_base.html:14
 msgid "free"
 msgstr "सित्तैमा"
 
-#: frutonp/templates/profile_base.html:14
+#: templates/profile_base.html:14
 msgid "online"
 msgstr "अनलाइन"
 
-#: frutonp/templates/profile_base.html:14
+#: templates/profile_base.html:14
 msgid "vegetables"
 msgstr "तरकारीहरू"
 
-#: frutonp/templates/profile_base.html:14
+#: templates/profile_base.html:14
 msgid "kathmandu"
 msgstr "काठमाडौं"
 
-#: frutonp/templates/profile_base.html:14
+#: templates/profile_base.html:14
 msgid "chitwan"
 msgstr "चितवन"
 
-#: frutonp/templates/profile_base.html:14
+#: templates/profile_base.html:14
 msgid "nepali"
 msgstr "नेपाली"
 
-#: frutonp/templates/profile_base.html:26
+#: templates/profile_base.html:26
 msgid "Go to home"
 msgstr "मुख्य पृष्ठमा पुग्न"
 
-#: frutonp/templates/profile_base.html:28
+#: templates/profile_base.html:28
 msgid "Frutonp"
 msgstr "किसान"
 
-#: frutonp/templates/profile_base.html:36
+#: templates/profile_base.html:36
 msgid "Search for your choice"
 msgstr "रोजाईअनुसार खोजी गर्नुहोस्"
 
-#: frutonp/templates/profile_base.html:53
-#: frutonp/templates/profile_base.html:214
+#: templates/profile_base.html:53 templates/profile_base.html:216
 msgid "Categories"
 msgstr "कोटिहरू"
 
-#: frutonp/templates/profile_base.html:61
-#: frutonp/templates/profile_base.html:217
+#: templates/profile_base.html:61 templates/profile_base.html:219
 msgid "Vegetables"
 msgstr "तरकारीहरू"
 
-#: frutonp/templates/profile_base.html:64
-#: frutonp/templates/profile_base.html:79
+#: templates/profile_base.html:64 templates/profile_base.html:80
 msgid "All"
 msgstr "सबै"
 
-#: frutonp/templates/profile_base.html:76
-#: frutonp/templates/profile_base.html:225
+#: templates/profile_base.html:77 templates/profile_base.html:227
 msgid "Fruits"
 msgstr "फलफुलहरू"
 
-#: frutonp/templates/profile_base.html:102
-#: frutonp/templates/profile_base.html:103
+#: templates/profile_base.html:104 templates/profile_base.html:105
 msgid "Add post"
 msgstr "पोष्ट थप्न"
 
-#: frutonp/templates/profile_base.html:106
+#: templates/profile_base.html:108
 msgid "Change language"
 msgstr "भाषा परिवर्तन"
 
-#: frutonp/templates/profile_base.html:113
+#: templates/profile_base.html:115
 msgid "Lang"
 msgstr "भाषा"
 
-#: frutonp/templates/profile_base.html:114
+#: templates/profile_base.html:116
 msgid "NP"
 msgstr "नेपाली"
 
-#: frutonp/templates/profile_base.html:118
-#: frutonp/templates/profile_base.html:119
+#: templates/profile_base.html:120 templates/profile_base.html:121
 msgid "Logout"
 msgstr "खाताबाट बाहिर निस्कन"
 
-#: frutonp/templates/profile_base.html:125
-#: frutonp/templates/profile_base.html:126
+#: templates/profile_base.html:127 templates/profile_base.html:128
 msgid "Help"
 msgstr "सहयोग"
 
-#: frutonp/templates/profile_base.html:131
-#: frutonp/templates/profile_base.html:236
+#: templates/profile_base.html:133 templates/profile_base.html:238
 msgid "Back"
 msgstr "फर्किन"
 
-#: frutonp/templates/profile_base.html:173
-#: frutonp/templates/profile_base.html:199
+#: templates/profile_base.html:175 templates/profile_base.html:201
 msgid "Login"
 msgstr "खातामा जान"
 
-#: frutonp/templates/profile_base.html:176
-#: frutonp/templates/profile_base.html:201
+#: templates/profile_base.html:178 templates/profile_base.html:203
 msgid "Signup"
 msgstr "खाता जोड्न"
 
-#: frutonp/templates/profile_base.html:206
+#: templates/profile_base.html:208
 msgid "Profile Picture"
 msgstr "प्रोफाइल फोटो"
 
-#~ msgid "com"
-#~ msgstr "कम"
+#: utils.py:145
+msgid "few seconds ago"
+msgstr "केही सेकेन्ड अघि"
+
+#: utils.py:145 utils.py:164
+msgid "{} sec ago"
+msgstr "{} सेकेन्ड अघि"
+
+#: utils.py:147
+msgid "{} minute ago"
+msgstr "{} मिनेट अघि"
+
+#: utils.py:147
+msgid "{} minutes ago"
+msgstr "{} मिनेट अघि"
+
+#: utils.py:147
+msgid "{} min ago"
+msgstr "{} मिनेट अघि"
+
+#: utils.py:150 utils.py:157
+msgid "{} hour ago"
+msgstr "{} घण्टा अघि"
+
+#: utils.py:150 utils.py:157
+msgid "{} hours ago"
+msgstr "{} घण्टा अघि"
+
+#: utils.py:150 utils.py:153 utils.py:157
+msgid "{} hr ago"
+msgstr "{} घण्टा अघि"
+
+#: utils.py:155
+msgid "{} hr {} min ago"
+msgstr "{} घण्टा {} मिनेट अघि"
+
+#: utils.py:160
+msgid "{} day ago"
+msgstr "{} दिन अघि"
+
+#: utils.py:162
+msgid "{} days ago"
+msgstr "{} दिन अघि"

@@ -16,13 +16,20 @@ NUMBER_MAP = {
 
 register = template.Library()
 
+def translate_num_eng_to_nep(value):
+    translated_value = ""
+    for char in value:
+        try:
+            translated_value+=NUMBER_MAP[char]
+        except KeyError:
+            translated_value+=char
+    return translated_value
+    
+
 """ Get food choices from the value """
 @register.filter()
 @stringfilter
 def number_translator(value, lang_code):
     if lang_code == "ne":
-        try:
-            return "".join([NUMBER_MAP[char] for char in value])
-        except KeyError:
-            pass
+        return translate_num_eng_to_nep(value)
     return value

@@ -11,6 +11,9 @@ from PIL import Image, ExifTags
 from django.utils import timezone
 from django.contrib.auth.tokens import PasswordResetTokenGenerator, default_token_generator
 from six import text_type
+from django.utils.translation import get_language as current_language
+from django.utils.translation import gettext as _
+from home.templatetags.number_translator import translate_num_eng_to_nep
 
 SLICE_MESSAGE_FOR_NOTIFICATION = 70
 
@@ -140,25 +143,28 @@ def getUploadTimeDiff(par, longStatus=False, isComment=False):
     minutes = (seconds % 3600) // 60
     seconds = seconds % 60
     if seconds < 60 and minutes == 0 and hours == 0:
-        out = longStatus and f"few seconds ago" or f"{seconds} sec ago"
+        out = longStatus and _("few seconds ago") or _('{} sec ago').format(seconds) 
     elif minutes < 60 and hours == 0:
-        out = longStatus and ( minutes==1 and f"{minutes} minute ago" or f"{minutes} minutes ago") or f"{minutes} min ago"
+        out = longStatus and ( minutes==1 and _('{} minute ago').format(minutes) or _('{} minutes ago').format(minutes)) or _('{} min ago').format(minutes)
     elif hours < 6:
         if isComment:
-            out = longStatus and ( hours==1 and f"{hours} hour ago" or f"{hours} hours ago") or f"{hours} hr ago"
+            out = longStatus and ( hours==1 and _('{} hour ago').format(hours) or _('{} hours ago').format(hours)) or _('{} hr ago').format(hours)
         else:            
             if minutes == 0:
-                out = f"{hours} hr ago"
+                out = _('{} hr ago').format(hours)
             else:
-                out = f"{hours} hr {minutes} min ago"
+                out = _('{} hr {} min ago').format(hours, minutes)
     elif hours < 24:
-        out = longStatus and ( hours==1 and f"{hours} hour ago" or f"{hours} hours ago") or f"{hours} hr ago"
+        out = longStatus and ( hours==1 and _('{} hour ago').format(hours) or _('{} hours ago').format(hours)) or _('{} hr ago').format(hours)
     else:
         if days == 1:
-            out = f"{days} day ago"
+            out = _('{} day ago').format(days)
         else:
-            out = f"{days} days ago"
+            out = _('{} days ago').format(days)
 
+    if current_language() == "ne":
+        out = translate_num_eng_to_nep(out)
+    
     if longStatus:
         return out
 
@@ -181,7 +187,6 @@ def getWeightNumForCalc(weight):
 
 def getSlicedNotificationMessages(text):
     return len(text)<=SLICE_MESSAGE_FOR_NOTIFICATION and text or f"{text[:SLICE_MESSAGE_FOR_NOTIFICATION]}..."
-
 
 class TokenGenerator(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):

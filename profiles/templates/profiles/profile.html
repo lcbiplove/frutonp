@@ -126,7 +126,7 @@
                         <div class="profile-box">
                             <div class="w-100 flex">
                                 <div id="post" class="prfl-box-ttl prfl-active">
-                                    {% trans "Posts" %} (<span>{{ myuser.post_set.all.count }}</span>)
+                                    {% trans "Posts" %} (<span>{{ myuser.post_set.all.count|number_translator:LANG_CODE }}</span>)
                                 </div>
                                 {% if is_authorized %}
                                     <div id="my-account" class="prfl-box-ttl">
@@ -145,7 +145,7 @@
                                             <li>
                                                 <a class="post-ttl" href="{% url 'post' post.id %}">{{post.outerFood}}</a>
                                                 <div>
-                                                    <span class="post-date">{{post.uploaded_at|date:"b d, Y"}}</span> 
+                                                    <span class="post-date">{{post.upload_date_nepali}}</span> 
                                                     {% if is_authorized %}
                                                         <a href="{% url 'editPost' post.id %}" class="post-edit">{% trans "Edit" %}</a>
                                                         <a href="#" class="post-del" data-pid="{{ post.id }}">{% trans "Del" %}</a>

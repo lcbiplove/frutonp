@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-30 21:42+0545\n"
+"POT-Creation-Date: 2020-10-11 09:43+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,15 +36,15 @@ msgstr "तरकारीहरू"
 msgid "Rs."
 msgstr "रू."
 
-#: templates/home/home.html:58 templates/home/home.html:114
+#: templates/home/home.html:58 templates/home/home.html:120
 msgid "Oops"
 msgstr "ओहो"
 
-#: templates/home/home.html:59 templates/home/home.html:115
+#: templates/home/home.html:59 templates/home/home.html:121
 msgid "No post added yet"
 msgstr "कुनै पोष्ट थपिएको छैन"
 
-#: templates/home/home.html:67 templates/home/home.html:123
+#: templates/home/home.html:67 templates/home/home.html:129
 msgid "See More"
 msgstr "थप हेर्न"
 
@@ -115,4 +115,3 @@ msgstr "पोष्टको फोटो"
 #: templates/home/show-notif.html:51
 msgid "No notification"
 msgstr "अहिलेकोलागि कुनै सुचना छैन ।"
-

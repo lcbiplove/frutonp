@@ -42,7 +42,7 @@ def showNotif(request):
     if request.POST and request.is_ajax():
         page_no = request.GET.get('page', 1)
         total_notifs = Notif.objects.filter(notif_click__myuser=request.user).count()
-        if page_no != 1 or page_no != '1':
+        if page_no != 1 and page_no != '1':
             try:
                 page_no = int(page_no)
 
@@ -50,6 +50,7 @@ def showNotif(request):
                     return JsonResponse({"finished": True})
             except:
                 pass
+        
         notifs = Notif.objects.filter(notif_click__myuser=request.user).order_by('-received_at')[NOTIF_COUNT*(page_no-1):NOTIF_COUNT*page_no]
         reloadNotif(request.user)
 
