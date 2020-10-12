@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-04 10:59+0545\n"
+"POT-Creation-Date: 2020-10-11 16:54+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: models.py:19
+msgid "Users must have an email address"
+msgstr ""
 
 #: templates/join/email_activation.html:21
 msgid "Email Verification"
@@ -89,7 +93,7 @@ msgid ""
 msgstr ""
 "सुरक्षित रख्न र हाम्रो सबै सुविधाहरू प्राप्त गर्न, तपाईको ईमेल ठेगाना निश्चित गर्नुहोस् ।"
 
-#: templates/join/emails/verify_email.html:41
+#: templates/join/emails/verify_email.html:41 views.py:20
 msgid "Verify your account"
 msgstr "तपाईको खाता प्रमाणित गर्नुहोस् ।"
 
@@ -221,3 +225,105 @@ msgid ""
 ", see the Frutonp Privacy Statement. We'll occasionally send you account-"
 "related emails."
 msgstr ""
+
+#: views.py:33
+msgid "Please check your email to verify your account"
+msgstr "तपाईंको खाता प्रमाणित गर्न कृपया तपाईंको ईमेल जाँच गर्नुहोस्"
+
+#: views.py:36
+msgid "Your account is already verified."
+msgstr "तपाईको खाता पहिले नै प्रमाणित गरीएको छ।"
+
+#: views.py:52
+msgid "Invalid Link. Could not verify your email."
+msgstr "अवैध लिंक। तपाईंको ईमेल प्रमाणित गर्न सकिएन ।"
+
+#: views.py:60
+msgid "Your email is already verified."
+msgstr "तपाईको ईमेल पहिले नै प्रमाणित गरीएको छ।"
+
+#: views.py:63
+msgid "Congratulations, your email is now verified."
+msgstr "तपाईंको ईमेल अब प्रमाणित भएकोमा तपाईंलाई बधाई छ ।"
+
+#: views.py:79
+#, fuzzy
+#| msgid "Invalid Link."
+msgid "Invalid Link. Try again!!!"
+msgstr "अवैध लिंक । फेरी प्रायस गर्नुहोस् ।"
+
+#: views.py:97
+msgid ""
+"Password must be at least 8 characters with lower characters and numbers."
+msgstr "पासवर्ड सानो अक्षरहरू र संख्याहरूको साथमा कम्तिमा ८ अक्षरको हुनुपर्दछ ।"
+
+#: views.py:112
+#, fuzzy
+#| msgid "Reset Password"
+msgid "Reset Your Password"
+msgstr "पासवर्ड पुनस्थापना गर्न"
+
+#: views.py:124
+#, fuzzy
+#| msgid "Use the link below to reset your password."
+msgid "Please check your email to reset password."
+msgstr "तपाईको खातको पासवर्ड नयाँ राख्न तलको लिंक प्रयोग गर्नुहोस् ।"
+
+#: views.py:126
+msgid "Email you entered does not exist. Please, check your email again."
+msgstr "तपाईंले दिनुभएको ईमेल भेटिएन । कृपया तपाईको इ-मेल फेरि जाँच गर्नुहोस्। "
+
+#: views.py:144
+msgid "Recaptcha is not verified. Try again!!!"
+msgstr "रिकापचा मिलेन। फेरि प्रयास गर्नुहोस् !!!"
+
+#: views.py:148
+msgid "Invalid name pattern"
+msgstr "नामको ढाचा मिलेन"
+
+#: views.py:150
+msgid "Must be more than 4 characters"
+msgstr "वर्ण संख्या ४ भन्दा बढी हुनुपर्दछ "
+
+#: views.py:153
+msgid "Phone number must be of 10 numbers"
+msgstr "फोन नम्बर १० अक्षरको हुनुपर्दछ ।"
+
+#: views.py:158
+msgid "Email already exists"
+msgstr "ईमेल पहिल्यै अवस्थित छ । नयाँ इमेल दिनुहोस्^ ।"
+
+#: views.py:162
+msgid "Invalid email pattern"
+msgstr "अबैध ईमेल ढाचा"
+
+#: views.py:166
+msgid ""
+"Password must be at least 8 characters with lower characters and numbers"
+msgstr "पासवर्ड सानो अक्षरहरू र संख्याहरूको साथमा कम्तिमा ८ अक्षरको हुनुपर्दछ ।"
+
+#: views.py:168
+#, fuzzy
+#| msgid "Password Reset"
+msgid "Password does not match"
+msgstr "पासवर्ड नयाँ पासवोर्डसँग मिलेन "
+
+#: views.py:173
+msgid "Your account is created successfully."
+msgstr "तपाईंको खाता सफलतापूर्वक सिर्जना गरिएको छ।"
+
+#: views.py:189
+msgid "Incorrect email or password"
+msgstr "पासवर्ड अथवा ईमेल मिलेन"
+
+#: views.py:198
+msgid "Logged in successfully"
+msgstr "सफलता पूर्वक खाताभित्र प्रवेश गरियो "
+
+#: views.py:207
+msgid "Logged out successfully"
+msgstr "सफलता पूर्वक खाताबाट बाहिर निस्किइयो"
+
+#: views.py:210
+msgid "Could not complete logout"
+msgstr "खाताबाट बाहिर निस्किन सकिएन"

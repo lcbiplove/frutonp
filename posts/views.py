@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt 
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 
 MAX_COMMENT_CAPACITY = 24
 MAX_REPLY_CAPACITY = 24
@@ -102,19 +103,19 @@ def editPost(request, id):
                     price = price[1:]
                 price = int(price)
             except:
-                err['price'] = "Price must be in numbers."
+                err['price'] = _("Price must be in numbers.")
 
             if desc == "":
-                err['desc'] = "Description must be filled."
+                err['desc'] = _("Description must be filled.")
 
             if (foodType not in Post.VEG) and (foodType not in Post.FRUIT):
-                err['foodType'] = "Please select from the given options only."
+                err['foodType'] = _("Please select from the given options only.")
 
             if quantity not in Post.QUANTITY:
-                err['quantity'] = "Please select from the given options only."
+                err['quantity'] = _("Please select from the given options only.")
             
             if not (len(phone2)==10 and re.match('^\d+$', phone2) or len(phone2)==0):
-                err['phone2'] = "Phone should contain 10 numbers."
+                err['phone2'] = _("Phone should contain 10 numbers.")
 
             if len(err)==0:
                 data = {}
@@ -169,7 +170,7 @@ def editPost(request, id):
                 except:
                     pass
                 post.save(update_fields=update_fields)
-                messages.success(request, 'Post edited successfully')
+                messages.success(request, _('Post edited successfully'))
                 data['success'] = True
                 return JsonResponse(data)
 
@@ -252,22 +253,22 @@ def addPost(request):
                 price = price[1:]
             price = int(price)
         except:
-            err['price'] = "Price must be in numbers."
+            err['price'] = _("Price must be in numbers.")
 
         if desc == "":
-            err['desc'] = "Description must be filled."
+            err['desc'] = _("Description must be filled.")
 
         if (foodType not in Post.VEG) and (foodType not in Post.FRUIT):
-            err['foodType'] = "Please select from the given options only."
+            err['foodType'] = _("Please select from the given options only.")
 
         if quantity not in Post.QUANTITY:
-            err['quantity'] = "Please select from the given options only."
+            err['quantity'] = _("Please select from the given options only.")
 
         if len(request.FILES.getlist('photos')) > 5:
-            err['photos'] = "Max photo upload is 5."
+            err['photos'] = _("Max photo upload is 5.")
         
         if not (len(phone2)==10 and re.match('^\d+$', phone2) or len(phone2)==0):
-            err['phone2'] = "Phone should contain 10 numbers."
+            err['phone2'] = _("Phone should contain 10 numbers.")
 
         photoform = PhotoForm(request.POST, request.FILES)
         if len(err)==0:
@@ -293,11 +294,11 @@ def addPost(request):
                     else:
                         request.session['__set__th__'] = randomToken(32)+"///"+getExpireOfCookie(30*60)    
 
-                messages.success(request, 'Post added successfully')
+                messages.success(request, _('Post added successfully'))
                 data['success'] = True
                 return JsonResponse(data)
             else:
-                err['photos'] = "Unable to upload photos"
+                err['photos'] = _("Unable to upload photos")
 
         return JsonResponse(err)
     else:

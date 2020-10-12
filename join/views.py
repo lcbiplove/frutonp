@@ -13,10 +13,11 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
+from django.utils.translation import gettext as _
 
 def send_verify_email(user, request, isNotAjaxCall=True):
     if not user.is_activated:
-        mail_subject = 'Verify your account'
+        mail_subject = _('Verify your account')
         template_vars = {
             'name': user.name,
             'host_name': (request.is_secure() and "https" or "http") + "://" + get_current_site(request).domain,
@@ -29,10 +30,10 @@ def send_verify_email(user, request, isNotAjaxCall=True):
         email.attach_alternative(html_mssg, "text/html")
         email.send()
         if isNotAjaxCall:
-            messages.info(request, 'Please check your email to verify your account')
+            messages.info(request, _('Please check your email to verify your account'))
     else:
         if isNotAjaxCall:
-            messages.info(request, 'Your account is already verified.')
+            messages.info(request, _('Your account is already verified.'))
 
 @login_required
 def sendActivationEmail(request):
@@ -48,7 +49,7 @@ def sendActivationEmail(request):
 def activate(request, uidb64, token):
     mssg = {}
     mssg['success'] = False
-    mssg['message'] = 'Invalid Link. Could not verify your email.'
+    mssg['message'] = _('Invalid Link. Could not verify your email.')
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = MyUser.objects.get(pk=uid)
@@ -56,10 +57,10 @@ def activate(request, uidb64, token):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         if user.is_activated:
-            mssg['message'] = 'Your email is already verified.'
+            mssg['message'] = _('Your email is already verified.')
         else:
             auth_login(request, user)
-            mssg['message'] = 'Congratulations, your email is now verified.'
+            mssg['message'] = _('Congratulations, your email is now verified.')
         user.is_activated = True
         user.save()
         mssg['success'] = True
@@ -75,7 +76,7 @@ def check(request):
 def passwordResetConfirm(request, uidb64, token):
     mssg = {}
     mssg['success'] = False
-    mssg['message'] = 'Invalid Link. Try again!!!'
+    mssg['message'] = _('Invalid Link. Try again!!!')
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = MyUser.objects.get(pk=uid)
@@ -93,7 +94,7 @@ def passwordResetConfirm(request, uidb64, token):
                 messages.success(request, 'Password is saved successfully.')
                 return redirect('home')
             else:
-                messages.error(request, 'Password must be at least 8 characters with lower characters and numbers.')
+                messages.error(request, _('Password must be at least 8 characters with lower characters and numbers.'))
         mssg['uidb64'] = uidb64
         mssg['token'] = token
         mssg['success'] = True
@@ -108,7 +109,7 @@ def passwordReset(request):
 
         if MyUser.objects.filter(email=email).exists():
             user = MyUser.objects.get(email=email)
-            mail_subject = 'Reset Your Password'
+            mail_subject = _('Reset Your Password')
             template_vars = {
                 'name': user.name,
                 'host_name': (request.is_secure() and "https" or "http") + "://" + get_current_site(request).domain,
@@ -120,9 +121,9 @@ def passwordReset(request):
             email = EmailMultiAlternatives(subject=mail_subject, body=plain_mssg, from_email='noreply@frutonp.com', to=[user.email])
             email.attach_alternative(html_mssg, "text/html")
             email.send()
-            messages.info(request, 'Please check your email to reset password.')
+            messages.info(request, _('Please check your email to reset password.'))
         else:
-            messages.error(request, 'Email you entered does not exist. Please, check your email again.')
+            messages.error(request, _('Email you entered does not exist. Please, check your email again.'))
 
     return render(request, 'join/password_reset.html')
 
@@ -140,36 +141,36 @@ def signup(request):
         
         if result['success'] == False:
             err = " "
-            messages.error(request, "Recaptcha is not verified. Try again!!!")
+            messages.error(request, _("Recaptcha is not verified. Try again!!!"))
 
         if len(name) > 4 and len(name) < 48:
             if reMatch('^[A-Za-z]+([-_ ][A-Za-z]+)*$', name) is None:
-                err['name'] = "Invalid name pattern"
+                err['name'] = _("Invalid name pattern")
         else:
-            err['name'] = "Must be more than 4 characters"
+            err['name'] = _("Must be more than 4 characters")
 
         if not (len(phone)==10 and reMatch('^\d+$', phone)):
-            err['phone'] = "Phone number must be of 10 numbers"
+            err['phone'] = _("Phone number must be of 10 numbers")
 
         if reMatch('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$', email):
             try:
                 user = MyUser.objects.get(email=email)
-                err['email'] = "Email already exists"
+                err['email'] = _("Email already exists")
             except:
                 pass
         else:
-            err['email'] = "Invalid email pattern"
+            err['email'] = _("Invalid email pattern")
 
         if password==confPass:
             if reMatch('^(?=.*[a-z])(?=.*[0-9])(?=.{8,})', password) is None:
-                err['pass'] = "Password must be at least 8 characters with lower characters and numbers"
+                err['pass'] = _("Password must be at least 8 characters with lower characters and numbers")
         else:
-            err['pass'] = "Password does not match"
+            err['pass'] = _("Password does not match")
 
         if len(err) == 0:
             user = MyUser.objects.create_user(email=email, name=name, password=password, phone1=phone)
             auth_login(request, user)
-            messages.success(request, 'Your account is created successfully.')
+            messages.success(request, _('Your account is created successfully.'))
             send_verify_email(user, request)
             return redirect(request.GET.get('next', 'home'))
         return render(request, 'join/signup.html', {'err': err})
@@ -185,7 +186,7 @@ def login(request):
         password = request.POST.get('pass')
         user = authenticate(email=email, password=password)
         if user is None:
-            messages.error(request, "Incorrect username or password")
+            messages.error(request, _("Incorrect email or password"))
             return render(request, 'join/login.html', {'email': email})
 
         if request.POST.get('remember_me') is None:
@@ -194,7 +195,7 @@ def login(request):
             settings.SESSION_EXPIRE_AT_BROWSER_CLOSE  = False
 
         auth_login(request, user)
-        messages.success(request, "Logged in successfully")
+        messages.success(request, _("Logged in successfully"))
         return redirect(request.GET.get('next', 'home'))
     else:
         return render(request, 'join/login.html')
@@ -203,10 +204,10 @@ def logout(request):
     try:
         logout = request.POST['logout']
         auth_logout(request)
-        messages.success(request, "Logged out successfully")
+        messages.success(request, _("Logged out successfully"))
         return redirect('login')
     except:
-        messages.error(request, "Could not complete logout")
+        messages.error(request, _("Could not complete logout"))
         return redirect('home')
 
 def ajax_email(request):

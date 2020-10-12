@@ -11,6 +11,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.conf import settings
 from django.utils import timezone
+from django.utils.translation import gettext as _, get_language as current_language
+from frutonp.utils import translate_num_eng_to_nep
 
 MAX_POST_LOAD = 20
 
@@ -77,7 +79,7 @@ def changeName(request):
                         days = 0
 
                     if days < 45:
-                        error = "You updated your name %s days ago." % (days)
+                        error = _("You updated your name {} days ago.").format(current_language == "ne" and translate_num_eng_to_nep(days) or days)
                         if is_ajax:
                             status['error'] = error
                             status['wait'] = False
@@ -94,19 +96,19 @@ def changeName(request):
                     user.name = name
                     user.name_updated = timezone.now()
                     user.save(update_fields=['name', 'name_updated'])
-                    mssg = "Your name updated succesfully."
+                    mssg = _("Your name updated succesfully.")
                     if is_ajax:
                         status['success'] = mssg
                     else:
                         messages.success(request, mssg)
             else:
-                error = "Invalid name pattern entered."
+                error = _("Invalid name pattern entered.")
                 if is_ajax:
                     status['error'] = error
                 else:
                     messages.error(request, error)
         else:
-            error = "Password doesn't match."
+            error = _("Wrong password entered.")
             if is_ajax:
                 status['error'] = error
             else:
@@ -140,7 +142,7 @@ def changePhone(request):
                         days = 0
 
                     if days < 15:
-                        error = "You updated your phone %s days ago." % (days)
+                        error = _("You updated your phone {} days ago.").format(current_language == "ne" and translate_num_eng_to_nep(days) or days)
                         if is_ajax:
                             status['error'] = error
                             status['wait'] = False
@@ -157,19 +159,19 @@ def changePhone(request):
                     user.phone1 = phone
                     user.phone_updated = timezone.now()
                     user.save(update_fields=['phone1', 'phone_updated'])
-                    mssg = "Your phone changed succesfully."
+                    mssg = _("Your phone changed succesfully.")
                     if is_ajax:
                         status['success'] = mssg
                     else:
                         messages.success(request, mssg)
             else:
-                error = "Invalid phone pattern entered."
+                error = _("Invalid phone pattern entered.")
                 if is_ajax:
                     status['error'] = error
                 else:
                     messages.error(request, error)
         else:
-            error = "Password doesn't match."
+            error = _("Wrong password entered.")
             if is_ajax:
                 status['error'] = error
             else:
@@ -198,7 +200,7 @@ def changePassword(request):
         response = redirect('changePassword')
 
         if not request.user.is_activated:
-            error = "You have to verify email to change your password."
+            error = _("You have to verify email to change your password.")
             if is_ajax:
                 status['redirect'] = True
             else:
@@ -214,24 +216,24 @@ def changePassword(request):
                     user.password_updated = timezone.now()
                     user.save(update_fields=['password', 'password_updated'])
                     update_session_auth_hash(request, user)
-                    mssg = "Password changed succesfully."
+                    mssg = _("Password changed succesfully.")
                     if is_ajax:
                         status['redirect'] = True
                     messages.success(request, mssg)
                 else:
-                    error = "Password must be at least 8 characters with lower characters and numbers."
+                    error = _("Password must be at least 8 characters with lower characters and numbers.")
                     if is_ajax:
                         status['error'] = error
                     else:
                         messages.error(request, error)
             else:
-                error = "Two passwords does not match."
+                error = _("Two passwords does not match.")
                 if is_ajax:
                     status['error'] = error
                 else:
                     messages.error(request, error)
         else:
-            error = "Wrong password entered."
+            error = _("Wrong password entered.")
             if is_ajax:
                 status['error'] = error
             else:
@@ -267,20 +269,20 @@ def changePhoneLocDesc(request):
             if is_pure_number:
                 profile = MyUserProfile(id=user.myuserprofile.id, myuser=user, phone2=phone2, location=location, desc=desc, pp=user.myuserprofile.pp,)
                 profile.save()
-                mssg = "Profile updated successfully!!!"
+                mssg = _("Profile updated successfully!!!")
                 if is_ajax:
                     status['success'] = mssg
                 else:
                     messages.success(request, mssg)
                     return redirect('profile')      
             else:
-                error = "Phone should contain 10 numbers"
+                error = _("Phone should contain 10 numbers")
                 if is_ajax:
                     status['error'] = error
                 else:
                     messages.error(request, error)          
         else:
-            error = "Wrong password entered."
+            error = _("Wrong password entered.")
             if is_ajax:
                 status['error'] = error
             else:
@@ -314,7 +316,7 @@ def uploadPP(request, id=None):
             pp=get_object_or_404(MyUserProfile, pk=my_profile.id)
             pp.pp = request.FILES.get('pp')
             pp.save(update_fields=['pp'])
-            messages.success(request, "Uploaded successfully.")
+            messages.success(request, _("Uploaded successfully."))
     return redirect('profile')
 
 @login_required(login_url='login')

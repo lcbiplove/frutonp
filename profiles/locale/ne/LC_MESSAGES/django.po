@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-04 14:52+0545\n"
+"POT-Creation-Date: 2020-10-12 09:03+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,6 +142,7 @@ msgid "Change"
 msgstr "परिवर्तन गर्नुहोस्"
 
 #: templates/profiles/change-phone.html:36
+#: templates/profiles/change-phone_ajax.html:27
 msgid "*Note:- Phone can only be changed after 15 days of last update."
 msgstr "*नोट:- मोबाईल नम्बर पहिले परिवर्तन गरेको १५ दिन पछि मात्र सम्भव छ । "
 
@@ -221,3 +222,61 @@ msgstr ""
 #: templates/profiles/profile.html:212
 msgid "Accept"
 msgstr ""
+
+#: views.py:82
+msgid "You updated your name {} days ago."
+msgstr "तपाईंले आफ्नो नाम {} दिन पहिले परिवर्तन गर्नुभएको थियो।"
+
+#: views.py:99
+msgid "Your name updated succesfully."
+msgstr "तपाईंको नाम सफलता पूर्वक परिवर्तन भयो । "
+
+#: views.py:105
+msgid "Invalid name pattern entered."
+msgstr "अबैध नामको ढाचा दिनुभयो ।"
+
+#: views.py:111 views.py:174 views.py:236 views.py:285
+msgid "Wrong password entered."
+msgstr "पासवर्ड मिलेन ।"
+
+#: views.py:145
+msgid "You updated your phone {} days ago."
+msgstr "तपाईंले आफ्नो फोन {} दिन पहिले परिवर्तन गर्नुभएको थियो। "
+
+#: views.py:162
+msgid "Your phone changed succesfully."
+msgstr "तपाईंको फोन नम्बर सफलता पुर्वक परिवर्तन भयो ।"
+
+#: views.py:168
+msgid "Invalid phone pattern entered."
+msgstr "अबैध फोन नम्बरको ढाचा दिनुभयो ।"
+
+#: views.py:203
+msgid "You have to verify email to change your password."
+msgstr "तपाईंले आफ्नो पासवर्ड परिवर्तन गर्न ईमेल प्रमाणीकरण गर्नुपर्छ।"
+
+#: views.py:219
+msgid "Password changed succesfully."
+msgstr "पासवर्ड सफलतापूर्वक परिवर्तन भयो ।"
+
+#: views.py:224
+msgid ""
+"Password must be at least 8 characters with lower characters and numbers."
+msgstr "पासवर्ड सानो अक्षरहरू र संख्याहरूको साथमा कम्तिमा ८ अक्षरको हुनुपर्दछ ।"
+
+#: views.py:230
+msgid "Two passwords does not match."
+msgstr "पासवर्ड नयाँ पासवोर्डसँग मिलेन ।"
+
+#: views.py:272
+msgid "Profile updated successfully!!!"
+msgstr "प्रोफाइल सफलतापूर्वक परिवर्तन भयो ।"
+
+#: views.py:279
+msgid "Phone should contain 10 numbers"
+msgstr "फोन नम्बर १० अक्षरको हुनुपर्दछ ।"
+
+#: views.py:319
+msgid "Uploaded successfully."
+msgstr "तपाईंको फोटो सफलता पुर्वक राखियो ।"
+

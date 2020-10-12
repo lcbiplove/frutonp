@@ -7,6 +7,7 @@ from django.contrib.auth.models import (
 from django.core.validators import FileExtensionValidator
 from frutonp.utils import file_size, image_crop, validate_phone, validate_name
 from home.models import NotifClick
+from django.utils.translation import gettext as _
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, name, phone1, password=None, signed_up=timezone.localtime(),):
@@ -15,7 +16,7 @@ class MyUserManager(BaseUserManager):
         and password.
         """
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError(_('Users must have an email address'))
 
         user = self.model(
             email=self.normalize_email(email),

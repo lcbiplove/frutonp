@@ -41,7 +41,7 @@ def getCaptcha(postedCaptcha):
 ''' Raise validation error on file greater than given size '''
 def file_size(value, max_size=20971520): # 20 MiB 20971520
     if value.size > max_size:
-        raise ValidationError(f"File too large. Size should not exceed {max_size/1024/1024} MiB.")
+        raise ValidationError(_('File too large. Size should not exceed {} MiB.').format(translate_num_eng_to_nep(max_size/1024/1024) if current_language() == "ne" else max_size/1024/1024))
 
 ''' Returns True if extension matches False, otherwise  '''
 def right_ext(ext_of, accept_ext=[]):
@@ -58,7 +58,7 @@ def validate_name(value):
     Validate name
     """
     if reMatch('^[a-zA-Z-_ ]+$', value) is None or len(value) <=4 or len(value) >= 48:
-        raise ValidationError("Name should be greater than 4 and less than 48 with underscores, whitespace and hyphen only.")
+        raise ValidationError(_("Name should be greater than 4 and less than 48 with underscores, whitespace and hyphen only."))
         
 
 def validate_phone(value):
@@ -66,7 +66,7 @@ def validate_phone(value):
     Raise error if validation faild
     """
     if len(str(value)) != 10:
-        raise ValidationError(f"Phone number should be of 10 digits, you gave {len(str(value))} digit number.")
+        raise ValidationError(_('Phone number should be of 10 digits, you gave {} digit number').format(translate_num_eng_to_nep(len(str(value))) if current_language() == "ne" else len(str(value))))
 
 def add_post_date(day):
     """

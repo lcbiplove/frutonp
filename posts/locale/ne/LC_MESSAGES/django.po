@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-06 18:51+0545\n"
+"POT-Creation-Date: 2020-10-12 08:24+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,85 +18,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:15
-msgid "Apple"
-msgstr "स्याऊ"
-
-#: models.py:16
-msgid "Banana"
-msgstr "केरा"
-
-#: models.py:17
-msgid "Litchi"
-msgstr "लिची"
-
-#: models.py:18
-msgid "Mango"
-msgstr "आँप"
-
-#: models.py:19
-msgid "Orange"
-msgstr "सुन्तला"
-
-#: models.py:20
+#: models.py:37
 msgid "Bitter Gourd"
 msgstr "करेला"
 
-#: models.py:21
+#: models.py:38
 msgid "Cabbage"
 msgstr "बन्दागोभी"
 
-#: models.py:22
+#: models.py:39
 msgid "Cauliflower"
 msgstr "गोभी, काउली"
 
-#: models.py:23
+#: models.py:40
 msgid "Ladies Finger"
 msgstr "चिप्लिभिन्डी"
 
-#: models.py:24
+#: models.py:41
 msgid "Pumpkin"
 msgstr "फर्सी"
 
-#: models.py:28
+#: models.py:42
+msgid "Apple"
+msgstr "स्याऊ"
+
+#: models.py:43
+msgid "Banana"
+msgstr "केरा"
+
+#: models.py:44
+msgid "Litchi"
+msgstr "लिची"
+
+#: models.py:45
+msgid "Mango"
+msgstr "आँप"
+
+#: models.py:46
+msgid "Orange"
+msgstr "सुन्तला"
+
+#: models.py:50
 msgid "1 kg"
 msgstr "१ किलो"
 
-#: models.py:29
+#: models.py:51
 msgid "250 gm"
 msgstr "२५० ग्राम"
 
-#: models.py:30
+#: models.py:52
 msgid "200 gm"
 msgstr "२०० ग्राम"
 
-#: models.py:31
+#: models.py:53
 msgid "500 gm"
 msgstr "५०० ग्राम"
 
-#: models.py:32
+#: models.py:54
 msgid "2 kg"
 msgstr "२ किलो"
 
-#: models.py:33
+#: models.py:55
 msgid "5 kg"
 msgstr "५ किलो"
 
-#: models.py:34
+#: models.py:56
 msgid "10 kg"
 msgstr "१० किलो"
 
-#: models.py:35
+#: models.py:57
 msgid "25 kg"
 msgstr "२५ किलो"
 
-#: models.py:36
+#: models.py:58
 msgid "50 kg"
 msgstr "५० किलो"
 
-#: models.py:37
+#: models.py:59
 msgid "1 quintal"
 msgstr "१ क्विन्टल"
+
+#: templates/posts/add-post.html:9
+#, fuzzy
+#| msgid "Edit Post"
+msgid "Add Post"
+msgstr "पोष्ट सच्याउनुहोस्"
 
 #: templates/posts/add-post.html:19 templates/posts/edit-post.html:19
 msgid "Fruit"
@@ -106,41 +112,45 @@ msgstr "फलफुल"
 msgid "Vegetable"
 msgstr "तरकारी"
 
-#: templates/posts/add-post.html:22 templates/posts/add-post.html:51
-#: templates/posts/edit-post.html:22 templates/posts/edit-post.html:51
+#: templates/posts/add-post.html:22 templates/posts/add-post.html:55
+#: templates/posts/edit-post.html:22 templates/posts/edit-post.html:55
 msgid "Choose One"
 msgstr "एउटा रोज्नुहोस्"
 
-#: templates/posts/add-post.html:28 templates/posts/edit-post.html:28
+#: templates/posts/add-post.html:23 templates/posts/edit-post.html:23
+msgid "Fruits"
+msgstr "फलफुलहरु"
+
+#: templates/posts/add-post.html:30 templates/posts/edit-post.html:30
 msgid "Vegetables"
 msgstr "तरकारीहरु"
 
-#: templates/posts/add-post.html:40 templates/posts/edit-post.html:40
+#: templates/posts/add-post.html:44 templates/posts/edit-post.html:44
 msgid "Price"
 msgstr "मूल्य"
 
-#: templates/posts/add-post.html:41 templates/posts/edit-post.html:41
+#: templates/posts/add-post.html:45 templates/posts/edit-post.html:45
 msgid "Price with respect to quantity..."
 msgstr "मात्रा अनुसारको मुल्य..."
 
-#: templates/posts/add-post.html:48 templates/posts/edit-post.html:48
+#: templates/posts/add-post.html:52 templates/posts/edit-post.html:52
 msgid "Quantity"
 msgstr "मात्रा"
 
-#: templates/posts/add-post.html:62 templates/posts/edit-post.html:62
+#: templates/posts/add-post.html:68 templates/posts/edit-post.html:68
 #: templates/posts/post.html:60
 msgid "Description"
 msgstr "वर्णन"
 
-#: templates/posts/add-post.html:64 templates/posts/edit-post.html:64
+#: templates/posts/add-post.html:70 templates/posts/edit-post.html:70
 msgid "Description here..."
 msgstr "यहाँ वर्णन गर्नुहोस्..."
 
-#: templates/posts/add-post.html:70 templates/posts/post.html:203
+#: templates/posts/add-post.html:76 templates/posts/post.html:203
 msgid "Photos"
 msgstr "फोटोहरु"
 
-#: templates/posts/add-post.html:77
+#: templates/posts/add-post.html:83
 msgid ""
 "Maximum 5 photos can be uploaded. If u don't have any photo. We will provide "
 "our own photos. But, your clicks are highly recommended."
@@ -148,24 +158,24 @@ msgstr ""
 "अधिकतम ५ फोटोहरू मात्र अपलोड गर्न सकिन्छ। यदि तपाईंसँग कुनै फोटो छैन bhane हामी प्रदान "
 "गर्नेछौं । तर, तपाइँको आफ्नै फोटोहरु रख्न प्रोत्साहन गर्छौ ।"
 
-#: templates/posts/add-post.html:82 templates/posts/edit-post.html:70
+#: templates/posts/add-post.html:88 templates/posts/edit-post.html:76
 msgid "Phone2"
 msgstr "मोबाईल नम्बर २"
 
-#: templates/posts/add-post.html:89 templates/posts/edit-post.html:77
+#: templates/posts/add-post.html:95 templates/posts/edit-post.html:83
 msgid ""
 "Phone number from your profile will be added as secondary choice in post."
 msgstr "तपाईंको प्रोफाईलको फोन नम्बर पनि देखिने छ । "
 
-#: templates/posts/add-post.html:93 templates/posts/edit-post.html:81
+#: templates/posts/add-post.html:99 templates/posts/edit-post.html:87
 msgid "Location"
 msgstr "ठेगाना"
 
-#: templates/posts/add-post.html:95 templates/posts/edit-post.html:83
+#: templates/posts/add-post.html:101 templates/posts/edit-post.html:89
 msgid "Location from your profile will be added by default."
 msgstr "कुनै ठेगाना रख्नुभएन भने, तपाईंको प्रोफाईलबाट राखिने छ । "
 
-#: templates/posts/add-post.html:98 templates/posts/edit-post.html:86
+#: templates/posts/add-post.html:104 templates/posts/edit-post.html:92
 msgid "Post"
 msgstr "पोष्ट"
 
@@ -213,10 +223,6 @@ msgstr "रद्द गर्नुहोस्"
 #: templates/posts/edit-post.html:9
 msgid "Edit Post"
 msgstr "पोष्ट सच्याउनुहोस्"
-
-#: templates/posts/edit-post.html:23
-msgid "Fruits"
-msgstr "फलफुलहरु"
 
 #: templates/posts/new-comments.html:30 templates/posts/post-comment.html:30
 #: templates/posts/post.html:108
@@ -278,3 +284,37 @@ msgstr "पोष्टको अगाडी देखिने फोटो �
 #: templates/posts/select_thumbnail.html:19
 msgid "Okay"
 msgstr "हुन्छ"
+
+#: views.py:106 views.py:256
+msgid "Price must be in numbers."
+msgstr "मुल्य संख्यामा हुनुपर्दछ ।"
+
+#: views.py:109 views.py:259
+#, fuzzy
+#| msgid "Description here..."
+msgid "Description must be filled."
+msgstr "वर्णन खाली हुनुहुँदैन ।"
+
+#: views.py:112 views.py:115 views.py:262 views.py:265
+msgid "Please select from the given options only."
+msgstr "दिईएको बिकल्पहरुबाट मात्र रोज्नुहोस् । "
+
+#: views.py:118 views.py:271
+msgid "Phone should contain 10 numbers."
+msgstr "फोन नम्बर १० अक्षरको हुनुपर्दछ ।"
+
+#: views.py:173
+msgid "Post edited successfully"
+msgstr "पोष्ट सफलतापूर्वक सच्याइयो "
+
+#: views.py:268
+msgid "Max photo upload is 5."
+msgstr "अधिकतम फोटो अप्लोड ५ मात्र हो ।"
+
+#: views.py:297
+msgid "Post added successfully"
+msgstr "पोष्ट सफलतापूर्वक थपियो ।"
+
+#: views.py:301
+msgid "Unable to upload photos"
+msgstr "केहि कारणले फोटो अप्लोड गर्न सकिएन ।"

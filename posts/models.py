@@ -5,7 +5,7 @@ from django.core.validators import FileExtensionValidator
 from frutonp.utils import file_size, image_crop, getUploadTimeDiff, getWeightNumForCalc, getSlicedNotificationMessages
 from datetime import timedelta
 from django.utils import timezone
-from django.utils.translation import gettext as __
+from django.utils.translation import gettext as _
 import gettext
 from bikram import samwat
 from django.utils.translation import get_language as current_language
@@ -34,29 +34,29 @@ class Post(models.Model):
         getFoodChoice('orange', 'Orange')
     ]
     FOOD_CHOICES = (
-        (getFoodChoice('bitter-gourd', 'Bitter Gourd'), __('Bitter Gourd')),
-        (getFoodChoice('cabbage', 'Cabbage'), __('Cabbage')),
-        (getFoodChoice('cauliflower', 'Cauliflower'), __('Cauliflower')),
-        (getFoodChoice('ladies-finger', 'Ladies Finger'), __('Ladies Finger')),
-        (getFoodChoice('pumpkin', 'Pumpkin'), __('Pumpkin')),
-        (getFoodChoice('apple', 'Apple'), __('Apple')),
-        (getFoodChoice('banana', 'Banana'), __('Banana')),
-        (getFoodChoice('litchi', 'Litchi'), __('Litchi')),
-        (getFoodChoice('mango', 'Mango'), __('Mango')),
-        (getFoodChoice('orange', 'Orange'), __('Orange')),
+        (getFoodChoice('bitter-gourd', 'Bitter Gourd'), _('Bitter Gourd')),
+        (getFoodChoice('cabbage', 'Cabbage'), _('Cabbage')),
+        (getFoodChoice('cauliflower', 'Cauliflower'), _('Cauliflower')),
+        (getFoodChoice('ladies-finger', 'Ladies Finger'), _('Ladies Finger')),
+        (getFoodChoice('pumpkin', 'Pumpkin'), _('Pumpkin')),
+        (getFoodChoice('apple', 'Apple'), _('Apple')),
+        (getFoodChoice('banana', 'Banana'), _('Banana')),
+        (getFoodChoice('litchi', 'Litchi'), _('Litchi')),
+        (getFoodChoice('mango', 'Mango'), _('Mango')),
+        (getFoodChoice('orange', 'Orange'), _('Orange')),
     )
     QUANTITY = ['kg', '250gm', '200gm', '500gm', '2kg', '5kg', '10kg', '25kg', '50kg', 'quintal']
     QUANTITY_CHOICES = (
-        ('kg', __('1 kg')),
-        ('250gm', __('250 gm')),
-        ('200gm', __('200 gm')),
-        ('500gm', __('500 gm')),
-        ('2kg', __('2 kg')),
-        ('5kg', __('5 kg')),
-        ('10kg', __('10 kg')),
-        ('25kg', __('25 kg')),
-        ('50kg', __('50 kg')),
-        ('quintal', __('1 quintal')),
+        ('kg', _('1 kg')),
+        ('250gm', _('250 gm')),
+        ('200gm', _('200 gm')),
+        ('500gm', _('500 gm')),
+        ('2kg', _('2 kg')),
+        ('5kg', _('5 kg')),
+        ('10kg', _('10 kg')),
+        ('25kg', _('25 kg')),
+        ('50kg', _('50 kg')),
+        ('quintal', _('1 quintal')),
     )
     myuser = models.ForeignKey(to=MyUser, on_delete=models.CASCADE)
     desc = models.TextField(verbose_name='Description')

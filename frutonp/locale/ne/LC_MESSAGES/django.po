@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-11 11:47+0545\n"
+"POT-Creation-Date: 2020-10-11 16:30+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,46 +159,60 @@ msgstr "खाता जोड्न"
 msgid "Profile Picture"
 msgstr "प्रोफाइल फोटो"
 
-#: utils.py:145
+#: utils.py:44
+msgid "File too large. Size should not exceed {} MiB."
+msgstr "फाइल धेरै ठूलो छ। आकार {} MiB भन्दा बढि हुनु हुँदैन।"
+
+#: utils.py:61
+msgid ""
+"Name should be greater than 4 and less than 48 with underscores, whitespace "
+"and hyphen only."
+msgstr "नामको शब्द संख्या ४ भन्दा बढी र ४८ भन्दा कम हुनुपर्छ । नाममा _,-, र खाली इस्पेस बहेक अन्य अनावसेक अक्षर स्विकार्य छैन ।"
+
+#: utils.py:69
+msgid "Phone number should be of 10 digits, you gave {} digit number"
+msgstr "फोन नम्बर १० अंकको हुनुपर्छ, तपाईंले {} अंकको नम्बर दिनुभयो ।"
+
+#: utils.py:146
 msgid "few seconds ago"
 msgstr "केही सेकेन्ड अघि"
 
-#: utils.py:145 utils.py:164
+#: utils.py:146
 msgid "{} sec ago"
 msgstr "{} सेकेन्ड अघि"
 
-#: utils.py:147
+#: utils.py:148
 msgid "{} minute ago"
 msgstr "{} मिनेट अघि"
 
-#: utils.py:147
+#: utils.py:148
 msgid "{} minutes ago"
 msgstr "{} मिनेट अघि"
 
-#: utils.py:147
+#: utils.py:148
 msgid "{} min ago"
 msgstr "{} मिनेट अघि"
 
-#: utils.py:150 utils.py:157
+#: utils.py:151 utils.py:158
 msgid "{} hour ago"
 msgstr "{} घण्टा अघि"
 
-#: utils.py:150 utils.py:157
+#: utils.py:151 utils.py:158
 msgid "{} hours ago"
 msgstr "{} घण्टा अघि"
 
-#: utils.py:150 utils.py:153 utils.py:157
+#: utils.py:151 utils.py:154 utils.py:158
 msgid "{} hr ago"
 msgstr "{} घण्टा अघि"
 
-#: utils.py:155
+#: utils.py:156
 msgid "{} hr {} min ago"
 msgstr "{} घण्टा {} मिनेट अघि"
 
-#: utils.py:160
+#: utils.py:161
 msgid "{} day ago"
 msgstr "{} दिन अघि"
 
-#: utils.py:162
+#: utils.py:163
 msgid "{} days ago"
 msgstr "{} दिन अघि"
