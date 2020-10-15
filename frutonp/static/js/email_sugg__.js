@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
     function emailSugg(){
         $(".em-dom-sug").click(function(){
             var text = $("input[type=email]").val();
@@ -22,5 +21,4 @@ $(document).ready(function(){
             $(".em-dom-sug").css("display", "none");
         }
     });
-
 });

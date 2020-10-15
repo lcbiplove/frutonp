@@ -169,11 +169,11 @@
                                 <textarea name="reply" id="reply-txtarea" class="reply-txtarea" rows="1" placeholder="{% trans "Add a reply..." %}"></textarea>
                                 <div>
                                 {% if user.is_authenticated %}
-                                    <button id="reply-btn" disabled="disabled">{% trans "Reply" %}</button>
+                                    <button id="reply-btn" disabled="disabled">{% trans "Reply" context "button" %}</button>
                                 {% else %}
                                     <form action="{% url 'login' %}?next=/post/{{ post.id }}/" method="GET">
                                         <input name="next" value="/post/{{ post.id }}/" type="hidden"/>
-                                        <button id="reply-btn" type="submit">{% trans "Reply" %}</button>
+                                        <button id="reply-btn" type="submit">{% trans "Reply" context "button" %}</button>
                                     </form>
                                 {% endif %}
                                 </div>

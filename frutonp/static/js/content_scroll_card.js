@@ -1,5 +1,4 @@
 $(function(){
-
     setTimeout(function(){
         $(".veg-card-main").css({"overflow": "auto"});
     }, 1000);

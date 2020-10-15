@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-11 16:54+0545\n"
+"POT-Creation-Date: 2020-10-12 19:08+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -291,7 +291,7 @@ msgstr "फोन नम्बर १० अक्षरको हुनुप�
 
 #: views.py:158
 msgid "Email already exists"
-msgstr "ईमेल पहिल्यै अवस्थित छ । नयाँ इमेल दिनुहोस्^ ।"
+msgstr "ईमेल पहिल्यै अवस्थित छ । नयाँ इमेल दिनुहोस् ।"
 
 #: views.py:162
 msgid "Invalid email pattern"
@@ -306,7 +306,7 @@ msgstr "पासवर्ड सानो अक्षरहरू र सं�
 #, fuzzy
 #| msgid "Password Reset"
 msgid "Password does not match"
-msgstr "पासवर्ड नयाँ पासवोर्डसँग मिलेन "
+msgstr "पासवर्ड नयाँ पासवोर्डसँग मिलेन"
 
 #: views.py:173
 msgid "Your account is created successfully."

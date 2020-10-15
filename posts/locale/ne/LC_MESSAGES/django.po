@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-12 08:24+0545\n"
+"POT-Creation-Date: 2020-10-15 09:17+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,7 +181,6 @@ msgstr "पोष्ट"
 
 #: templates/posts/added-comment.html:15 templates/posts/new-comments.html:16
 #: templates/posts/post-comment.html:16 templates/posts/post.html:92
-#: templates/posts/post.html:172 templates/posts/post.html:176
 msgid "Reply"
 msgstr "जवाफ दिनुहोस्"
 
@@ -268,6 +267,11 @@ msgstr "प्रोफाइल फोटो"
 #: templates/posts/post.html:169
 msgid "Add a reply..."
 msgstr "जवाफ दिनुहोस्..."
+
+#: templates/posts/post.html:172 templates/posts/post.html:176
+msgctxt "button"
+msgid "Reply"
+msgstr "जवाफ"
 
 #: templates/posts/post.html:185
 msgid "Add a comment.."

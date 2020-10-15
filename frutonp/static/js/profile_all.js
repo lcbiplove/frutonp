@@ -24,16 +24,15 @@ $(document).ready(function(){
     $("#upload-pp-anc").click(function(e){
         e.preventDefault();
         e.stopPropagation();
-        console.log("Hi");
         $("#pp-upload").trigger("click");
     });
     $("#pp-upload").click(function(){
         var rmv_btn = "";
         var is_default_pp = $(this).attr("data-def-pp") == 'true';
         if(!is_default_pp){
-            rmv_btn = "<div><button style='color: rgb(245, 51, 51); background-color: #f0f0f0;' id='upload-rm-pp'>Remove Photo</button></div>"
+            rmv_btn = "<div><button style='color: rgb(245, 51, 51); background-color: #f0f0f0;' id='upload-rm-pp'>"+gettext('Remove Photo')+"</button></div>";
         }
-        $("#chx0dmxd").html(`<div class='real-modal'><div class='real-modal-container' tabindex='0'><div class='real-modal-header'><div>Profile Picture</div><div class='real-modal-close'>&times;</div></div><div class='real-modal-body text-center'><div><button id='upload-pp-main'>Upload Photo</button></div>${rmv_btn}<div><button class='real-modal-close rm-rl-cl-dwn'>close</button></div></div></div></div>`);
+        $("#chx0dmxd").html("<div class='real-modal'><div class='real-modal-container' tabindex='0'><div class='real-modal-header'><div>Profile Picture</div><div class='real-modal-close'>&times;</div></div><div class='real-modal-body text-center'><div><button id='upload-pp-main'>"+gettext("Upload Photo")+"</button></div>"+rmv_btn+"<div><button class='real-modal-close rm-rl-cl-dwn'>"+gettext('close')+"</button></div></div></div></div>");
         showPop();
     });
     $("#chx0dmxd").on("click", ".real-modal-close", function(){
@@ -101,7 +100,7 @@ $(document).ready(function(){
     $(".post-del").on("click", function(e){
         e.preventDefault();
         var post_id = $(this).attr("data-pid");
-        $("#chx0dmxd").html(`<div class="real-modal"><div class="real-modal-container" tabindex="0"><div class="real-modal-header" style="background-color: #ff4a4a;"><div>Delete</div><div class="real-modal-close">&times;</div></div><div class="real-modal-body" style="padding: 10px 10px 10px 20px;">Are you sure you want to delete the post?</div><div class="modal-del-options"><button id="del-yes">Yes</button><button class="real-modal-close" id="del-no">No</button></div></div></div>`);
+        $("#chx0dmxd").html('<div class="real-modal"><div class="real-modal-container" tabindex="0"><div class="real-modal-header" style="background-color: #ff4a4a;"><div>'+gettext('Delete')+'</div><div class="real-modal-close">&times;</div></div><div class="real-modal-body" style="padding: 10px 10px 10px 20px;">'+gettext('Are you sure you want to delete the post?')+'</div><div class="modal-del-options"><button id="del-yes">'+gettext('Yes')+'</button><button class="real-modal-close" id="del-no">'+gettext('No')+'</button></div></div></div>');
         showPop();
         e.stopPropagation();
         $("#del-yes").on("click", function(e){  
@@ -123,7 +122,7 @@ $(document).ready(function(){
                         $("#post span").html(parseInt($("#post span").html())-1);
                         $(`a[data-pid=${post_id}]`).closest("li").remove();
                         if(!$("#post-content ol").children().length){
-                            $("#post-content ol").html('<li class="dis-color">No post</li>')
+                            $("#post-content ol").html('<li class="dis-color">'+gettext('No post')+'</li>')
                         }
                     });
                     $("#chx0dmxd").html('');
@@ -132,12 +131,12 @@ $(document).ready(function(){
             response.fail(function(xhr, status, error){
                 hidePop();
                 if(xhr.status==404){
-                    $(".act-guess").html("Post might have been deleted already.");
+                    $(".act-guess").html(gettext("Post might have been deleted already."));
                 } else {
-                    $(".act-guess").html("Could not delete post.");
+                    $(".act-guess").html(gettext("Could not delete post."));
                 }
-                $(".act-sol").html("Try again or reload the page.");
-                $(".act-extra").html("Reload");
+                $(".act-sol").html(gettext("Try again or reload the page."));
+                $(".act-extra").html(gettext("Reload"));
                 $(".act-div").css({"bottom": "0px"});
                 setTimeout(function(){
                     $(".act-div").css({"bottom": "-1000px"});

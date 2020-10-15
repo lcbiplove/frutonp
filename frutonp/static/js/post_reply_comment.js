@@ -52,8 +52,8 @@ function commentEditOpen(){
     return !(($("#cancel-edit").hasClass("d-none")));
 }
 function showDeleteDialog(for_=null){
-    var for_ = for_=="delete_post" ? "the post" : "";
-    $("#chx0dmxd").html(`<div class="real-modal"><div class="real-modal-container" tabindex="0"><div class="real-modal-header" style="background-color: #ff4a4a;"><div>Delete</div><div class="real-modal-close">&times;</div></div><div class="real-modal-body" style="padding: 10px 10px 10px 20px;">Are you sure you want to delete ${for_}?</div><div class="modal-del-options"><button id="del-yes">Yes</button><button class="real-modal-close" id="del-no">No</button></div></div></div>`);
+    var for_ = for_=="delete_post" ? pgettext("argument", "the post") : "";
+    $("#chx0dmxd").html('<div class="real-modal"><div class="real-modal-container" tabindex="0"><div class="real-modal-header" style="background-color: #ff4a4a;"><div>'+gettext('Delete')+'</div><div class="real-modal-close">&times;</div></div><div class="real-modal-body" style="padding: 10px 10px 10px 20px;">'+gettext('Are you sure you want to delete')+ for_+'?</div><div class="modal-del-options"><button id="del-yes">'+gettext('Yes')+'</button><button class="real-modal-close" id="del-no">'+gettext('No')+'</button></div></div></div>');
     showPop();
 }
 function deleteConfirmation(e){
@@ -72,8 +72,8 @@ function enableNewComment() {
 }
 function errorMessageHandler(guess, sol, extra, timeout=20000){
     $(".act-guess").html(guess);
-    $(".act-sol").html(sol ?? "Try again or reload the page.");
-    $(".act-extra").html(extra ?? "Reload");
+    $(".act-sol").html(sol ?? gettext("Try again or reload the page."));
+    $(".act-extra").html(extra ?? gettext("Reload"));
     $(".act-div").css({"bottom": "0px"});
     setTimeout(function(){
         $(".act-div").css({"bottom": "-1000px"});
@@ -81,12 +81,12 @@ function errorMessageHandler(guess, sol, extra, timeout=20000){
 }
 function addCmmntMssgErrHandler(comment, edit_cm_id=null){
     if(edit_cm_id == null){
-        errorMessageHandler(guess="Could not add comment.", sol="Try again!!!", extra='');
+        errorMessageHandler(guess=gettext("Could not add comment."), sol=gettext("Try again!!!"), extra='');
         comment_area.val(comment);
         comment_area.focus();
         comment_area.trigger("keyup");
     } else {
-        errorMessageHandler(guess="Could not edit comment.", sol="Try again!!!", extra='');
+        errorMessageHandler(guess=gettext("Could not edit comment."), sol=gettext("Try again!!!"), extra='');
         editComment(edit_cm_id);
     }
     
@@ -99,29 +99,29 @@ function editComment(cm_id){
     });
     showTextArea(isEdit=true);
     comment_area.focus();
-    comment_area.attr("placeholder", "Enter edits..");
+    comment_area.attr("placeholder", gettext("Enter edits.."));
     $("#cancel-edit").removeClass("d-none");
-    $("#comment-btn").text("Save edit"); 
+    $("#comment-btn").text(gettext("Save edit")); 
 }
 function showNewComment(new_cmnt_count){
     if(new_cmnt_count == 1){
-        $("#new-comments").html(`<span>${new_cmnt_count}</span> New Comment`);
+        $("#new-comments").html('<span>'+new_cmnt_count+'</span> New Comment');
     } else {
-        $("#new-comments").html(`<span>${new_cmnt_count}</span> New Comments`);
+        $("#new-comments").html('<span>'+new_cmnt_count+'</span> New Comments');
     }
     $("#new-comments").addClass("new-comments-p");
 }
 function viewReplies(cm_id){
     var new_reply_div = $(`.show-reply[data-cm-id="${cm_id}"]`).closest("div").next("div.replies-cont");
     if(new_reply_div.children("p.more-replies").length == 0){
-        new_reply_div.prepend(`<p class="more-replies" data-cm-id="${cm_id}&_&_1">New Reply (+1)</p>`);
+        new_reply_div.prepend('<p class="more-replies" data-cm-id="${cm_id}&_&_1">'+gettext('New Reply')+ (+1)+'</p>');
     } 
     else {
         var new_reply_para = new_reply_div.children("p.more-replies");
         var arr__ = new_reply_para.attr("data-cm-id").split("&_");
         reply_count=arr__[2];
         reply_count++;
-        new_reply_para.removeAttr("class").attr({"data-cm-id": `${cm_id}&_${arr__[1]}&_${reply_count}`, "class": "more-replies"}).html(`${arr__[1]} More Replies (+${reply_count})`);
+        new_reply_para.removeAttr("class").attr({"data-cm-id": `${cm_id}&_${arr__[1]}&_${reply_count}`, "class": "more-replies"}).html(arr__[1] +' More Replies (+'+reply_count+')');
     }
 }
 function notificationGetter(){
@@ -175,7 +175,7 @@ function startSocket(websocketServerLocation=window.location, sec=5000){
             $(".actual-content").css({"opacity": "0.35", "pointer-events": "none", "user-select": "none"});
         }
         else if(json.desc=="post_edit"){
-            $(".post-edit-del").html('<span class="post-edited">Post Edited</span>');
+            $(".post-edit-del").html('<span class="post-edited">'+gettext('Post Edited')+'</span>');
             post_edited_data = json.data;
         }
         else if(json.desc == "comment_added" && json.me != uid){
@@ -278,9 +278,9 @@ $("#del-post").on("click", function(e){
         response.fail(function(xhr, status, error){
             hidePop();
             if(xhr.status==404){
-                errorMessageHandler(guess="Post might have been deleted already.");
+                errorMessageHandler(guess=gettext("Post might have been deleted already."));
             } else {
-                errorMessageHandler(guess="Could not delete post.");
+                errorMessageHandler(guess=gettext("Could not delete post."));
             }
         });
     });
@@ -352,7 +352,7 @@ $("#chx0dmxd").on("click", "#upload-rm-pp", function(e){
                 edit_div.fadeOut(1000, 'linear', function(){
                     this.remove();
                     if(!($('.comment-of').length)){
-                        $("#comments").html('<div class="comment-of no-comment dis-color">No Comment</div>');
+                        $("#comments").html('<div class="comment-of no-comment dis-color">'+gettext('No Comment')+'</div>');
                     }
                 });
                 $("#chx0dmxd").html('');
@@ -361,9 +361,9 @@ $("#chx0dmxd").on("click", "#upload-rm-pp", function(e){
         response.fail(function(xhr, status, error){
             hidePop();
             if(xhr.status==404){
-                errorMessageHandler(guess="Comment might have been deleted already.");
+                errorMessageHandler(guess=gettext("Comment might have been deleted already."));
             } else {
-                errorMessageHandler(guess="Could not delete comment.");
+                errorMessageHandler(guess=gettext("Could not delete comment."));
             }
         });
     });
@@ -422,7 +422,7 @@ $("#comment-btn").on("click", function(){
                 } 
                 else if(result.status == 'MAX_COMMENT'){
                     disableNewComment();
-                    errorMessageHandler(guess="Maximum comment reached on the post!!!", sol="So, you cannot comment on this post.", extra="");
+                    errorMessageHandler(guess=gettext("Maximum comment reached on the post!!!"), sol=gettext("So, you cannot comment on this post."), extra="");
                 }            
                 else {
                     addCmmntMssgErrHandler(data.comment, cm_id);
@@ -445,8 +445,8 @@ $(document).on("click", function(e){
 $("#cancel-edit").click(function(){
     $(this).attr("class", "d-none");
     comment_area.val('');
-    $("#comment-btn").text("Comment");
-    comment_area.attr("placeholder", "Add a comment..");
+    $("#comment-btn").text(gettext("Comment"));
+    comment_area.attr("placeholder", gettext("Add a comment.."));
     $("#chx0dmxd").html('');
     hideTextArea();
 });
@@ -458,7 +458,7 @@ $("#new-comments").on("click", function(){
         $("#comments").append(data);
         
     }).fail(function(){
-        errorMessageHandler(guess="Could not load new comments.", sol="Try again!!!", extra='');
+        errorMessageHandler(guess=gettext("Could not load new comments."), sol=gettext("Try again!!!"), extra='');
         showNewComment(new_cmnt_count);
     });
 });
@@ -471,17 +471,17 @@ $("#comments").on("click", ".show-reply", function(){
     html_of_reply = $(this).html();
 
     if(isReplyOpened()){
-        $(".show-reply").html("Reply");
+        $(".show-reply").html(gettext("Reply"));
     }
-    if(html_of_reply == "Reply"){
+    if(html_of_reply == gettext("Reply")){
         $(this).closest("div").next(".replies-cont").append(reply_box);
         $("#reply-btn").attr('data-cm-id', cm_id);
         reply_box.css("display", "flex");
         reply_area.focus();
-        $(this).html("Hide");
+        $(this).html(gettext("Hide"));
     } else {
         reply_box.hide("fast");
-        $(this).html("Reply");
+        $(this).html(gettext("Reply"));
     }
 });
 reply_area.keyup(function(){
@@ -516,7 +516,7 @@ $("#reply-btn").click(function(){
         response.done(function(result){
             rp_id = result.id;
             if(rp_id == 'MAX_REPLY'){
-                errorMessageHandler(guess="Maximum reply reached on the comment!!!", sol="So, you cannot reply on this comment.", extra="");
+                errorMessageHandler(guess=gettext("Maximum reply reached on the comment!!!"), sol=gettext("So, you cannot reply on this comment."), extra="");
             }
             else {
                 if(typeof cm_id === "undefined"){
@@ -536,11 +536,11 @@ $("#reply-btn").click(function(){
             }
             reply_area.val("");
             reply_box.hide("fast");
-            $(".show-reply").html("Reply");
+            $(".show-reply").html(gettext("Reply"));
         });
         response.fail(function(xhr, status, error){
             reply_btn.removeAttr("disabled");
-            errorMessageHandler(guess="Could not add reply.", sol="Try again!!!", extra='');
+            errorMessageHandler(guess=gettext("Could not add reply."), sol=gettext("Try again!!!"), extra='');
         });
     }
 });
@@ -552,12 +552,12 @@ $("#comments").on("click", ".more-replies", function(){
     var data_cm_id = $(this).attr("data-cm-id").split("&_");
     var cm_id = data_cm_id[0]; 
     if($(this).hasClass("showing")){
-        reply_p.html(`Show replies`);
+        reply_p.html(gettext('Show replies'));
         reply_p.next("div.replies-in").children("div.reply-of").slice(0, -2).hide();
         reply_p.removeClass("showing").addClass("shown");
     }
     else if($(this).hasClass("shown")) {
-        reply_p.html(`Hide replies`);
+        reply_p.html(gettext('Hide replies'));
         reply_p.removeClass("shown").addClass("showing");
         reply_p.next("div.replies-in").children("div.reply-of").show();
     }
@@ -575,7 +575,7 @@ $("#comments").on("click", ".more-replies", function(){
         reply_p.html('<span class="load-cic"><span style="width: 0.85em; height: 0.85em;"></span></span>');
         response.fail(function(xhr, status, error){
             reply_p.html(current_html);
-            errorMessageHandler(guess="Could not load new replies.", sol="Try again!!!", extra='');
+            errorMessageHandler(guess=gettext("Could not load new replies."), sol=gettext("Try again!!!"), extra='');
         });
     }
 });
@@ -614,9 +614,9 @@ $(document).on("click", ".rpl-del", function(e){
         });
         response.fail(function(xhr, status, error){
             if(xhr.status==404){
-                errorMessageHandler(guess="Reply might have been deleted already.");
+                errorMessageHandler(guess=gettext("Reply might have been deleted already."));
             } else {
-                errorMessageHandler(guess="Could not delete reply.");
+                errorMessageHandler(guess=gettext("Could not delete reply."));
             }
         });
     });
@@ -667,7 +667,7 @@ $("#more-comments").click(function(){
     });
     req.fail(function(response){
         $(".load-cic").remove();
-        errorMessageHandler(guess="Could not load comments.", sol="Try again!!!", extra='');
+        errorMessageHandler(guess="Could not load comments.", sol=gettext("Try again!!!"), extra='');
     });
     req.always(function(response){
         $("#more-comments").css({"pointer-events": "auto"});

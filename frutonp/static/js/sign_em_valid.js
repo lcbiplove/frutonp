@@ -39,7 +39,7 @@ $(document).ready(function(){
             if(response.status=="true"){
                 $("#emailId").css({"box-shadow": "#c00 0px 0px 5px"});
                 $("#cor-of-email").html("");
-                $(".of-email .err-mssg").html("Email already exists");
+                $(".of-email .err-mssg").html(gettext("Email already exists"));
                 emailErr=true;
                 $("#form-sub").attr("disabled", "disabled");
             } else {
@@ -58,13 +58,13 @@ $(document).ready(function(){
             } else {
                 $("#nameId").css({"box-shadow": "#c00 0px 0px 5px"});
                 $("#cor-of-name").html("");
-                $(".of-name .err-mssg").html("Name may contain underscore, spaces or hypen only");
+                $(".of-name .err-mssg").html(gettext("Name may contain underscore, spaces or hypen only"));
                 nameErr=true;
             }
         } else {
             $("#nameId").css({"box-shadow": "#c00 0px 0px 5px"});
             $("#cor-of-name").html("");
-            $(".of-name .err-mssg").html("Name should contain more than 4 and less than 48 characters");
+            $(".of-name .err-mssg").html(gettext("Name should contain more than 4 and less than 48 characters"));
             nameErr=true;
         }
     }
@@ -77,7 +77,7 @@ $(document).ready(function(){
         } else {
             $("#phoneId").css({"box-shadow": "#c00 0px 0px 5px"});
             $("#cor-of-phone").html("");
-            $(".of-phone .err-mssg").html("Phone should be 10 digit numbers");
+            $(".of-phone .err-mssg").html(gettext("Phone should be 10 digit numbers"));
             phoneErr=true;
         }
     }
@@ -93,7 +93,7 @@ $(document).ready(function(){
         } else {
             $("#emailId").css({"box-shadow": "#c00 0px 0px 5px"});
             $("#cor-of-email").html("");
-            $(".of-email .err-mssg").html("Email pattern does not match");
+            $(".of-email .err-mssg").html(gettext("Email pattern does not match"));
             emailErr=true;
         }
     }
@@ -108,16 +108,16 @@ $(document).ready(function(){
                 confPassErr=false;
             } else {
                 $("#confPassId").css({"box-shadow": "#c00 0px 0px 5px"});
-                $(".of-pass-conf .err-mssg").html("Password does not match");
+                $(".of-pass-conf .err-mssg").html(gettext("Password does not match"));
                 confPassErr=true;
             }
         } else {
             $("#passId").css({"box-shadow": "#c00 0px 0px 5px"});
-            $(".of-pass .err-mssg").html("Password should contain at least 8 characters with numbers, capital letters");
+            $(".of-pass .err-mssg").html(gettext("Password should contain at least 8 characters with numbers, capital letters"));
             passErr=true;
             if(par != $("#confPassId").val()) {
                 $("#confPassId").css({"box-shadow": "#c00 0px 0px 5px"});
-                $(".of-pass-conf .err-mssg").html("Password does not match");
+                $(".of-pass-conf .err-mssg").html(gettext("Password does not match"));
                 confPassErr=true;
             }
         }
@@ -131,7 +131,7 @@ $(document).ready(function(){
             confPassErr=false;
         } else {
             $("#confPassId").css({"box-shadow": "#c00 0px 0px 5px"});
-            $(".of-pass-conf .err-mssg").html("Password does not match");
+            $(".of-pass-conf .err-mssg").html(gettext("Password does not match"));
             confPassErr=true;
         }
     }

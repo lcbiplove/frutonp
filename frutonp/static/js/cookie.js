@@ -1,6 +1,4 @@
 $(document).ready(function(){
-
-
     $(".cookie-accept").on("click", function(){
         $(".cookie-alert-all").css({"visibility": "hidden", "transition": "opacity 2s"});
         $.ajax({
@@ -8,5 +6,4 @@ $(document).ready(function(){
             method: "GET"
         });
     });
-    
 });
