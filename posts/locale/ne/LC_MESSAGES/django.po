@@ -155,7 +155,7 @@ msgid ""
 "Maximum 5 photos can be uploaded. If u don't have any photo. We will provide "
 "our own photos. But, your clicks are highly recommended."
 msgstr ""
-"अधिकतम ५ फोटोहरू मात्र अपलोड गर्न सकिन्छ। यदि तपाईंसँग कुनै फोटो छैन bhane हामी प्रदान "
+"अधिकतम ५ फोटोहरू मात्र अपलोड गर्न सकिन्छ। यदि तपाईंसँग कुनै फोटो छैन भने हामी प्रदान "
 "गर्नेछौं । तर, तपाइँको आफ्नै फोटोहरु रख्न प्रोत्साहन गर्छौ ।"
 
 #: templates/posts/add-post.html:88 templates/posts/edit-post.html:76

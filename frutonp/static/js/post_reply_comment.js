@@ -1,4 +1,5 @@
 // const MAX_POST_LOAD = 10;
+// NumberTranslator.translateToNep('4');
 const MAX_COMMENT = 24;
 var showPop = Pop.showPop;
 var hidePop = Pop.hidePop;
@@ -22,14 +23,14 @@ var small_load = '<i class="fa fa-spinner small-load"></i>'
 var new_cmnt_count = 0;
 
 function manageTotalComments(plus_minus="-"){
-    var total_cmnts = parseInt($("#total-cmnts").html());
+    var total_cmnts = parseInt(NumberTranslator.translateToEng($("#total-cmnts").html()));
     plus_minus = plus_minus == "-" ? plus_minus = total_cmnts-1 : plus_minus = total_cmnts+1;
     if(plus_minus >= MAX_COMMENT){
         disableNewComment();
     } else {
         enableNewComment();
     }
-    $("#total-cmnts").html(plus_minus);
+    $("#total-cmnts").html(NumberTranslator.translateToNep(plus_minus));
 }
 function showTextArea(isEdit=false){
     comment_area.css({"height": "auto"});
@@ -89,7 +90,6 @@ function addCmmntMssgErrHandler(comment, edit_cm_id=null){
         errorMessageHandler(guess=gettext("Could not edit comment."), sol=gettext("Try again!!!"), extra='');
         editComment(edit_cm_id);
     }
-    
 }
 function editComment(cm_id){
     var text = $(`.comment-menu[data-cm-id='${cm_id}']`).closest("div").prev("div").children(".act-com-text").text();
@@ -105,23 +105,23 @@ function editComment(cm_id){
 }
 function showNewComment(new_cmnt_count){
     if(new_cmnt_count == 1){
-        $("#new-comments").html('<span>'+new_cmnt_count+'</span> New Comment');
+        $("#new-comments").html('<span>'+NumberTranslator.translateToNep(new_cmnt_count)+'</span>'+ gettext('New Comment'));
     } else {
-        $("#new-comments").html('<span>'+new_cmnt_count+'</span> New Comments');
+        $("#new-comments").html('<span>'+NumberTranslator.translateToNep(new_cmnt_count)+'</span>'+ gettext('New Comments'));
     }
     $("#new-comments").addClass("new-comments-p");
 }
 function viewReplies(cm_id){
     var new_reply_div = $(`.show-reply[data-cm-id="${cm_id}"]`).closest("div").next("div.replies-cont");
     if(new_reply_div.children("p.more-replies").length == 0){
-        new_reply_div.prepend('<p class="more-replies" data-cm-id="${cm_id}&_&_1">'+gettext('New Reply')+ (+1)+'</p>');
+        new_reply_div.prepend(`<p class="more-replies" data-cm-id="${cm_id}&_&_1">`+gettext('New Reply')+ `(+${NumberTranslator.translateToNep(1)})</p>`);
     } 
     else {
         var new_reply_para = new_reply_div.children("p.more-replies");
         var arr__ = new_reply_para.attr("data-cm-id").split("&_");
         reply_count=arr__[2];
         reply_count++;
-        new_reply_para.removeAttr("class").attr({"data-cm-id": `${cm_id}&_${arr__[1]}&_${reply_count}`, "class": "more-replies"}).html(arr__[1] +' More Replies (+'+reply_count+')');
+        new_reply_para.removeAttr("class").attr({"data-cm-id": `${cm_id}&_${arr__[1]}&_${reply_count}`, "class": "more-replies"}).html(NumberTranslator.translateToNep(arr__[1]) +` ${gettext('More Replies')} (+`+NumberTranslator.translateToNep(reply_count)+')');
     }
 }
 function notificationGetter(){
@@ -550,7 +550,7 @@ $("#comments").on("click", ".more-replies", function(){
     var reply_p = $(this);
     var current_html = $(this).html();
     var data_cm_id = $(this).attr("data-cm-id").split("&_");
-    var cm_id = data_cm_id[0]; 
+    var cm_id = parseInt(data_cm_id[0]); 
     if($(this).hasClass("showing")){
         reply_p.html(gettext('Show replies'));
         reply_p.next("div.replies-in").children("div.reply-of").slice(0, -2).hide();

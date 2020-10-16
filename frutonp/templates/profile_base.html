@@ -5,14 +5,14 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+{% get_current_language as LANG_CODE %}
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="author" content="Biplove Lamichhane">
     <meta name="keywords" content="{% trans "nepal" %}, {% trans "free" %}, {% trans "online" %}, {% trans "vegetables" %}, tran, falful, fruits, {% trans "kathmandu" %}, {% trans "chitwan" %}, {% trans "nepali" %}">
-    <title>{% if yes_no == "yes" %}({{ notif_num }}) {% endif %}{% block title %}{% endblock title %}</title>
+    <title>{% if yes_no == "yes" %}({{ notif_num|number_translator:LANG_CODE }}) {% endif %}{% block title %}{% endblock title %}</title>
     <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png" sizes="16x16">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}?version=88">
@@ -282,6 +282,9 @@
         {% endblock cookie %}
     </div>
     <div><script src="{% url 'javascript-catalog' %}"></script></div>
+    <div>
+        <script src="{% static 'js/num_trans_.js' %}"></script>
+    </div>
     <div>
         <script src="{% static 'js/common_logout_modal.js' %}"></script>
     </div>

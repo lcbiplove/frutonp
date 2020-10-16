@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-15 09:41+0545\n"
+"POT-Creation-Date: 2020-10-16 10:09+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -260,45 +260,45 @@ msgstr "देखाउनुहोस्"
 msgid "Hide"
 msgstr "लुकाउनुहोस्"
 
-#: static/js/post_reply_comment.js:55
+#: static/js/post_reply_comment.js:56
 msgctxt "argument"
 msgid "the post"
 msgstr " "
 
-#: static/js/post_reply_comment.js:56 static/js/profile_all.js:103
+#: static/js/post_reply_comment.js:57 static/js/profile_all.js:103
 msgid "Delete"
 msgstr "मेटाउनुहोस्"
 
-#: static/js/post_reply_comment.js:56
+#: static/js/post_reply_comment.js:57
 msgid "Are you sure you want to delete"
 msgstr "के तपाईं निश्चित रूपमा मेटाउन चाहनुहुन्छ"
 
-#: static/js/post_reply_comment.js:56 static/js/profile_all.js:103
+#: static/js/post_reply_comment.js:57 static/js/profile_all.js:103
 msgid "Yes"
 msgstr "हुन्छ"
 
-#: static/js/post_reply_comment.js:56 static/js/profile_all.js:103
+#: static/js/post_reply_comment.js:57 static/js/profile_all.js:103
 msgid "No"
 msgstr "हुँदैन"
 
-#: static/js/post_reply_comment.js:75 static/js/profile_all.js:138
+#: static/js/post_reply_comment.js:76 static/js/profile_all.js:138
 msgid "Try again or reload the page."
 msgstr "फेरि प्रयास गर्नुहोस् वा पृष्ठ पुन: लोड गर्नुहोस्।"
 
-#: static/js/post_reply_comment.js:76 static/js/profile_all.js:139
+#: static/js/post_reply_comment.js:77 static/js/profile_all.js:139
 msgid "Reload"
 msgstr "पुन: लोड गर्नुहोस्"
 
-#: static/js/post_reply_comment.js:84
+#: static/js/post_reply_comment.js:85
 msgid "Could not add comment."
 msgstr "टिप्पणी थप गर्न सकिएन । "
 
-#: static/js/post_reply_comment.js:84 static/js/post_reply_comment.js:89
+#: static/js/post_reply_comment.js:85 static/js/post_reply_comment.js:90
 #: static/js/post_reply_comment.js:578
 msgid "Try again!!!"
 msgstr "फेरि प्रयास गर्नुहोस् !!!"
 
-#: static/js/post_reply_comment.js:89
+#: static/js/post_reply_comment.js:90
 msgid "Could not edit comment."
 msgstr "टिप्पणी सच्याउन सकिएन ।"
 
@@ -309,6 +309,14 @@ msgstr "सम्पादनहरू प्रविष्ट गर्नु�
 #: static/js/post_reply_comment.js:104
 msgid "Save edit"
 msgstr "सम्पादन लागुगर्नुहोस् ।"
+
+#: static/js/post_reply_comment.js:108
+msgid "New Comment"
+msgstr " नयाँ टिप्पणी"
+
+#: static/js/post_reply_comment.js:110
+msgid "New Comments"
+msgstr " नयाँ टिप्पणीहरु"
 
 #: static/js/post_reply_comment.js:117
 msgid "New Reply"
@@ -401,3 +409,6 @@ msgstr "जवाफ दिनुहोस्"
 
 msgid "Could not add reply."
 msgstr "जवाफ थप्न सकिएन ।"
+
+msgid "More Replies"
+msgstr "थप जवाफहरु"

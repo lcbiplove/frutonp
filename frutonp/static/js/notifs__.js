@@ -6,6 +6,7 @@ var csrf = $("#prfl_base_csrf").val();
 var notif_wait_scroll;
 var notif_page;
 
+// NumberTranslator.translateToNep(new_cmnt_count);
 function startSocket(websocketServerLocation=window.location, sec=5000){
     var protoc = "ws://";
     if(websocketServerLocation.protocol == "https"){
@@ -23,11 +24,11 @@ function startSocket(websocketServerLocation=window.location, sec=5000){
         if(json.new_notif == true){
             var innerTitle = $("title").html().split(") ");
             if(json.num !== 0){
-                $("#notif-num").attr("class","").addClass("notif-num-yes").html(json.num);
+                $("#notif-num").attr("class","").addClass("notif-num-yes").html(NumberTranslator.translateToNep(json.num));
                 if(innerTitle.length == 1){
-                    $("title").prepend(`(${json.num}) `);
+                    $("title").prepend(`(${NumberTranslator.translateToNep(json.num)}) `);
                 } else {
-                    $("title").html(`(${json.num}) ${innerTitle[1]}`);
+                    $("title").html(`(${NumberTranslator.translateToNep(json.num)}) ${innerTitle[1]}`);
                 }
             }
         }
@@ -95,7 +96,7 @@ function loadNotifs(){
         var num = 0;
         if($("#notif-num").hasClass("notif-num-yes")){
             var innerTitle = $("title").html();
-            num = parseInt(innerTitle.split(") ")[0].split("(")[1]);
+            num = parseInt(NumberTranslator.translateToEng(innerTitle.split(") ")[0].split("(")[1]));
             $("#notif-num").removeClass("notif-num-yes").addClass("notif-num-no").html("");
             $("title").html(innerTitle.split(") ")[1]);
         }
@@ -141,7 +142,6 @@ $(document).on('click', '#notificaion-cont a', function(e) {
 
 $("#notificaion-cont").on("scroll", function(){
     if(($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) && !notif_wait_scroll) {
-        console.log('Hi');
         notif_wait_scroll = true;
         notif_page++;
         var req = $.ajax({
@@ -167,6 +167,5 @@ $("#notificaion-cont").on("scroll", function(){
         req.fail(function(){
             notif_wait_scroll = false;
         });
-
     }
 });
