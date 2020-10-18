@@ -312,11 +312,11 @@ msgstr "सम्पादन लागुगर्नुहोस् ।"
 
 #: static/js/post_reply_comment.js:108
 msgid "New Comment"
-msgstr " नयाँ टिप्पणी"
+msgstr "नयाँ टिप्पणी"
 
 #: static/js/post_reply_comment.js:110
 msgid "New Comments"
-msgstr " नयाँ टिप्पणीहरु"
+msgstr "नयाँ टिप्पणीहरु"
 
 #: static/js/post_reply_comment.js:117
 msgid "New Reply"

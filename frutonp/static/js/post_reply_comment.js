@@ -105,9 +105,9 @@ function editComment(cm_id){
 }
 function showNewComment(new_cmnt_count){
     if(new_cmnt_count == 1){
-        $("#new-comments").html('<span>'+NumberTranslator.translateToNep(new_cmnt_count)+'</span>'+ gettext('New Comment'));
+        $("#new-comments").html('<span>'+NumberTranslator.translateToNep(new_cmnt_count)+' </span>'+ gettext('New Comment'));
     } else {
-        $("#new-comments").html('<span>'+NumberTranslator.translateToNep(new_cmnt_count)+'</span>'+ gettext('New Comments'));
+        $("#new-comments").html('<span>'+NumberTranslator.translateToNep(new_cmnt_count)+' </span>'+ gettext('New Comments'));
     }
     $("#new-comments").addClass("new-comments-p");
 }

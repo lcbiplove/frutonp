@@ -44,12 +44,13 @@ var NumberTranslator = {
         return value;
     },
     translateToEng: function translator(value){
+        value = `${value}`;
         var translated_value = "";
         for(var i=0; i<value.length; i++){
-            try {
+            if(typeof this._getKeyByValue(value[i]) === "undefined"){
+                return value;
+            } else {
                 translated_value+=this._getKeyByValue(value[i]);
-            } catch (e) {
-                translated_value+=value[i];
             }
         }
         return translated_value;
