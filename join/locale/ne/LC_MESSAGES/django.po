@@ -32,7 +32,7 @@ msgstr "सक्रियता ईमेल पठाउनुहोस्"
 
 #: templates/join/emails/reset_pw_email.html:33
 #: templates/join/emails/reset_pw_email.txt:8
-msgid "We received a request to reset password of your Frutonp account."
+msgid "We received a request to reset password of your Hamikisan account."
 msgstr ""
 "हामीले तपाईंको किसान खाताको पासवर्ड बिर्सिएकोले नयाँ पासवर्ड रख्न अनुरोध प्राप्त गर्‍यौं ।"
 
@@ -89,7 +89,7 @@ msgstr ""
 #: templates/join/emails/verify_email.txt:8
 msgid ""
 "Confirm your email address to help us ensure your account is always "
-"protected, and get all Frutonp features."
+"protected, and get all Hamikisan features."
 msgstr ""
 "सुरक्षित रख्न र हाम्रो सबै सुविधाहरू प्राप्त गर्न, तपाईको ईमेल ठेगाना निश्चित गर्नुहोस् ।"
 
@@ -222,7 +222,7 @@ msgstr ""
 
 #: templates/join/signup.html:94
 msgid ""
-", see the Frutonp Privacy Statement. We'll occasionally send you account-"
+", see the Hamikisan Privacy Statement. We'll occasionally send you account-"
 "related emails."
 msgstr ""
 

@@ -201,7 +201,7 @@ msgid "Update More"
 msgstr "थप परिवर्तन"
 
 #: templates/profiles/profile.html:203
-msgid "Copyright 2020 Frutonp.com. All rights are reserved."
+msgid "Copyright 2020 Hamikisan.com. All rights are reserved."
 msgstr ""
 
 #: templates/profiles/profile.html:211

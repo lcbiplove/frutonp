@@ -1,11 +1,11 @@
 {% load i18n %}
 ------------------------
-|       Frutonp        |     
+|       Hamikisan        |     
 ------------------------
 
 {{ name }},  
 
-{% trans "We received a request to reset password of your Frutonp account." %}
+{% trans "We received a request to reset password of your Hamikisan account." %}
                 
 {% trans "Use the link below to reset your password." %} 
  
@@ -19,4 +19,4 @@
     If link is not working try reseting password again. Here, {{ host_name }}{{ passwor_reset_url }}
 {% endblocktrans %}
 
-Frutonp {% trans "Nepal" %}
+Hamikisan {% trans "Nepal" %}

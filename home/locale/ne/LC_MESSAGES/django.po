@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/home/home.html:4 templates/home/search.html:5
-msgid "Frutonp - Nepal's Online fruits and vegetables sharing center"
+msgid "Hamikisan - Nepal's Online fruits and vegetables sharing center"
 msgstr ""
 
 #: templates/home/home.html:13 templates/home/home.html:75

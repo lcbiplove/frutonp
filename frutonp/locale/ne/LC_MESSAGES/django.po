@@ -96,8 +96,8 @@ msgid "Go to home"
 msgstr "मुख्य पृष्ठमा पुग्न"
 
 #: templates/profile_base.html:28
-msgid "Frutonp"
-msgstr "किसान"
+msgid "Hamikisan"
+msgstr "हामीकिसान"
 
 #: templates/profile_base.html:36
 msgid "Search for your choice"

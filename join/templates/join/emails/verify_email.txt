@@ -1,11 +1,11 @@
 {% load i18n %}
 ------------------------
-|       Frutonp        |     
+|       Hamikisan        |     
 ------------------------
 
 {{ name }}, 
 
-{% trans "Confirm your email address to help us ensure your account is always protected, and get all Frutonp features." %}
+{% trans "Confirm your email address to help us ensure your account is always protected, and get all Hamikisan features." %}
 
 {% trans "If this was you, please follow the link below to verify your email:" %}
 
@@ -19,5 +19,5 @@
 
 {% trans "If the above link is not clickable, please copy the whole link and paste it in your browser." %}
 
-Frutonp {% trans "Nepal" %}
+Hamikisan {% trans "Nepal" %}
                     
