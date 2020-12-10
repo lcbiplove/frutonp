@@ -1,0 +1,1 @@
+web: gunicorn frutonp-project.wsgi --log-file -
