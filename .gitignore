@@ -6,8 +6,11 @@
 *.pyc
 __pycache__/
 local_settings.py
-/media
 /static
 /env
 /frutonp/.env
 runserver.sh
+/media/post/*
+!/media/post/default
+/media/pp/*
+!/media/pp/default
