@@ -8,9 +8,11 @@ __pycache__/
 local_settings.py
 /static
 /venv
+/env
 .env
 runserver.sh
 /media/post/*
 !/media/post/default
 /media/pp/*
 !/media/pp/default
+mydatabase
